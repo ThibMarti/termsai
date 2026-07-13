@@ -41,6 +41,7 @@ gem "image_processing", "~> 1.2"
 
 gem "sprockets-rails"
 gem "bootstrap", "~> 5.3"
+gem "devise"
 gem "autoprefixer-rails"
 gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
