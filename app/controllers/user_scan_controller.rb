@@ -1,0 +1,2 @@
+class UserScanController < ApplicationController
+end

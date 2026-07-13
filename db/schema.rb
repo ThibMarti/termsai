@@ -10,14 +10,69 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_13_132859) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_13_141033) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "credits", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "credits_amount"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_credits_on_user_id"
+  end
+
+  create_table "offers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "credits_amount"
+    t.string "name"
+    t.integer "price_cents"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "amount_cents"
+    t.string "checkout_session_id"
+    t.datetime "created_at", null: false
+    t.bigint "offer_id", null: false
+    t.string "state"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["offer_id"], name: "index_orders_on_offer_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "scans", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "full_report"
+    t.integer "risk_score"
+    t.string "site_name"
+    t.datetime "updated_at", null: false
+    t.string "url"
+  end
+
+  create_table "tokens", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_tokens_on_user_id"
+  end
+
+  create_table "user_scans", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "scan_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["scan_id"], name: "index_user_scans_on_scan_id"
+    t.index ["user_id"], name: "index_user_scans_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "first_name"
+    t.string "last_name"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
@@ -25,4 +80,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_132859) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "credits", "users"
+  add_foreign_key "orders", "offers"
+  add_foreign_key "orders", "users"
+  add_foreign_key "tokens", "users"
+  add_foreign_key "user_scans", "scans"
+  add_foreign_key "user_scans", "users"
 end
