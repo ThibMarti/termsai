@@ -3,4 +3,5 @@ class Scan < ApplicationRecord
     has_many :users, through: :user_scans
 
   validates :url, presence: true, uniqueness: true
+  validates :content, presence: true
 end
