@@ -1,7 +1,7 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-2">
     <h1>Dashboard</h1>
-    <%= link_to "+ New scan", "#", class: "btn btn-primary" %>
+    <%= link_to "+ New scan", new_scan_path, class: "btn btn-primary" %>
   </div>
   <p class="text-muted">
     <%= @tokens_count %> free token(s) · <%= @credits_amount %> credit(s) · <%= @scans.count %> scan(s)
@@ -19,7 +19,7 @@
             <td class="text-muted"><%= scan.url %></td>
             <td><span class="badge <%= risk_badge_class(scan.risk_score) %>"><%= scan.risk_score %>/10</span></td>
             <td><%= scan.created_at.strftime("%d/%m/%Y") %></td>
-            <td><%= link_to "See the report", "#" %></td>
+            <td><%= link_to "See the report", scan_path(scan) %></td>
           </tr>
         <% end %>
       </tbody>
