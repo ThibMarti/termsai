@@ -1,6 +1,19 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:test_data]
+
   before_action :configure_permitted_parameters, if: :devise_controller?
+
+  def test_data
+    render json: {
+      users: User.all,
+      credits: Credit.all,
+      documents: Document.all,
+      scan_results: ScanResult.all,
+      scans: Scan.all,
+      user_scans: UserScan.all
+    }
+  end
 
   protected
 
