@@ -1,0 +1,5 @@
+<h1><%= @scan.site_name.presence || @scan.url %></h1>
+
+<p>URL: <%= @scan.url %></p>
+<p>Risk score: <%= @scan.risk_score %></p>
+<pre><%= @scan.full_report %></pre>
