@@ -45,7 +45,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_141033) do
   create_table "scans", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "full_report"
-    t.integer "risk_score"
+    t.float "risk_score"
     t.string "site_name"
     t.datetime "updated_at", null: false
     t.string "url"
@@ -53,6 +53,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_141033) do
 
   create_table "tokens", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.integer "token_amount"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_tokens_on_user_id"
