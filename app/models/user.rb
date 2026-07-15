@@ -10,13 +10,17 @@ class User < ApplicationRecord
   after_create :grant_free_token
 
   def can_scan?
-    tokens.exists? || credit&.credits_amount.to_i.positive?
+    tokens.sum(:token_amount).positive? || credit&.credits_amount.to_i.positive?
   end
 
   def consume_scan_allowance!
-    return tokens.first.destroy if tokens.exists?
-
-    credit.decrement!(:credits_amount)
+    token = tokens.where("token_amount > 0").first
+    if token
+      token.decrement!(:token_amount)
+      token.destroy if token.token_amount.zero?
+    else
+      credit.decrement!(:credits_amount)
+    end
   end
 
   private

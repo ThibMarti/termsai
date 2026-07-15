@@ -1,23 +1,20 @@
 # db/seeds.rb
 
 puts "🧹 Cleaning database..."
-# delete_all bypasses Active Record callbacks to avoid the broken user.rb association crash!
-UserScan.delete_all
-ScanResult.delete_all
-Document.delete_all
-Scan.delete_all
-Credit.delete_all
-Token.delete_all
-Order.delete_all
-Offer.delete_all
-User.delete_all
+UserScan.destroy_all
+Scan.destroy_all
+Credit.destroy_all
+Token.destroy_all
+Order.destroy_all
+Offer.destroy_all
+User.destroy_all
 
-puts "🌱 Seeding users, credits, documents, and scans..."
+puts "🌱 Seeding users, credits, offers, and scans..."
 
 # ==========================================
 # 1. Create the User & Associate Credits
 # ==========================================
-# Added password because encrypted_password is null: false in your schema (Devise)
+# User.create! also grants 1 free token via the after_create callback.
 default_user = User.create!(
   email: "student@example.com",
   password: "password123",
@@ -25,100 +22,82 @@ default_user = User.create!(
   last_name: "Student"
 )
 
-# In your schema, credits is a separate table belonging to a user
 user_credits = Credit.create!(
   user: default_user,
-  credits_amount: 10 # Representing 100 tokens (10 tokens per credit)
+  credits_amount: 10
 )
 
 puts "👤 Created user: #{default_user.email}"
 puts "💰 Created #{user_credits.credits_amount} credits for #{default_user.email}."
 
 # ==========================================
-# 2. Safe Document Scan (Score: 9/10 - High/Good)
+# 2. Offers (credit packs)
 # ==========================================
-safe_doc = Document.create!(
-  title: "DuckDuckGo Privacy Policy",
-  url: "https://duckduckgo.com/privacy",
-  raw_text: "They do not collect or share personal information. They do not track user searches."
-)
+Offer.create!(name: "Starter Pack", credits_amount: 10, price_cents: 500)
+Offer.create!(name: "Pro Pack", credits_amount: 50, price_cents: 2000)
 
-ScanResult.create!(
-  document: safe_doc,
-  score: 9, # Adjusted: High score represents excellent safety
-  verdict: "Safe",
-  description: "They respect user privacy. Our scanner detected zero tracking mechanisms, and they explicitly state they do not collect or sell your personal data."
-)
+puts "📦 Created offers."
 
-# Connect the document scan to the user via Scan and UserScan
-safe_scan = Scan.create!(
+# ==========================================
+# 3. Scans, matching the full_report JSON contract
+# ==========================================
+def seed_scan(user:, site_name:, url:, content:, risk_score:, summary:, categories:, gdpr_flags: [], ai_act_flags: [])
+  scan = Scan.create!(
+    site_name: site_name,
+    url: url,
+    content: content,
+    risk_score: risk_score,
+    full_report: {
+      "summary" => summary,
+      "risk_score" => risk_score,
+      "categories" => categories,
+      "gdpr_flags" => gdpr_flags,
+      "ai_act_flags" => ai_act_flags
+    }
+  )
+  UserScan.create!(user: user, scan: scan)
+  scan
+end
+
+seed_scan(
+  user: default_user,
   site_name: "DuckDuckGo",
   url: "https://duckduckgo.com/privacy",
-  risk_score: 9, # Adjusted to match high safety score
-  full_report: "Safe: They respect user privacy..."
+  content: "They do not collect or share personal information. They do not track user searches.",
+  risk_score: 9,
+  summary: "They respect user privacy. Our scanner detected zero tracking mechanisms, and they explicitly state they do not collect or sell your personal data.",
+  categories: [
+    { "name" => "data_sharing", "level" => "low", "finding" => "No personal data shared with third parties." },
+    { "name" => "tracking", "level" => "low", "finding" => "No user tracking detected." }
+  ]
 )
 
-UserScan.create!(
+seed_scan(
   user: default_user,
-  scan: safe_scan
-)
-
-# ==========================================
-# 3. Caution Document Scan (Score: 5/10 - Middle)
-# ==========================================
-caution_doc = Document.create!(
-  title: "Standard Streaming Co.",
-  url: "https://example.com/streaming/terms",
-  raw_text: "Their membership automatically renews monthly. They share demographic data with partners."
-)
-
-ScanResult.create!(
-  document: caution_doc,
-  score: 5, # Stays at 5 (neutral middle ground)
-  verdict: "Caution",
-  description: "Keep an eye on your wallet. They use automatic subscription renewals that require manual cancellation. They also share anonymized user data with external marketing partners."
-)
-
-caution_scan = Scan.create!(
   site_name: "Standard Streaming Co.",
   url: "https://example.com/streaming/terms",
-  risk_score: 5, # Stays at 5
-  full_report: "Caution: Automatic renewals active..."
+  content: "Their membership automatically renews monthly. They share demographic data with partners.",
+  risk_score: 5,
+  summary: "Keep an eye on your wallet. They use automatic subscription renewals that require manual cancellation. They also share anonymized user data with external marketing partners.",
+  categories: [
+    { "name" => "data_sharing", "level" => "medium", "finding" => "Anonymized demographic data shared with partners." },
+    { "name" => "cancellation", "level" => "medium", "finding" => "Auto-renews monthly; cancellation requires manual action." }
+  ]
 )
 
-UserScan.create!(
+seed_scan(
   user: default_user,
-  scan: caution_scan
-)
-
-# ==========================================
-# 4. Danger Document Scan (Score: 2/10 - Low/Bad)
-# ==========================================
-danger_doc = Document.create!(
-  title: "Shady Games Inc.",
-  url: "https://example.com/shadygames/terms",
-  raw_text: "They track precise background location. They sell browsing history. Users waive their right to sue."
-)
-
-ScanResult.create!(
-  document: danger_doc,
-  score: 2, # Adjusted: Low score represents poor privacy/high risk
-  verdict: "Danger",
-  description: "Major privacy and legal risks! They track your location even when the app is closed, sell your history to advertisers, and strip away your right to join a class-action lawsuit."
-)
-
-danger_scan = Scan.create!(
   site_name: "Shady Games Inc.",
   url: "https://example.com/shadygames/terms",
-  risk_score: 2, # Adjusted to match low safety score
-  full_report: "Danger: Location tracking and waiver of rights..."
+  content: "They track precise background location. They sell browsing history. Users waive their right to sue.",
+  risk_score: 2,
+  summary: "Major privacy and legal risks! They track your location even when the app is closed, sell your history to advertisers, and strip away your right to join a class-action lawsuit.",
+  categories: [
+    { "name" => "data_sharing", "level" => "high", "finding" => "Browsing history sold to advertisers." },
+    { "name" => "tracking", "level" => "high", "finding" => "Precise background location tracking." },
+    { "name" => "cancellation", "level" => "high", "finding" => "Users waive the right to join a class-action lawsuit." }
+  ],
+  gdpr_flags: ["Cross-border data transfer outside the EU"]
 )
 
-UserScan.create!(
-  user: default_user,
-  scan: danger_scan
-)
-
-# Using direct SQL count via the join table to avoid calling the broken association in user.rb
-completed_scans_count = UserScan.where(user: default_user).count
-puts "✅ Seeding complete! User has #{completed_scans_count} completed scans."
+puts "✅ Seeding complete! User has #{default_user.scans.count} scans."
