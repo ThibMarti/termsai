@@ -3,10 +3,10 @@ Rails.application.routes.draw do
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  resources :offers, controller: "offer", only: %i[index show]
-  resources :orders, controller: "order", only: %i[index show create]
-  resource :credit, controller: "credit", only: %i[show]
-  resource :token, controller: "token", only: %i[show]
+  resources :offers, only: %i[index show]
+  resources :orders, only: %i[index show create]
+  resource :credit, only: %i[show]
+  resource :token, only: %i[show]
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

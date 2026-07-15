@@ -1,4 +1,4 @@
-class TokenController < ApplicationController
+class TokensController < ApplicationController
   def show
     @token = current_user.tokens.first || current_user.tokens.build
     authorize @token
