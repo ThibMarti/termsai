@@ -1,31 +1,62 @@
-<h2>Sign up</h2>
+<% content_for :title, "Create your account — terms AI" %>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :first_name,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "given-name" } %>
-    <%= f.input :last_name,
-                required: true,
-                input_html: { autocomplete: "family-name" } %>
-    <%= f.input :email,
-                required: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+<div class="auth-split">
+  <div class="auth-panel">
+    <%= link_to root_path, class: "auth-panel__brand" do %>
+      <%= image_tag "logo.png", alt: "terms AI", class: "auth-panel__logo" %>
+    <% end %>
+    <h1>Read what nobody ever reads.</h1>
+    <p class="auth-panel__lead">
+      Paste a link or upload a document and get a risk score, a clause
+      breakdown, and every flagged clause highlighted — in seconds.
+    </p>
+    <ul class="auth-checklist">
+      <li><span class="auth-checklist__icon">✓</span> 25 free credits on signup — no credit card required</li>
+      <li><span class="auth-checklist__icon">✓</span> Risk score &amp; clause-by-clause breakdown</li>
+      <li><span class="auth-checklist__icon">✓</span> Credits never expire — buy more only when you need them</li>
+    </ul>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
+  <div class="auth-form-col">
+    <div class="auth-form-col__inner">
+      <h2>Create your free account</h2>
+      <p class="auth-form-col__subtitle">Get 25 free credits to scan your first documents.</p>
 
-<%= render "devise/shared/links" %>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= f.error_notification %>
+
+        <div class="auth-name-row">
+          <%= f.input :first_name,
+                      required: true,
+                      autofocus: true,
+                      label: "First name",
+                      input_html: { autocomplete: "given-name" } %>
+          <%= f.input :last_name,
+                      required: true,
+                      label: "Last name",
+                      input_html: { autocomplete: "family-name" } %>
+        </div>
+        <%= f.input :email,
+                    required: true,
+                    input_html: { autocomplete: "email" } %>
+        <%= f.input :password,
+                    required: true,
+                    hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                    input_html: { autocomplete: "new-password" } %>
+
+        <%= f.button :submit, "Create free account", class: "btn btn-primary w-100 mt-2" %>
+      <% end %>
+
+      <p class="auth-fine-print">
+        By creating an account, you agree to our <%= link_to "Terms", "#" %>
+        and <%= link_to "Privacy Policy", "#" %>.
+      </p>
+
+      <div class="auth-divider"><span>or</span></div>
+
+      <button type="button" class="btn btn-outline-secondary w-100" disabled>Continue with Google</button>
+
+      <p class="auth-footnote">Already have an account? <%= link_to "Log in", new_user_session_path %></p>
+    </div>
+  </div>
+</div>

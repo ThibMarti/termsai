@@ -1,0 +1,38 @@
+<section id="risk" class="landing-section landing-section--paper">
+  <div class="landing-risk">
+    <div class="landing-risk__summary">
+      <h2>See exactly what's hiding in the fine print.</h2>
+      <p>Every document gets a risk score out of ten, plus a breakdown of the clause categories that pushed it there.</p>
+
+      <div class="landing-risk__score">
+        <%= render "shared/risk_score",
+              score: @breakdown_score,
+              label: "High risk",
+              sub: "Riskier than #{@hero_percentile}% of services" %>
+      </div>
+
+      <ul class="landing-breakdown">
+        <% @breakdown_stats.each do |stat| %>
+          <li>
+            <span class="landing-breakdown__label"><%= stat[:label] %></span>
+            <%= render "shared/tone_badge", tone: stat[:tone], text: stat[:value] %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="landing-clauses">
+      <% @clause_examples.each do |clause| %>
+        <div class="landing-clause landing-clause--<%= clause[:tone] %>">
+          <div class="landing-clause__top">
+            <span class="landing-clause__article"><%= clause[:article] %></span>
+            <span class="landing-clause__annotation"><%= clause[:annotation] %></span>
+          </div>
+          <p>
+            <%= clause[:text] %><mark class="landing-clause__mark landing-clause__mark--<%= clause[:tone] %>"><%= clause[:mark] %></mark><%= clause[:suffix] %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

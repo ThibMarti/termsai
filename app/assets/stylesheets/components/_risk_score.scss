@@ -1,0 +1,60 @@
+.risk-score {
+  font-family: $body-font;
+}
+
+.risk-score__value {
+  font-family: $mono-font;
+  font-size: 2rem;
+  font-weight: 600;
+  color: $ink;
+  line-height: 1;
+}
+
+.risk-score__max {
+  font-size: 1rem;
+  font-weight: 400;
+  color: $ink-3;
+}
+
+.risk-score__label {
+  margin-top: .35rem;
+  font-weight: 600;
+  font-size: .95rem;
+  color: $ink;
+}
+
+.risk-score__sub {
+  font-size: .8rem;
+  color: $ink-3;
+}
+
+.risk-score__bar {
+  display: flex;
+  gap: 4px;
+  margin-top: .75rem;
+}
+
+.risk-score__segment {
+  flex: 1;
+  height: 6px;
+  border-radius: $border-radius-lg;
+  background: $rule;
+
+  &.bg-danger { background-color: $risk; }
+  &.bg-warning { background-color: $caution; }
+  &.bg-success { background-color: $safe; }
+}
+
+.tone-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: .2rem .6rem;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 600;
+  color: #fff;
+
+  &.bg-danger { background-color: $risk; }
+  &.bg-warning { background-color: $caution; color: $ink; }
+  &.bg-success { background-color: $safe; }
+}

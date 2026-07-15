@@ -1,0 +1,184 @@
+// Devise auth screens (sign up / log in)
+
+.auth-split,
+.auth-page {
+  background: $canvas;
+  color: $ink;
+  min-height: 100vh;
+}
+
+.auth-split .form-label,
+.auth-card .form-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: $ink-2;
+}
+
+.auth-split .form-text,
+.auth-card .form-text {
+  font-size: 12px;
+  color: $ink-3;
+}
+
+// Signup: split screen
+.auth-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.auth-panel {
+  background: $paper;
+  border-right: 1px solid $rule;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 64px 72px;
+}
+
+.auth-panel__brand { display: block; margin-bottom: 32px; }
+.auth-panel__logo { height: 64px; width: auto; }
+
+.auth-panel h1 {
+  font-size: 36px;
+  line-height: 1.15;
+  letter-spacing: -.025em;
+  font-weight: 500;
+  max-width: 420px;
+  margin: 0 0 16px;
+}
+
+.auth-panel__lead {
+  font-size: 15px;
+  line-height: 1.6;
+  color: $ink-2;
+  max-width: 400px;
+  margin: 0 0 40px;
+}
+
+.auth-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: $ink-2;
+
+  li { display: flex; gap: 12px; align-items: flex-start; }
+}
+
+.auth-checklist__icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  flex: none;
+  margin-top: 1px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  background: $safe;
+}
+
+.auth-form-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 64px 40px;
+}
+
+.auth-form-col__inner {
+  width: 100%;
+  max-width: 380px;
+
+  h2 { font-size: 24px; letter-spacing: -.02em; font-weight: 500; margin: 0 0 6px; }
+}
+
+.auth-form-col__subtitle {
+  font-size: 14px;
+  color: $ink-2;
+  margin: 0 0 32px;
+}
+
+.auth-name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.auth-fine-print {
+  font-size: 12px;
+  line-height: 1.6;
+  color: $ink-3;
+  margin: 20px 0 0;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 28px 0;
+
+  &::before, &::after { content: ""; flex: 1; height: 1px; background: $rule; }
+
+  span { font-size: 12px; color: $ink-3; }
+}
+
+.auth-footnote {
+  font-size: 13px;
+  color: $ink-2;
+  text-align: center;
+  margin: 24px 0 0;
+}
+
+// Login: centered card
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.auth-page__brand { display: block; margin-bottom: 28px; }
+.auth-page__logo { height: 72px; width: auto; }
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: $paper;
+  border: 1px solid $rule;
+  border-radius: $border-radius-lg;
+  padding: 32px;
+
+  h1 { font-size: 24px; letter-spacing: -.02em; font-weight: 500; margin: 0 0 6px; }
+}
+
+.auth-card__subtitle {
+  font-size: 14px;
+  color: $ink-2;
+  margin: 0 0 28px;
+}
+
+.auth-password-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 13px;
+  color: $ink-2;
+  margin-bottom: 6px;
+}
+
+.auth-forgot-link { font-size: 12px; }
+
+@media (max-width: 900px) {
+  .auth-split { grid-template-columns: 1fr; }
+  .auth-panel { padding: 48px 32px; }
+  .auth-form-col { padding: 48px 32px; }
+  .auth-name-row { grid-template-columns: 1fr; }
+}
