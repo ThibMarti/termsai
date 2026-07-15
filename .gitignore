@@ -31,7 +31,13 @@
 /public/assets
 # Ignore .env file containing credentials.
 .env*
+!.env.example
 
 # Ignore Mac and Linux file system files
 *.swp
 .DS_Store
+
+# Local Claude Code tooling — not part of the app
+.agents/
+.claude/
+skills-lock.json

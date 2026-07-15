@@ -1,4 +1,8 @@
 class ScansController < ApplicationController
+  rescue_from RubyLLM::Error do
+    redirect_to new_scan_path, alert: "The analysis failed — please try again. Nothing was charged."
+  end
+
   def new
     @scan = Scan.new
     authorize @scan

@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   resource :credit, only: %i[show]
   resource :token, only: %i[show]
 
+  namespace :webhooks do
+    post "stripe", to: "stripe#create"
+  end
+
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "dashboard", to: "pages#dashboard"

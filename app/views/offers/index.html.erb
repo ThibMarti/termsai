@@ -4,7 +4,7 @@
   <% @offers.each do |offer| %>
     <li>
       <%= link_to offer.name, offer_path(offer) %>
-      &mdash; <%= number_to_currency(offer.price_cents / 100.0) %>
+      &mdash; <%= number_to_currency(offer.price_cents / 100.0, unit: "€") %>
     </li>
   <% end %>
 </ul>
