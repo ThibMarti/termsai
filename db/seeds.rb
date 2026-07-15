@@ -35,7 +35,7 @@ puts "👤 Created user: #{default_user.email}"
 puts "💰 Created #{user_credits.credits_amount} credits for #{default_user.email}."
 
 # ==========================================
-# 2. Safe Document Scan (Score: 2)
+# 2. Safe Document Scan (Score: 9/10 - High/Good)
 # ==========================================
 safe_doc = Document.create!(
   title: "DuckDuckGo Privacy Policy",
@@ -45,7 +45,7 @@ safe_doc = Document.create!(
 
 ScanResult.create!(
   document: safe_doc,
-  score: 2,
+  score: 9, # Adjusted: High score represents excellent safety
   verdict: "Safe",
   description: "They respect user privacy. Our scanner detected zero tracking mechanisms, and they explicitly state they do not collect or sell your personal data."
 )
@@ -54,7 +54,7 @@ ScanResult.create!(
 safe_scan = Scan.create!(
   site_name: "DuckDuckGo",
   url: "https://duckduckgo.com/privacy",
-  risk_score: 2,
+  risk_score: 9, # Adjusted to match high safety score
   full_report: "Safe: They respect user privacy..."
 )
 
@@ -64,7 +64,7 @@ UserScan.create!(
 )
 
 # ==========================================
-# 3. Caution Document Scan (Score: 5)
+# 3. Caution Document Scan (Score: 5/10 - Middle)
 # ==========================================
 caution_doc = Document.create!(
   title: "Standard Streaming Co.",
@@ -74,7 +74,7 @@ caution_doc = Document.create!(
 
 ScanResult.create!(
   document: caution_doc,
-  score: 5,
+  score: 5, # Stays at 5 (neutral middle ground)
   verdict: "Caution",
   description: "Keep an eye on your wallet. They use automatic subscription renewals that require manual cancellation. They also share anonymized user data with external marketing partners."
 )
@@ -82,7 +82,7 @@ ScanResult.create!(
 caution_scan = Scan.create!(
   site_name: "Standard Streaming Co.",
   url: "https://example.com/streaming/terms",
-  risk_score: 5,
+  risk_score: 5, # Stays at 5
   full_report: "Caution: Automatic renewals active..."
 )
 
@@ -92,7 +92,7 @@ UserScan.create!(
 )
 
 # ==========================================
-# 4. Danger Document Scan (Score: 9)
+# 4. Danger Document Scan (Score: 2/10 - Low/Bad)
 # ==========================================
 danger_doc = Document.create!(
   title: "Shady Games Inc.",
@@ -102,7 +102,7 @@ danger_doc = Document.create!(
 
 ScanResult.create!(
   document: danger_doc,
-  score: 9,
+  score: 2, # Adjusted: Low score represents poor privacy/high risk
   verdict: "Danger",
   description: "Major privacy and legal risks! They track your location even when the app is closed, sell your history to advertisers, and strip away your right to join a class-action lawsuit."
 )
@@ -110,7 +110,7 @@ ScanResult.create!(
 danger_scan = Scan.create!(
   site_name: "Shady Games Inc.",
   url: "https://example.com/shadygames/terms",
-  risk_score: 9,
+  risk_score: 2, # Adjusted to match low safety score
   full_report: "Danger: Location tracking and waiver of rights..."
 )
 
