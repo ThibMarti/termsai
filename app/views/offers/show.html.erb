@@ -1,6 +1,6 @@
 <h1><%= @offer.name %></h1>
 
 <p><%= @offer.credits_amount %> credits</p>
-<p><%= number_to_currency(@offer.price_cents / 100.0) %></p>
+<p><%= number_to_currency(@offer.price_cents / 100.0, unit: "€") %></p>
 
 <%= button_to "Buy this offer", orders_path(order: { offer_id: @offer.id }) %>
