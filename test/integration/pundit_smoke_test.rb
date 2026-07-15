@@ -38,9 +38,10 @@ class PunditSmokeTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_difference -> { Scan.count } do
-      post scans_path, params: { scan: { url: "https://example.com" } }
+      post scans_path, params: { scan: { site_name: "Example", url: "https://example.com", content: "Some terms and conditions." } }
     end
     scan = Scan.last
+    assert_redirected_to scan_path(scan)
     assert UserScan.exists?(user: @user, scan: scan)
 
     get scan_path(scan)
@@ -63,15 +64,14 @@ class PunditSmokeTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "posting the same url twice reuses the scan and does not duplicate the user_scan" do
+  test "a second scan is blocked once the free token is used and there is no credit" do
     sign_in_as(@user)
-    post scans_path, params: { scan: { url: "https://example.com" } }
-    first_scan_id = Scan.last.id
+    post scans_path, params: { scan: { site_name: "Example", url: "https://example.com", content: "Some terms." } }
+    assert_redirected_to scan_path(Scan.last)
+    assert_not @user.reload.can_scan?
 
-    assert_no_difference -> { Scan.count } do
-      post scans_path, params: { scan: { url: "https://example.com" } }
-    end
-    assert_equal first_scan_id, Scan.last.id
-    assert_equal 1, UserScan.where(scan_id: first_scan_id).count
+    post scans_path, params: { scan: { site_name: "Other", url: "https://other.example.com", content: "Other terms." } }
+    assert_redirected_to dashboard_path
+    assert_equal "No tokens or credits left.", flash[:alert]
   end
 end

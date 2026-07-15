@@ -22,6 +22,6 @@ class User < ApplicationRecord
   private
 
   def grant_free_token
-    tokens.create!
+    tokens.create!(token_amount: 1)
   end
 end

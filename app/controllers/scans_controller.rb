@@ -1,12 +1,15 @@
 class ScansController < ApplicationController
   def new
     @scan = Scan.new
+    authorize @scan
   end
 
   def create
+    @scan = Scan.new(scan_params)
+    authorize @scan
+
     return redirect_to dashboard_path, alert: "No tokens or credits left." unless current_user.can_scan?
 
-    @scan = Scan.new(scan_params)
     report = ScanAnalyzer.new(@scan.content).call
     @scan.assign_attributes(full_report: report, risk_score: report["risk_score"])
 
@@ -20,6 +23,7 @@ class ScansController < ApplicationController
 
   def show
     @scan = current_user.scans.find(params[:id])
+    authorize @scan
   end
 
   private
@@ -29,7 +33,9 @@ class ScansController < ApplicationController
   end
 
   def register_scan_for(user)
-    user.user_scans.create!(scan: @scan)
+    user_scan = user.user_scans.new(scan: @scan)
+    authorize user_scan
+    user_scan.save!
     user.consume_scan_allowance!
   end
 end
