@@ -1,3 +1,55 @@
+<%# 🟢 ADDED: Back to Dashboard link (direct path) %>
+<div style="margin-bottom: 20px;">
+  <%= link_to "/dashboard", style: "text-decoration: none; color: #6c757d; font-family: sans-serif; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; font-weight: bold;" do %>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back to Dashboard
+  <% end %>
+</div>
+
 <h1>My tokens</h1>
 
-<p><%= @token.token_amount || 0 %> tokens</p>
+<p><%= @token.balance || 0 %> tokens</p>
+
+<%# Horizontal step-by-step layout %>
+<div style="background-color: #f8f9fa; border-left: 4px solid #28a745; padding: 20px; margin: 20px 0; border-radius: 8px; max-width: 800px; font-family: sans-serif; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+  <strong style="font-size: 16px; color: #212529; display: block; margin-bottom: 15px;">How it works:</strong>
+
+  <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between;">
+
+    <div style="flex: 1; min-width: 200px; font-size: 13px; color: #495057; line-height: 1.5;">
+      <strong style="font-size: 14px; color: #212529; display: block; margin-bottom: 5px;">1️⃣ Choose your amount</strong>
+      Enter how many tokens you want below. Each token lets you scan 1 Terms &amp; Conditions agreement.
+    </div>
+
+    <div style="flex: 1; min-width: 200px; font-size: 13px; color: #495057; line-height: 1.5;">
+      <strong style="font-size: 14px; color: #212529; display: block; margin-bottom: 5px;">2️⃣ Instant delivery</strong>
+      As soon as your payment is complete, your new tokens will instantly appear right here in your wallet!
+    </div>
+
+    <div style="flex: 1; min-width: 200px; font-size: 13px; color: #495057; line-height: 1.5;">
+      <strong style="font-size: 14px; color: #212529; display: block; margin-bottom: 5px;">3️⃣ Scan &amp; Uncover</strong>
+      Use your tokens to scan long, boring legal agreements and instantly see a simple, clear summary of your rights.
+    </div>
+
+  </div>
+</div>
+
+<hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
+<div style="border: 1px solid #ccc; padding: 20px; border-radius: 8px; max-width: 400px; margin: 20px 0; font-family: sans-serif;">
+  <h3 style="margin-top: 0;">Purchase Tokens</h3>
+  <p>Tokens cost <strong>€0.50 each</strong>.</p>
+
+  <%# 🟢 FIXED: Added data: { turbo: false } to make "Buy Now" work! %>
+  <%= form_with url: create_checkout_session_path, method: :post, local: true, data: { turbo: false } do |f| %>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :quantity, "How many tokens would you like?", style: "display: block; margin-bottom: 5px;" %>
+      <%= f.number_field :quantity, value: 10, min: 1, style: "padding: 8px; width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;" %>
+    </div>
+
+    <%= f.submit "Buy Now", style: "background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold;" %>
+  <% end %>
+</div>

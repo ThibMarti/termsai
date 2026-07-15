@@ -23,4 +23,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  post 'payments/create_checkout_session', to: 'payments#create_checkout_session', as: 'create_checkout_session'
+  get 'payments/success', to: 'payments#success', as: 'payment_success'
+  get 'payments/cancel', to: 'payments#cancel', as: 'payment_cancel'
 end

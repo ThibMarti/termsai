@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_14_145627) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_15_122520) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -64,15 +64,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_145627) do
     t.text "content"
     t.datetime "created_at", null: false
     t.jsonb "full_report", default: {}
-    t.float "risk_score"
+    t.integer "risk_score"
     t.string "site_name"
     t.datetime "updated_at", null: false
     t.string "url"
   end
 
   create_table "tokens", force: :cascade do |t|
+    t.integer "balance", default: 1, null: false
     t.datetime "created_at", null: false
-    t.integer "token_amount"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_tokens_on_user_id"
