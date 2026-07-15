@@ -31,9 +31,10 @@ Production: https://termsai.eu (Heroku).
   badge — see contract below), `full_report` (jsonb — see contract below).
 - `UserScan` — join table: users ↔ scans is many-to-many, so a scan of the
   same site can be reused across users.
-- `Token` — free scan allowance. 1 row = 1 token. Balance =
-  `user.tokens.count`. Consuming a token = destroying a row. No amount column
-  on purpose.
+- `Token` — scan allowance, grouped into grants (`token_amount` per row, e.g.
+  the free signup grant or a purchased bundle). Balance =
+  `user.tokens.sum(:token_amount)`. Consuming a scan decrements the oldest
+  grant with `token_amount > 0` by 1, destroying the row once it hits 0.
 - `Credit` — paid balance (`credits_amount`), one row per user, topped up via
   offers/orders (Stripe Checkout planned).
 - `Offer` / `Order` — credit packs and purchases (`checkout_session_id`,
