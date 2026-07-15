@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 
   resources :offers, controller: "offer", only: %i[index show]
   resources :orders, controller: "order", only: %i[index show create]
-  resources :scans, controller: "scan", only: %i[show create]
   resource :credit, controller: "credit", only: %i[show]
   resource :token, controller: "token", only: %i[show]
 
