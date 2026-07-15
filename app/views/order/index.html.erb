@@ -1,0 +1,10 @@
+<h1>My orders</h1>
+
+<ul>
+  <% @orders.each do |order| %>
+    <li>
+      <%= order.offer.name %> &mdash; <%= order.state %>
+      (<%= number_to_currency(order.amount_cents / 100.0) %>)
+    </li>
+  <% end %>
+</ul>

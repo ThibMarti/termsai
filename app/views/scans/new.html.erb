@@ -1,0 +1,18 @@
+<div class="container mt-4" style="max-width: 720px;">
+  <h1>New scan</h1>
+
+  <%= simple_form_for @scan do |f| %>
+    <%= f.error_notification %>
+
+    <%= f.input :site_name %>
+    <%= f.input :url %>
+    <%= f.input :content,
+                as: :text,
+                label: "Paste the Terms & Conditions",
+                input_html: { rows: 12 } %>
+
+    <div class="form-actions">
+      <%= f.button :submit, "Scan it", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

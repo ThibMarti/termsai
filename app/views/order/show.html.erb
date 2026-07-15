@@ -1,0 +1,6 @@
+<h1>Order #<%= @order.id %></h1>
+
+<p>User: <%= @order.user.email %></p>
+<p>Offer: <%= @order.offer.name %></p>
+<p>State: <%= @order.state %></p>
+<p>Amount: <%= number_to_currency(@order.amount_cents / 100.0) %></p>
