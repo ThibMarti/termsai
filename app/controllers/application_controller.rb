@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  layout :devise_layout
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   include Pundit::Authorization
@@ -25,6 +26,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def devise_layout
+    devise_controller? ? "devise" : "application"
+  end
 
   def skip_pundit?
     devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/

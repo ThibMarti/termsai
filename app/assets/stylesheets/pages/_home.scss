@@ -1,1 +1,371 @@
-// Specific CSS for your home-page
+// Landing page (PagesController#home)
+
+.landing {
+  background: $canvas;
+  color: $ink;
+  min-height: 100vh;
+}
+
+.landing a:not(.btn) {
+  color: $brand;
+  text-decoration: none;
+
+  &:hover { color: $brand-hover; text-decoration: underline; }
+}
+
+// Header
+.landing-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba($canvas, .88);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid $rule;
+}
+
+.landing-header__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  height: 64px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.landing-header__logo { height: 40px; width: auto; }
+
+.landing-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: 14px;
+
+  a { color: $ink-2; text-decoration: none; &:hover { color: $ink; } }
+}
+
+.landing-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+// Reusable card surface
+.landing-card {
+  background: $paper;
+  border: 1px solid $rule;
+  border-radius: $border-radius-lg;
+  padding: 26px 24px;
+}
+
+// Hero
+.landing-hero {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 88px 40px 96px;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.landing-hero__copy h1 {
+  font-size: 52px;
+  line-height: 1.08;
+  letter-spacing: -.025em;
+  font-weight: 500;
+  margin: 16px 0 20px;
+}
+
+.landing-lead {
+  font-size: 17px;
+  line-height: 1.6;
+  color: $ink-2;
+  max-width: 480px;
+  margin: 0 0 32px;
+}
+
+.landing-hero__note {
+  font-size: 12px;
+  color: $ink-3;
+  margin: 14px 0 0;
+}
+
+.landing-hero__card { display: flex; justify-content: center; }
+
+.landing-hero__report {
+  width: 360px;
+  box-shadow: 0 1px 2px rgba($ink, .04), 0 8px 24px rgba($ink, .06);
+}
+
+.landing-hero__report-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.landing-hero__site { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+
+.landing-hero__meta {
+  font-family: $mono-font;
+  font-size: 11px;
+  color: $ink-3;
+  margin-bottom: 16px;
+}
+
+.landing-hero__flags {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  margin: 18px 0 0;
+
+  li { display: flex; gap: 10px; align-items: flex-start; }
+}
+
+.landing-hero__flag-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  flex: none;
+  margin-top: 1px;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.landing-hero__flag-text {
+  min-width: 0;
+
+  strong { display: block; font-weight: 500; font-size: 13px; }
+  em { font-style: normal; font-family: $mono-font; font-size: 11px; color: $ink-3; }
+}
+
+// Generic section shell
+.landing-section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 96px 40px;
+}
+
+.landing-section--paper {
+  max-width: none;
+  padding: 0;
+  background: $paper;
+  border-top: 1px solid $rule;
+  border-bottom: 1px solid $rule;
+
+  > * { max-width: 1180px; margin: 0 auto; padding: 96px 40px; }
+}
+
+.landing-section__intro {
+  max-width: 560px;
+  margin: 0 0 48px;
+
+  h2 { font-size: 32px; line-height: 1.15; letter-spacing: -.025em; font-weight: 500; margin: 0 0 12px; }
+  p { font-size: 15px; line-height: 1.6; color: $ink-2; margin: 0; }
+}
+
+// How it works
+.landing-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+
+  .landing-card {
+    min-height: 180px;
+
+    h3 { font-size: 17px; font-weight: 500; margin: 14px 0 8px; }
+    p { font-size: 14px; line-height: 1.6; color: $ink-2; margin: 0; }
+  }
+}
+
+.landing-step__number { font-family: $mono-font; font-size: 22px; color: $brand; }
+
+// Risk showcase
+.landing-risk {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 64px;
+}
+
+.landing-risk__summary {
+  h2 { font-size: 32px; line-height: 1.15; letter-spacing: -.025em; font-weight: 500; margin: 0 0 12px; }
+  > p { font-size: 15px; line-height: 1.6; color: $ink-2; margin: 0 0 28px; }
+}
+
+.landing-risk__score { max-width: 280px; margin-bottom: 28px; }
+
+.landing-breakdown {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  li { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+}
+
+.landing-breakdown__label { color: $ink-2; }
+
+.landing-clauses {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.landing-clause {
+  background: $paper;
+  border: 1px solid $rule;
+  border-radius: $border-radius-lg;
+  padding: 18px 20px;
+
+  p { font-size: 14px; line-height: 1.6; margin: 0; color: $ink; }
+}
+
+.landing-clause__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+
+.landing-clause__article { font-family: $mono-font; font-size: 11px; color: $ink-3; }
+
+.landing-clause__annotation {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.landing-clause--risk .landing-clause__annotation { background: rgba($risk, .12); color: darken($risk, 10%); }
+.landing-clause--caution .landing-clause__annotation { background: rgba($caution, .18); color: darken($caution, 15%); }
+
+.landing-clause__mark { padding: 0 2px; border-radius: 3px; }
+.landing-clause__mark--risk { background: rgba($risk, .15); color: darken($risk, 12%); }
+.landing-clause__mark--caution { background: rgba($caution, .2); color: darken($caution, 18%); }
+.landing-clause__mark--safe { background: rgba($safe, .18); color: darken($safe, 18%); }
+
+// Pricing
+.landing-pricing {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 760px;
+}
+
+.landing-pricing__card--highlight { border-color: $brand; }
+
+.landing-pricing__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+
+  h3 { font-size: 19px; font-weight: 500; margin: 0; }
+}
+
+.landing-pricing__price { font-family: $mono-font; font-size: 28px; }
+.landing-pricing__note { font-size: 13px; color: $ink-3; margin: 0 0 20px; }
+
+.landing-pricing__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  color: $ink-2;
+}
+
+// FAQ
+.landing-faq {
+  max-width: 760px;
+  margin: 0 auto;
+
+  h2 { font-size: 32px; line-height: 1.15; letter-spacing: -.025em; font-weight: 500; margin: 0 0 40px; }
+}
+
+.landing-faq__item {
+  border-bottom: 1px solid $rule;
+  padding: 20px 0;
+
+  summary {
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: $ink;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+    &:hover { color: $brand; }
+  }
+
+  p { font-size: 14px; line-height: 1.65; color: $ink-2; margin: 12px 0 0; }
+}
+
+// Final CTA
+.landing-cta {
+  text-align: center;
+
+  h2 { font-size: 36px; line-height: 1.15; letter-spacing: -.025em; font-weight: 500; margin: 0 0 16px; }
+  p { font-size: 16px; color: $ink-2; margin: 0 0 28px; }
+}
+
+// Footer
+.landing-footer { border-top: 1px solid $rule; }
+
+.landing-footer__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.landing-footer__logo { height: 26px; width: auto; }
+
+.landing-footer__nav {
+  display: flex;
+  gap: 28px;
+  font-size: 13px;
+
+  a { color: $ink-3; text-decoration: none; }
+}
+
+.landing-footer__copyright { font-family: $mono-font; font-size: 12px; color: $ink-3; }
+
+// Responsive
+@media (max-width: 900px) {
+  .landing-header__nav { display: none; }
+  .landing-header__inner { padding: 0 24px; }
+
+  .landing-hero {
+    grid-template-columns: 1fr;
+    padding: 48px 24px 64px;
+    gap: 32px;
+  }
+
+  .landing-hero__copy h1 { font-size: 36px; }
+
+  .landing-section { padding: 64px 24px; }
+  .landing-section--paper > * { padding: 64px 24px; }
+
+  .landing-steps { grid-template-columns: 1fr; }
+  .landing-risk { grid-template-columns: 1fr; gap: 32px; }
+  .landing-pricing { grid-template-columns: 1fr; }
+
+  .landing-footer__inner { padding: 32px 24px; }
+}

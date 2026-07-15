@@ -1,0 +1,21 @@
+<section class="landing-section landing-cta">
+  <h2>Stop accepting blind.</h2>
+  <p>Create a free account and get your first report in under a minute.</p>
+  <%= link_to signup_cta_label("Create free account"), signup_cta_path, class: "btn btn-primary btn-lg" %>
+</section>
+
+<footer class="landing-footer">
+  <div class="landing-footer__inner">
+    <%= image_tag "logo.png", alt: "terms AI", class: "landing-footer__logo" %>
+
+    <nav class="landing-footer__nav">
+      <%= link_to "How it works", "#how-it-works" %>
+      <%= link_to "Pricing", "#pricing" %>
+      <%= link_to "FAQ", "#faq" %>
+      <%= link_to "Privacy", "#" %>
+      <%= link_to "Terms", "#" %>
+    </nav>
+
+    <span class="landing-footer__copyright">© <%= Date.current.year %> terms AI</span>
+  </div>
+</footer>

@@ -1,0 +1,43 @@
+<section class="landing-hero">
+  <div class="landing-hero__copy">
+    <h1>Read what nobody ever reads.</h1>
+    <p class="landing-lead">
+      terms AI scans any Terms of Service or Privacy Policy and flags Privacy,
+      User Rights, legal risks &amp; content Ownership issues written to work
+      against you — before you click accept.
+    </p>
+    <%= link_to signup_cta_label("Create free account"), signup_cta_path, class: "btn btn-primary btn-lg" %>
+    <p class="landing-hero__note">Claim your free token on signup · no credit card required</p>
+  </div>
+
+  <div class="landing-hero__card">
+    <div class="landing-card landing-hero__report">
+      <div class="landing-hero__report-top">
+        <span class="landing-hero__site"><%= @hero_site[:name] %></span>
+        <%= render "shared/tone_badge", tone: :risk, text: "High" %>
+      </div>
+      <div class="landing-hero__meta">
+        Scanned <%= @hero_site[:scanned_at] %> · <%= @hero_site[:clause_count] %> clauses
+      </div>
+
+      <%= render "shared/risk_score",
+            score: @hero_score,
+            label: "High risk",
+            sub: "Riskier than #{@hero_percentile}% of services" %>
+
+      <ul class="landing-hero__flags">
+        <% @hero_flags.each do |flag| %>
+          <li>
+            <span class="landing-hero__flag-icon <%= tone_class(flag[:tone]) %>">
+              <%= flag[:tone] == :safe ? "✓" : (flag[:tone] == :risk ? "!" : "?") %>
+            </span>
+            <span class="landing-hero__flag-text">
+              <strong><%= flag[:title] %></strong>
+              <em><%= flag[:ref] %></em>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</section>

@@ -8,3 +8,20 @@ $orange: #E67E22;
 $green: #1EDD88;
 $gray: #0E0000;
 $light-gray: #F4F4F4;
+
+// Semantic tone aliases (landing page "risk / caution / safe" vocabulary,
+// same colors as the $danger/$warning/$success Bootstrap mapping below)
+$risk: $red;
+$caution: $orange;
+$safe: $green;
+
+// Marketing/landing page neutrals + brand accent
+$ink: #14181F;
+$ink-2: #565D6B;
+$ink-3: #8A8F99;
+$canvas: #FFFFFF;
+$paper: #F7F7F8;
+$rule: #E6E6EA;
+$brand: $blue;
+$brand-hover: darken($blue, 8%);
+$brand-tint: rgba($blue, 0.08);

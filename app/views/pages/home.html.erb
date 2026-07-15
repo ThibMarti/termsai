@@ -1,2 +1,11 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<% content_for :title, "terms AI — Read what nobody ever reads" %>
+
+<div class="landing">
+  <%= render "pages/home/header" %>
+  <%= render "pages/home/hero" %>
+  <%= render "pages/home/how_it_works" %>
+  <%= render "pages/home/risk_showcase" %>
+  <%= render "pages/home/pricing" %>
+  <%= render "pages/home/faq" %>
+  <%= render "pages/home/footer" %>
+</div>

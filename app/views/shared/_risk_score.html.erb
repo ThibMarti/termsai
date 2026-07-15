@@ -1,0 +1,20 @@
+<%# locals: (score:, label:, max: 10, sub: nil, segments: 10) %>
+<%
+  filled_class = risk_badge_class(score)
+  filled_segments = (score.to_f / max * segments).round
+  precision = (score % 1).zero? ? 0 : 1
+%>
+<div class="risk-score">
+  <div class="risk-score__value">
+    <%= number_with_precision(score, precision: precision) %><span class="risk-score__max">/<%= max %></span>
+  </div>
+  <div class="risk-score__label"><%= label %></div>
+  <% if sub %>
+    <div class="risk-score__sub"><%= sub %></div>
+  <% end %>
+  <div class="risk-score__bar">
+    <% segments.times do |i| %>
+      <span class="risk-score__segment <%= filled_class if i < filled_segments %>"></span>
+    <% end %>
+  </div>
+</div>
