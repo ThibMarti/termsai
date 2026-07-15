@@ -22,6 +22,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_145627) do
     t.index ["user_id"], name: "index_credits_on_user_id"
   end
 
+  create_table "documents", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "raw_text"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.string "url"
+  end
+
   create_table "offers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "credits_amount"
@@ -40,6 +48,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_145627) do
     t.bigint "user_id", null: false
     t.index ["offer_id"], name: "index_orders_on_offer_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "scan_results", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.bigint "document_id", null: false
+    t.integer "score"
+    t.datetime "updated_at", null: false
+    t.string "verdict"
+    t.index ["document_id"], name: "index_scan_results_on_document_id"
   end
 
   create_table "scans", force: :cascade do |t|
@@ -87,6 +105,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_145627) do
   add_foreign_key "credits", "users"
   add_foreign_key "orders", "offers"
   add_foreign_key "orders", "users"
+  add_foreign_key "scan_results", "documents"
   add_foreign_key "tokens", "users"
   add_foreign_key "user_scans", "scans"
   add_foreign_key "user_scans", "users"

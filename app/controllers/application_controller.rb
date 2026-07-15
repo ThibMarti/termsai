@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:test_data]
+
   before_action :configure_permitted_parameters, if: :devise_controller?
   include Pundit::Authorization
 
@@ -13,6 +15,17 @@ class ApplicationController < ActionController::Base
   #   flash[:alert] = "You are not authorized to perform this action."
   #   redirect_to(root_path)
   # end
+
+  def test_data
+    render json: {
+      users: User.all,
+      credits: Credit.all,
+      documents: Document.all,
+      scan_results: ScanResult.all,
+      scans: Scan.all,
+      user_scans: UserScan.all
+    }
+  end
 
   protected
 
