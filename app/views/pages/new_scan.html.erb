@@ -1,0 +1,57 @@
+<% content_for :title, "New scan — terms AI" %>
+
+<div class="app-shell">
+  <%= render "shared/sidebar" %>
+
+  <main class="app-main">
+    <span class="report-eyebrow">New scan</span>
+    <h1 class="history-title">What should we read for you?</h1>
+    <p class="new-scan-lead">Paste the text of a Terms of Service or Privacy Policy. One scan uses 1 token.</p>
+
+    <div class="landing-card new-scan-card">
+      <% if current_user.can_scan? %>
+        <%= simple_form_for @scan do |f| %>
+          <%= f.error_notification %>
+
+          <%= f.input :site_name %>
+          <%= f.input :url %>
+          <%= f.input :content,
+                      as: :text,
+                      label: "Paste the Terms & Conditions",
+                      input_html: { rows: 8 } %>
+
+          <div class="new-scan-card__footer">
+            <span class="new-scan-card__balance">You have <b><%= @tokens_count %> token<%= "s" unless @tokens_count == 1 %></b> left.</span>
+            <%= f.button :submit, "Scan document (1 token)", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="alert alert-warning d-flex justify-content-between align-items-center mb-0">
+          <span>You're out of tokens.</span>
+          <%= link_to "Buy tokens", offers_path, class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @recent_scans.any? %>
+      <div class="recent-scans-head">
+        <h2>Recent scans</h2>
+        <%= link_to "View all", scan_history_path %>
+      </div>
+      <div class="recent-scans">
+        <% @recent_scans.each do |scan| %>
+          <%= link_to scan_path(scan), class: "recent-scan-row" do %>
+            <span class="recent-scan-row__score recent-scan-row__score--<%= risk_tone(scan.risk_score) %>">
+              <%= scan.risk_score.to_i %><span class="recent-scan-row__max">/10</span>
+            </span>
+            <span class="recent-scan-row__doc">
+              <b><%= scan.site_name %></b>
+              <em><%= scan.created_at.strftime("%b %-d, %Y") %></em>
+            </span>
+            <%= render "shared/tone_badge", tone: risk_tone(scan.risk_score), text: risk_label(scan.risk_score) %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </main>
+</div>

@@ -6,7 +6,8 @@
   </div>
 
   <nav class="nav flex-column app-sidebar__nav">
-    <%= link_to "Scan history", dashboard_path, class: "nav-link #{"active" if current_page?(dashboard_path)}" %>
+    <%= link_to "New scan", new_scan_path, class: "nav-link #{"active" if current_page?(new_scan_path)}" %>
+    <%= link_to "Scan history", scan_history_path, class: "nav-link #{"active" if current_page?(scan_history_path)}" %>
     <%= link_to "Buy tokens", offers_path, class: "nav-link #{"active" if current_page?(offers_path)}" %>
   </nav>
 
@@ -17,7 +18,7 @@
   </div>
 
   <div class="app-sidebar__user">
-    <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: current_user.email %>
+    <span class="app-sidebar__avatar"><%= user_initials(current_user) %></span>
     <div class="app-sidebar__user-info">
       <span class="app-sidebar__user-name"><%= current_user.first_name %> <%= current_user.last_name %></span>
       <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "app-sidebar__logout" %>

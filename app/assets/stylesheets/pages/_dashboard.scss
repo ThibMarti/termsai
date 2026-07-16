@@ -1,13 +1,214 @@
-.dashboard-new-scan {
-  margin: 1.5rem 0;
-  max-width: 720px;
+.history-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
 }
 
-.dashboard-out-of-tokens {
-  margin: 1.5rem 0;
-  max-width: 720px;
+.history-title {
+  font-family: $headers-font;
+  font-weight: 500;
+  font-size: 1.875rem;
+  letter-spacing: -.025em;
+  color: $ink;
+  margin: .625rem 0 0;
 }
 
-.dashboard-history-title {
-  margin-top: 2rem;
+.history-toolbar {
+  margin-bottom: 2rem;
+}
+
+.history-search {
+  width: 100%;
+  font-size: .875rem;
+  padding: .5625rem .75rem;
+  border: 1px solid $rule-strong;
+  border-radius: $border-radius-sm;
+  background: $paper;
+  color: $ink;
+  margin-bottom: .75rem;
+
+  &:focus {
+    outline: 2px solid $brand-rule;
+    outline-offset: 1px;
+  }
+}
+
+.history-toolbar__tones {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: 1.25rem;
+}
+
+.history-tone-toggle {
+  font-family: $body-font;
+  font-size: .75rem;
+  font-weight: 500;
+  padding: .25rem .5625rem;
+  border-radius: .3125rem;
+  border: 1px solid transparent;
+  background: $subtle;
+  color: $ink-3;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+
+  &.is-active#{&}--risk { background: $risk-tint; color: $risk; border-color: $risk-rule; }
+  &.is-active#{&}--caution { background: $caution-tint; color: $caution; border-color: $caution-rule; }
+  &.is-active#{&}--safe { background: $safe-tint; color: $safe; border-color: $safe-rule; }
+}
+
+.history-table {
+  background: $paper;
+  border: 1px solid $rule;
+  border-radius: $border-radius;
+  overflow: hidden;
+}
+
+.history-table__head {
+  display: grid;
+  grid-template-columns: 4.375rem 1fr 8.125rem 6.875rem;
+  gap: 1rem;
+  padding: .75rem 1.25rem;
+  border-bottom: 1px solid $rule;
+  font-family: $mono-font;
+  font-size: .6875rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: $ink-3;
+}
+
+.history-row {
+  display: grid;
+  grid-template-columns: 4.375rem 1fr 8.125rem 6.875rem;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid $rule;
+  text-decoration: none;
+  color: inherit;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: $subtle; }
+}
+
+.history-row__score {
+  font-family: $mono-font;
+  font-size: 1.125rem;
+  font-weight: 500;
+
+  &--safe { color: $safe; }
+  &--caution { color: $caution; }
+  &--risk { color: $risk; }
+}
+
+.history-row__doc {
+  min-width: 0;
+
+  b { display: block; font-weight: 500; font-size: .875rem; color: $ink; }
+  em { font-style: normal; font-size: .75rem; color: $ink-3; }
+}
+
+.history-row__date {
+  font-family: $mono-font;
+  font-size: .75rem;
+  color: $ink-3;
+}
+
+.history-empty {
+  padding: 1.5rem 1.25rem;
+  color: $ink-3;
+  font-size: .875rem;
+  margin: 0;
+}
+
+.new-scan-lead {
+  font-size: .9375rem;
+  color: $ink-2;
+  margin: 0 0 2rem;
+}
+
+.new-scan-card {
+  max-width: 45rem;
+  margin-bottom: 2.5rem;
+}
+
+.new-scan-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+.new-scan-card__balance {
+  font-size: .75rem;
+  color: $ink-3;
+
+  b { color: $ink; }
+}
+
+.recent-scans-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 2.25rem 0 1rem;
+  max-width: 45rem;
+
+  h2 {
+    font-family: $headers-font;
+    font-weight: 500;
+    font-size: 1.1875rem;
+    letter-spacing: -.02em;
+    color: $ink;
+    margin: 0;
+  }
+
+  a { font-size: .8125rem; }
+}
+
+.recent-scans {
+  display: flex;
+  flex-direction: column;
+  gap: .625rem;
+  max-width: 45rem;
+}
+
+.recent-scan-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .875rem 1rem;
+  background: $paper;
+  border: 1px solid $rule;
+  border-radius: $border-radius;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover { background: $subtle; }
+}
+
+.recent-scan-row__score {
+  font-family: $mono-font;
+  font-size: 1.25rem;
+  font-weight: 500;
+  min-width: 3.25rem;
+
+  &--safe { color: $safe; }
+  &--caution { color: $caution; }
+  &--risk { color: $risk; }
+}
+
+.recent-scan-row__max {
+  font-size: .75rem;
+  opacity: .7;
+}
+
+.recent-scan-row__doc {
+  flex: 1;
+  min-width: 0;
+
+  b { display: block; font-weight: 500; font-size: .875rem; color: $ink; }
+  em { font-style: normal; font-family: $mono-font; font-size: .6875rem; color: $ink-3; }
 }

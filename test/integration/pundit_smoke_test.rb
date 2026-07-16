@@ -91,7 +91,7 @@ class PunditSmokeTest < ActionDispatch::IntegrationTest
     assert_not @user.reload.can_scan?
 
     post scans_path, params: { scan: { site_name: "Other", url: "https://other.example.com", content: "Other terms." } }
-    assert_redirected_to dashboard_path
+    assert_redirected_to new_scan_path
     assert_equal "No tokens left.", flash[:alert]
   end
 

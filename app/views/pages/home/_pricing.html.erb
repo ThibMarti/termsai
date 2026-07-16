@@ -1,37 +1,36 @@
 <section id="pricing" class="landing-section">
   <div class="landing-section__intro">
-    <h2>Free credits to start. Buy more as you go.</h2>
-    <p>Every new account gets free credits to scan documents. No subscription — buy more only when you run out.</p>
+    <h2>One free token to start. Buy more as you go.</h2>
+    <p>Every new account gets a free token to scan a document. No subscription — buy more only when you run out.</p>
   </div>
 
   <div class="landing-pricing">
     <div class="landing-card landing-pricing__card">
       <div class="landing-pricing__head">
-        <h3>Free credits</h3>
-        <span class="landing-pricing__price">$0</span>
+        <h3>Free token</h3>
+        <span class="landing-pricing__price">&euro;0</span>
       </div>
       <p class="landing-pricing__note">Included with every new account</p>
       <ul class="landing-pricing__list">
-        <li>25 free credits on signup</li>
-        <li>1 credit = 1 document scanned</li>
-        <li>Risk score &amp; clause breakdown</li>
+        <li>1 free token on signup</li>
+        <li>1 token = 1 document scanned</li>
+        <li>Trust score &amp; category breakdown</li>
       </ul>
       <%= link_to signup_cta_label("Create free account"), signup_cta_path, class: "btn btn-outline-primary w-100" %>
     </div>
 
     <div class="landing-card landing-pricing__card landing-pricing__card--highlight">
       <div class="landing-pricing__head">
-        <h3>Credit packs</h3>
-        <span class="landing-pricing__price">From $9</span>
+        <h3>Token packs</h3>
+        <span class="landing-pricing__price">From &euro;5</span>
       </div>
       <p class="landing-pricing__note">Buy more whenever you run out</p>
       <ul class="landing-pricing__list">
-        <li>100 credits — $9</li>
-        <li>500 credits — $35</li>
-        <li>2,000 credits — $120</li>
-        <li>Credits never expire</li>
+        <li>Starter — 10 tokens &middot; &euro;5</li>
+        <li>Pro — 50 tokens &middot; &euro;20</li>
+        <li>Tokens never expire</li>
       </ul>
-      <%= link_to "Buy credits", (user_signed_in? ? offers_path : new_user_registration_path), class: "btn btn-primary w-100" %>
+      <%= link_to "Buy tokens", (user_signed_in? ? offers_path : new_user_registration_path), class: "btn btn-primary w-100" %>
     </div>
   </div>
 </section>

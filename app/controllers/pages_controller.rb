@@ -7,16 +7,21 @@ class PagesController < ApplicationController
 
   HERO_FLAGS = [
     { title: "Privacy issues", ref: "§14.2", tone: :risk },
-    { title: "Forced arbitration", ref: "§14.3", tone: :risk },
-    { title: "Broad content license", ref: "§9.1", tone: :caution },
-    { title: "Clear data deletion policy", ref: "§18.0", tone: :safe }
+    { title: "User rights", ref: "§14.3", tone: :risk },
+    { title: "Legal risks", ref: "§9.1", tone: :caution },
+    { title: "Content ownership", ref: "§18.0", tone: :safe }
   ].freeze
 
+  # TODO(team): these 4 categories (Privacy / User Rights / Legal Fairness /
+  # Content Ownership) are the design system's canonical breakdown, but
+  # CLAUDE.md's ScanAnalyzer contract currently emits different category
+  # names (data_sharing / ai_training / tracking / cancellation). Reconcile
+  # before wiring this section to real @scan data.
   BREAKDOWN_STATS = [
-    { label: "Arbitration", value: "Forced", tone: :risk },
-    { label: "Class action", value: "Waived", tone: :risk },
-    { label: "Data sharing", value: "Broad", tone: :caution },
-    { label: "Termination", value: "Fair", tone: :safe }
+    { label: "Privacy", value: "High", tone: :risk },
+    { label: "User Rights", value: "High", tone: :risk },
+    { label: "Legal Fairness", value: "High", tone: :risk },
+    { label: "Content Ownership", value: "Medium", tone: :caution }
   ].freeze
 
   CLAUSE_EXAMPLES = [
@@ -40,21 +45,26 @@ class PagesController < ApplicationController
   def home
     @hide_default_navbar = true
 
-    @hero_score = 3.0
+    @hero_score = 3
     @hero_percentile = 82 # "riskier than X% of services"
     @hero_site = HERO_SITE
     @hero_flags = HERO_FLAGS
 
-    @breakdown_score = 2.6
+    @breakdown_score = 3
     @breakdown_stats = BREAKDOWN_STATS
 
     @clause_examples = CLAUSE_EXAMPLES
   end
 
-  def dashboard
+  def new_scan
+    @hide_default_navbar = true
+    @scan = Scan.new
+    @recent_scans = current_user.scans.order(created_at: :desc).limit(3)
+    @tokens_count = current_user.total_scan_allowance
+  end
+
+  def scan_history
     @hide_default_navbar = true
     @scans = current_user.scans.order(created_at: :desc)
-    @tokens_count = current_user.total_scan_allowance
-    @scan = Scan.new
   end
 end
