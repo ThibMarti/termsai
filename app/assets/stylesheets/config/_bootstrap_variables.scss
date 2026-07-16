@@ -8,21 +8,34 @@
 $font-family-sans-serif: $body-font;
 $headings-font-family:   $headers-font;
 $body-bg:                $light-gray;
-$font-size-base:         1rem;
+$font-size-base:         0.9375rem; // 15px, matches the design system's body text
 
 // Colors
-$body-color: $gray;
+$body-color: $ink;
 $primary:    $blue;
 $success:    $green;
-$info:       $yellow;
+$info:       $blue; // color stays rationed to action + risk, no extra hue
 $danger:     $red;
 $warning:    $orange;
 
-// Buttons & inputs' radius
-$border-radius-sm:            .0625rem;
-$border-radius:               .125rem;
-$border-radius-lg:            .25rem;
-$border-radius-xl:            .5rem;
-$border-radius-xxl:           1rem;
+// Buttons & inputs' radius — two radii only (6px / 10px), 12px for outer chrome
+$border-radius-sm:            .375rem;
+$border-radius:               .625rem;
+$border-radius-lg:            .75rem;
+$border-radius-xl:            .75rem;
+$border-radius-xxl:           .75rem;
+
+$btn-border-radius:           .375rem;
+$btn-border-radius-sm:        .375rem;
+$btn-border-radius-lg:        .375rem;
+
+$input-bg:                    $paper;
+$input-border-color:          $rule-strong;
+$input-border-radius:         .375rem;
+$input-border-radius-sm:      .375rem;
+$input-border-radius-lg:      .375rem;
+
+$card-bg:                     $paper;
+$card-border-color:           $rule;
 
 // Override other variables below!

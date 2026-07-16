@@ -1,10 +1,29 @@
-<h1>My orders</h1>
+<% content_for :title, "My orders — terms AI" %>
 
-<ul>
-  <% @orders.each do |order| %>
-    <li>
-      <%= order.offer.name %> &mdash; <%= order.state %>
-      (<%= number_to_currency(order.amount_cents / 100.0) %>)
-    </li>
-  <% end %>
-</ul>
+<div class="app-shell">
+  <%= render "shared/sidebar" %>
+
+  <main class="app-main">
+    <span class="report-eyebrow">Billing</span>
+    <h1 class="history-title">My orders</h1>
+
+    <% if @orders.any? %>
+      <div class="history-table orders-table">
+        <div class="history-table__head">
+          <span>Offer</span><span>Amount</span><span>Status</span>
+        </div>
+        <% @orders.each do |order| %>
+          <%= link_to order_path(order), class: "history-row orders-row" do %>
+            <span class="orders-row__offer"><%= order.offer.name %></span>
+            <span class="orders-row__amount"><%= number_to_currency(order.amount_cents / 100.0, unit: "€") %></span>
+            <%= render "shared/tone_badge",
+                  tone: order.state == "paid" ? :safe : :caution,
+                  text: order.state.humanize %>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-muted">No orders yet — <%= link_to "buy some tokens", offers_path %>.</p>
+    <% end %>
+  </main>
+</div>

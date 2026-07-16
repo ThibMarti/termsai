@@ -1,16 +1,17 @@
-<%# locals: (score:, label:, max: 10, sub: nil, segments: 10) %>
+<%# locals: (score:, label: nil, max: 10, sub: nil, segments: 10, eyebrow: "Trust score") %>
 <%
   filled_class = risk_badge_class(score)
   filled_segments = (score.to_f / max * segments).round
   precision = (score % 1).zero? ? 0 : 1
+  tone = risk_tone(score)
 %>
-<div class="risk-score">
+<div class="risk-score risk-score--<%= tone %>">
+  <div class="risk-score__eyebrow"><%= eyebrow %></div>
   <div class="risk-score__value">
     <%= number_with_precision(score, precision: precision) %><span class="risk-score__max">/<%= max %></span>
   </div>
-  <div class="risk-score__label"><%= label %></div>
-  <% if sub %>
-    <div class="risk-score__sub"><%= sub %></div>
+  <% if label.present? || sub.present? %>
+    <div class="risk-score__sub"><%= [label, sub].compact.join(" · ") %></div>
   <% end %>
   <div class="risk-score__bar">
     <% segments.times do |i| %>

@@ -1,0 +1,19 @@
+// Global simple_form / Bootstrap form label & hint styling, matching the
+// design system's document-literate feel (small, neutral ink-2 labels).
+.form-label {
+  font-size: .8125rem;
+  font-weight: 400;
+  color: $ink-2;
+}
+
+.form-text {
+  font-size: .75rem;
+  color: $ink-3;
+}
+
+// simple_form wraps the required marker in <abbr title="required">*</abbr>;
+// browsers default to a dotted underline on any <abbr>, which reads oddly
+// for a single asterisk.
+abbr[title] {
+  text-decoration: none;
+}
