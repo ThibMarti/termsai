@@ -13,6 +13,10 @@ class User < ApplicationRecord
     tokens.sum(:token_amount).positive? || credit&.credits_amount.to_i.positive?
   end
 
+  def total_scan_allowance
+    tokens.sum(:token_amount) + credit&.credits_amount.to_i
+  end
+
   def consume_scan_allowance!
     token = tokens.where("token_amount > 0").first
     if token

@@ -1,0 +1,70 @@
+.offers-sidebar {
+  width: 240px;
+  min-height: 100vh;
+  padding: 1.5rem 1rem;
+  background: $paper;
+  border-right: 1px solid $rule;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.offers-sidebar__logo {
+  font-weight: 600;
+  color: $ink;
+}
+
+.offers-sidebar__nav .nav-link {
+  color: $ink-2;
+
+  &.active {
+    color: $brand;
+    background: $brand-tint;
+    border-radius: .375rem;
+  }
+}
+
+.offers-sidebar__balance {
+  padding: .75rem 1rem;
+  background: $canvas;
+  border: 1px solid $rule;
+  border-radius: .5rem;
+}
+
+.offers-sidebar__balance-label {
+  display: block;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: $ink-3;
+}
+
+.offers-sidebar__balance-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $ink;
+}
+
+.offers-sidebar__user {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.offers-sidebar__user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.offers-sidebar__user-name {
+  font-size: .875rem;
+  font-weight: 500;
+  color: $ink;
+}
+
+.offers-sidebar__logout {
+  font-size: .75rem;
+  color: $ink-3;
+}
