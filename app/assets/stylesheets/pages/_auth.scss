@@ -7,19 +7,6 @@
   min-height: 100vh;
 }
 
-.auth-split .form-label,
-.auth-card .form-label {
-  font-size: 13px;
-  font-weight: 400;
-  color: $ink-2;
-}
-
-.auth-split .form-text,
-.auth-card .form-text {
-  font-size: 12px;
-  color: $ink-3;
-}
-
 // Signup: split screen
 .auth-split {
   display: grid;
