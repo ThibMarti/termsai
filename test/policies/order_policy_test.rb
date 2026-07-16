@@ -6,7 +6,7 @@ class OrderPolicyTest < ActiveSupport::TestCase
     @other = User.create!(email: "other@policy.test", password: "password", first_name: "C", last_name: "D")
     @admin = User.create!(email: "admin@policy.test", password: "password", first_name: "E", last_name: "F",
                           admin: true)
-    offer = Offer.create!(name: "Starter", credits_amount: 10, price_cents: 500)
+    offer = Offer.create!(name: "Starter", tokens_amount: 10, price_cents: 500)
     @order = Order.create!(user: @owner, offer: offer, amount_cents: 500, state: "pending")
   end
 

@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 
   resources :offers, only: %i[index]
   resources :orders, only: %i[index show create]
-  resource :credit, only: %i[show]
   resource :token, only: %i[show]
 
   namespace :webhooks do
