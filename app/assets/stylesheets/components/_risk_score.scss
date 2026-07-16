@@ -2,30 +2,45 @@
   font-family: $body-font;
 }
 
+.risk-score__eyebrow {
+  font-family: $mono-font;
+  font-size: .6875rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: $ink-3;
+}
+
 .risk-score__value {
   font-family: $mono-font;
   font-size: 2rem;
   font-weight: 600;
   color: $ink;
   line-height: 1;
+  margin-top: .375rem;
 }
 
 .risk-score__max {
   font-size: 1rem;
   font-weight: 400;
-  color: $ink-3;
-}
-
-.risk-score__label {
-  margin-top: .35rem;
-  font-weight: 600;
-  font-size: .95rem;
-  color: $ink;
+  opacity: .7;
 }
 
 .risk-score__sub {
   font-size: .8rem;
   color: $ink-3;
+  margin-top: .125rem;
+}
+
+.risk-score--risk {
+  .risk-score__eyebrow, .risk-score__value, .risk-score__sub { color: $risk; }
+}
+
+.risk-score--caution {
+  .risk-score__eyebrow, .risk-score__value, .risk-score__sub { color: $caution; }
+}
+
+.risk-score--safe {
+  .risk-score__eyebrow, .risk-score__value, .risk-score__sub { color: $safe; }
 }
 
 .risk-score__bar {

@@ -15,13 +15,17 @@
             <% if offer == @best_value_offer %>
               <div class="offers-pack-card__badge"><%= render "shared/tone_badge", tone: :info, text: "Best value" %></div>
             <% end %>
-            <h3 class="card-title"><%= offer.tokens_amount %> tokens</h3>
-            <p class="offers-pack-card__price"><%= number_to_currency(offer.price_cents / 100.0, unit: "€") %></p>
-            <p class="offers-pack-card__unit-price text-muted">
-              <%= number_to_currency(offer.price_cents / offer.tokens_amount.to_f / 100.0, unit: "€", precision: 2) %> / scan
+            <div class="offers-pack-card__tokens"><%= offer.tokens_amount %></div>
+            <p class="offers-pack-card__tokens-label">tokens</p>
+            <p class="offers-pack-card__price"><%= number_to_currency(offer.price_cents / 100.0, unit: "€", precision: 0) %></p>
+            <p class="offers-pack-card__unit-price">
+              <%= offer.name %> &middot; <%= number_to_currency(offer.price_cents / offer.tokens_amount.to_f / 100.0, unit: "€", precision: 2) %> / scan
             </p>
-            <%= button_to "Buy #{offer.name}", orders_path(order: { offer_id: offer.id }),
-                  data: { turbo: false }, class: "btn btn-primary w-100 mt-auto" %>
+            <div class="mt-auto">
+              <%= button_to "Buy #{offer.tokens_amount} tokens", orders_path(order: { offer_id: offer.id }),
+                    data: { turbo: false },
+                    class: "btn #{offer == @best_value_offer ? "btn-primary" : "btn-outline-secondary"} w-100" %>
+            </div>
           </div>
         </div>
       <% end %>
