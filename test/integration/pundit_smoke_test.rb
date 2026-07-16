@@ -17,9 +17,6 @@ class PunditSmokeTest < ActionDispatch::IntegrationTest
     get offers_path
     assert_response :success
 
-    get offer_path(@offer)
-    assert_response :success
-
     assert_difference -> { Order.count } do
       post orders_path, params: { order: { offer_id: @offer.id } }
     end
@@ -46,11 +43,16 @@ class PunditSmokeTest < ActionDispatch::IntegrationTest
 
     get scan_path(scan)
     assert_response :success
+  end
 
-    # non-admin cannot view an order directly (OrderPolicy#show? is admin-only)
-    assert_raises(Pundit::NotAuthorizedError) do
-      get order_path(order)
-    end
+  test "regular user can view their own order" do
+    sign_in_as(@user)
+    post orders_path, params: { order: { offer_id: @offer.id } }
+    order = Order.last
+
+    # needed since Stripe's success_url redirects the buyer here after checkout
+    get order_path(order)
+    assert_response :success
   end
 
   test "admin can view any order" do

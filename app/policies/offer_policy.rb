@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class OfferPolicy < ApplicationPolicy
-  def show?
-    true
-  end
-
   def create?
     user.admin?
   end
