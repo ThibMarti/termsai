@@ -4,8 +4,8 @@
   <%= render "shared/sidebar" %>
 
   <main class="app-main">
-    <p class="offers-eyebrow">Billing</p>
-    <h1>Buy tokens</h1>
+    <span class="report-eyebrow">Billing</span>
+    <h1 class="history-title">Buy tokens</h1>
     <p class="offers-explainer">One token scans one document. No subscription — tokens never expire.</p>
 
     <div class="offers-pack-grid">
@@ -13,7 +13,7 @@
         <div class="card offers-pack-card <%= "offers-pack-card--featured" if offer == @best_value_offer %>">
           <div class="card-body d-flex flex-column">
             <% if offer == @best_value_offer %>
-              <span class="badge bg-primary offers-pack-card__badge">Best value</span>
+              <div class="offers-pack-card__badge"><%= render "shared/tone_badge", tone: :info, text: "Best value" %></div>
             <% end %>
             <h3 class="card-title"><%= offer.tokens_amount %> tokens</h3>
             <p class="offers-pack-card__price"><%= number_to_currency(offer.price_cents / 100.0, unit: "€") %></p>

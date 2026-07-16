@@ -1,9 +1,11 @@
 class OrdersController < ApplicationController
   def index
+    @hide_default_navbar = true
     @orders = policy_scope(Order)
   end
 
   def show
+    @hide_default_navbar = true
     @order = Order.find(params[:id])
     authorize @order
   end

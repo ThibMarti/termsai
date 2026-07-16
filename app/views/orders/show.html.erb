@@ -1,6 +1,23 @@
-<h1>Order #<%= @order.id %></h1>
+<% content_for :title, "Order ##{@order.id} — terms AI" %>
 
-<p>User: <%= @order.user.email %></p>
-<p>Offer: <%= @order.offer.name %></p>
-<p>State: <%= @order.state %></p>
-<p>Amount: <%= number_to_currency(@order.amount_cents / 100.0, unit: "€") %></p>
+<div class="app-shell">
+  <%= render "shared/sidebar" %>
+
+  <main class="app-main">
+    <span class="report-eyebrow">Billing</span>
+    <h1 class="history-title">Order #<%= @order.id %></h1>
+
+    <div class="landing-card report-card order-summary">
+      <h3 class="report-card__title">Summary</h3>
+      <dl class="order-summary__list">
+        <div><dt>Offer</dt><dd><%= @order.offer.name %></dd></div>
+        <div><dt>Amount</dt><dd><%= number_to_currency(@order.amount_cents / 100.0, unit: "€") %></dd></div>
+        <div>
+          <dt>Status</dt>
+          <dd><%= render "shared/tone_badge", tone: @order.state == "paid" ? :safe : :caution, text: @order.state.humanize %></dd>
+        </div>
+      </dl>
+      <%= link_to "Back to orders", orders_path, class: "btn btn-outline-secondary btn-sm" %>
+    </div>
+  </main>
+</div>

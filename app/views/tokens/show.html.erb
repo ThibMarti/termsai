@@ -1,3 +1,16 @@
-<h1>My tokens</h1>
+<% content_for :title, "My tokens — terms AI" %>
 
-<p><%= @total_tokens %> tokens</p>
+<div class="app-shell">
+  <%= render "shared/sidebar" %>
+
+  <main class="app-main">
+    <span class="report-eyebrow">Billing</span>
+    <h1 class="history-title">My tokens</h1>
+
+    <div class="landing-card report-card token-balance">
+      <h3 class="report-card__title">Balance</h3>
+      <p class="token-balance__value"><%= @total_tokens %> token<%= "s" unless @total_tokens == 1 %></p>
+      <%= link_to "Buy more", offers_path, class: "btn btn-primary btn-sm" %>
+    </div>
+  </main>
+</div>
