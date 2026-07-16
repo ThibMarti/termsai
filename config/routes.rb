@@ -3,9 +3,8 @@ Rails.application.routes.draw do
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  resources :offers, only: %i[index show]
+  resources :offers, only: %i[index]
   resources :orders, only: %i[index show create]
-  resource :credit, only: %i[show]
   resource :token, only: %i[show]
 
   namespace :webhooks do
@@ -15,7 +14,7 @@ Rails.application.routes.draw do
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "dashboard", to: "pages#dashboard"
-  resources :scans, only: %i[new create show]
+  resources :scans, only: %i[create show]
   get "up" => "rails/health#show", as: :rails_health_check
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

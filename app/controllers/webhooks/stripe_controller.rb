@@ -27,8 +27,7 @@ module Webhooks
       return if order.nil? || order.state == "paid"
 
       order.update!(state: "paid")
-      credit = order.user.credit || order.user.create_credit!(credits_amount: 0)
-      credit.increment!(:credits_amount, order.offer.credits_amount)
+      order.user.tokens.create!(token_amount: order.offer.tokens_amount)
     end
   end
 end

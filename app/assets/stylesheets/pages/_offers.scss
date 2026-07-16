@@ -1,0 +1,34 @@
+.offers-eyebrow {
+  text-transform: uppercase;
+  font-size: .75rem;
+  letter-spacing: .05em;
+  color: $ink-3;
+  margin-bottom: .25rem;
+}
+
+.offers-explainer {
+  color: $ink-2;
+}
+
+.offers-pack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  max-width: 620px;
+}
+
+.offers-pack-card--featured {
+  border-color: $brand;
+}
+
+.offers-pack-card__badge {
+  align-self: flex-start;
+  margin-bottom: .5rem;
+}
+
+.offers-pack-card__price {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}

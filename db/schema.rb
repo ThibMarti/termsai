@@ -10,17 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_14_145627) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_16_101648) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
-
-  create_table "credits", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "credits_amount"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_credits_on_user_id"
-  end
 
   create_table "documents", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -32,9 +24,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_145627) do
 
   create_table "offers", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "credits_amount"
     t.string "name"
     t.integer "price_cents"
+    t.integer "tokens_amount"
     t.datetime "updated_at", null: false
   end
 
@@ -102,7 +94,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_145627) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "credits", "users"
   add_foreign_key "orders", "offers"
   add_foreign_key "orders", "users"
   add_foreign_key "scan_results", "documents"

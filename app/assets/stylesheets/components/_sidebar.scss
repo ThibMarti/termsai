@@ -1,0 +1,85 @@
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+  padding: 2.5rem;
+}
+
+.app-sidebar {
+  width: 240px;
+  min-height: 100vh;
+  padding: 1.5rem 1rem;
+  background: $paper;
+  border-right: 1px solid $rule;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.app-sidebar__logo {
+  height: 32px;
+  width: auto;
+}
+
+.app-sidebar__nav .nav-link {
+  color: $ink-2;
+
+  &.active {
+    color: $brand;
+    background: $brand-tint;
+    border-radius: .375rem;
+  }
+}
+
+.app-sidebar__balance {
+  padding: .75rem 1rem;
+  background: $canvas;
+  border: 1px solid $rule;
+  border-radius: .5rem;
+}
+
+.app-sidebar__balance-label {
+  display: block;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: $ink-3;
+}
+
+.app-sidebar__balance-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $ink;
+  margin-bottom: .5rem;
+}
+
+.app-sidebar__buy-more {
+  width: 100%;
+}
+
+.app-sidebar__user {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.app-sidebar__user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-sidebar__user-name {
+  font-size: .875rem;
+  font-weight: 500;
+  color: $ink;
+}
+
+.app-sidebar__logout {
+  font-size: .75rem;
+  color: $ink-3;
+}

@@ -1,30 +1,61 @@
-<div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-2">
-    <h1>Dashboard</h1>
-    <%= link_to "+ New scan", new_scan_path, class: "btn btn-primary" %>
-  </div>
-  <p class="text-muted">
-    <%= @tokens_count %> free token(s) · <%= @credits_amount %> credit(s) · <%= @scans.count %> scan(s)
-  </p>
+<% content_for :title, "Dashboard" %>
 
-  <% if @scans.any? %>
-    <table class="table align-middle">
-      <thead>
-        <tr><th>Site</th><th>URL</th><th>Score</th><th>Date</th><th></th></tr>
-      </thead>
-      <tbody>
-        <% @scans.each do |scan| %>
-          <tr>
-            <td><strong><%= scan.site_name %></strong></td>
-            <td class="text-muted"><%= scan.url %></td>
-            <td><span class="badge <%= risk_badge_class(scan.risk_score) %>"><%= scan.risk_score %>/10</span></td>
-            <td><%= scan.created_at.strftime("%d/%m/%Y") %></td>
-            <td><%= link_to "See the report", scan_path(scan) %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p>No scan for now</p>
-  <% end %>
+<div class="app-shell">
+  <%= render "shared/sidebar" %>
+
+  <main class="app-main">
+    <h1>Dashboard</h1>
+    <p class="text-muted">
+      <%= @tokens_count %> free token(s) · <%= @credits_amount %> credit(s) · <%= @scans.count %> scan(s)
+    </p>
+
+    <% if current_user.can_scan? %>
+      <div class="card dashboard-new-scan">
+        <div class="card-body">
+          <h2 class="card-title">New scan</h2>
+          <%= simple_form_for @scan do |f| %>
+            <%= f.error_notification %>
+
+            <%= f.input :site_name %>
+            <%= f.input :url %>
+            <%= f.input :content,
+                        as: :text,
+                        label: "Paste the Terms & Conditions",
+                        input_html: { rows: 8 } %>
+
+            <div class="form-actions">
+              <%= f.button :submit, "Scan document (1 token)", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="alert alert-warning d-flex justify-content-between align-items-center dashboard-out-of-tokens">
+        <span>You're out of tokens.</span>
+        <%= link_to "Buy tokens", offers_path, class: "btn btn-primary" %>
+      </div>
+    <% end %>
+
+    <h2 class="dashboard-history-title">Scan history</h2>
+    <% if @scans.any? %>
+      <table class="table align-middle">
+        <thead>
+          <tr><th>Site</th><th>URL</th><th>Score</th><th>Date</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% @scans.each do |scan| %>
+            <tr>
+              <td><strong><%= scan.site_name %></strong></td>
+              <td class="text-muted"><%= scan.url %></td>
+              <td><span class="badge <%= risk_badge_class(scan.risk_score) %>"><%= scan.risk_score %>/10</span></td>
+              <td><%= scan.created_at.strftime("%d/%m/%Y") %></td>
+              <td><%= link_to "See the report", scan_path(scan) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No scan for now</p>
+    <% end %>
+  </main>
 </div>
