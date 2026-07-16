@@ -1,7 +1,7 @@
 <header class="landing-header">
   <div class="landing-header__inner">
     <%= link_to root_path, class: "landing-header__brand" do %>
-      <%= image_tag "logo.png", alt: "terms AI", class: "landing-header__logo" %>
+      <%= image_tag "logo-termsai-V3.jpg", alt: "terms AI", class: "landing-header__logo" %>
     <% end %>
 
     <nav class="landing-header__nav">
@@ -13,7 +13,7 @@
 
     <div class="landing-header__actions">
       <% if user_signed_in? %>
-        <%= link_to "New scan", new_scan_path, class: "btn btn-link btn-sm" %>
+        <%= link_to "New scan", new_scan_path, class: "btn landing-header__nav-link" %>
         <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-primary btn-sm" %>
       <% else %>
         <%= link_to "Log in", new_user_session_path, class: "btn btn-link btn-sm" %>
