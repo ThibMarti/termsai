@@ -55,5 +55,6 @@ class PagesController < ApplicationController
     @hide_default_navbar = true
     @scans = current_user.scans.order(created_at: :desc)
     @tokens_count = current_user.total_scan_allowance
+    @scan = Scan.new
   end
 end
