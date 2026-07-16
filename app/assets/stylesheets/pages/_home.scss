@@ -38,10 +38,30 @@
 .landing-header__nav {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 6px;
   font-size: 14px;
+}
 
-  a { color: $ink-2; text-decoration: none; &:hover { color: $ink; } }
+.landing-header__nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  color: $ink-2;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+
+  &:hover, &:focus-visible {
+    color: $brand;
+    background: $brand-tint;
+    border-color: $brand-rule;
+    text-decoration: none;
+  }
 }
 
 .landing-header__actions {
