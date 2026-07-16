@@ -15,10 +15,10 @@
             <% if offer == @best_value_offer %>
               <span class="badge bg-primary offers-pack-card__badge">Best value</span>
             <% end %>
-            <h3 class="card-title"><%= offer.credits_amount %> tokens</h3>
+            <h3 class="card-title"><%= offer.tokens_amount %> tokens</h3>
             <p class="offers-pack-card__price"><%= number_to_currency(offer.price_cents / 100.0, unit: "€") %></p>
             <p class="offers-pack-card__unit-price text-muted">
-              <%= number_to_currency(offer.price_cents / offer.credits_amount.to_f / 100.0, unit: "€", precision: 2) %> / scan
+              <%= number_to_currency(offer.price_cents / offer.tokens_amount.to_f / 100.0, unit: "€", precision: 2) %> / scan
             </p>
             <%= button_to "Buy #{offer.name}", orders_path(order: { offer_id: offer.id }),
                   data: { turbo: false }, class: "btn btn-primary w-100 mt-auto" %>

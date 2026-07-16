@@ -4,7 +4,7 @@
     <%= link_to "+ New scan", new_scan_path, class: "btn btn-primary" %>
   </div>
   <p class="text-muted">
-    <%= @tokens_count %> free token(s) · <%= @credits_amount %> credit(s) · <%= @scans.count %> scan(s)
+    <%= @tokens_count %> token(s) · <%= @scans.count %> scan(s)
   </p>
 
   <% if @scans.any? %>

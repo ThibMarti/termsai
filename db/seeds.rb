@@ -3,16 +3,15 @@
 puts "🧹 Cleaning database..."
 UserScan.destroy_all
 Scan.destroy_all
-Credit.destroy_all
 Token.destroy_all
 Order.destroy_all
 Offer.destroy_all
 User.destroy_all
 
-puts "🌱 Seeding users, credits, offers, and scans..."
+puts "🌱 Seeding users, offers, and scans..."
 
 # ==========================================
-# 1. Create the User & Associate Credits
+# 1. Create the User
 # ==========================================
 # User.create! also grants 1 free token via the after_create callback.
 default_user = User.create!(
@@ -22,19 +21,14 @@ default_user = User.create!(
   last_name: "Student"
 )
 
-user_credits = Credit.create!(
-  user: default_user,
-  credits_amount: 10
-)
-
 puts "👤 Created user: #{default_user.email}"
-puts "💰 Created #{user_credits.credits_amount} credits for #{default_user.email}."
+puts "🪙 Starting token balance: #{default_user.total_scan_allowance}."
 
 # ==========================================
-# 2. Offers (credit packs)
+# 2. Offers (token packs)
 # ==========================================
-Offer.create!(name: "Starter Pack", credits_amount: 10, price_cents: 500)
-Offer.create!(name: "Pro Pack", credits_amount: 50, price_cents: 2000)
+Offer.create!(name: "Starter Pack", tokens_amount: 10, price_cents: 500)
+Offer.create!(name: "Pro Pack", tokens_amount: 50, price_cents: 2000)
 
 puts "📦 Created offers."
 

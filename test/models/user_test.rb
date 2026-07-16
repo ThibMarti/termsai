@@ -22,16 +22,4 @@ class UserTest < ActiveSupport::TestCase
     assert_not Token.exists?(bundle.id)
     assert_not @user.can_scan?
   end
-
-  test "falls back to credit once all tokens are exhausted" do
-    @user.tokens.create!(token_amount: 1)
-    credit = Credit.create!(user: @user, credits_amount: 2)
-
-    @user.consume_scan_allowance! # uses the token
-    assert_equal 2, credit.reload.credits_amount
-
-    @user.consume_scan_allowance! # no tokens left, falls back to credit
-    assert_equal 1, credit.reload.credits_amount
-    assert @user.can_scan?
-  end
 end
