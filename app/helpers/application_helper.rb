@@ -35,6 +35,15 @@ module ApplicationHelper
     TONE_CLASSES[tone.to_sym]
   end
 
+  # Distinct from tone_class: Bootstrap's bg-* utilities set background-color
+  # with !important, which would always beat our tinted badge styling
+  # regardless of selector specificity. This returns our own classes instead.
+  TONE_BADGE_CLASSES = { risk: "tone-badge--risk", caution: "tone-badge--caution", safe: "tone-badge--safe" }.freeze
+
+  def tone_badge_class(tone)
+    TONE_BADGE_CLASSES[tone.to_sym]
+  end
+
   def signup_cta_path
     user_signed_in? ? new_scan_path : new_user_registration_path
   end

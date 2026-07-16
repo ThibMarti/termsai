@@ -48,13 +48,14 @@
 .tone-badge {
   display: inline-flex;
   align-items: center;
-  padding: .2rem .6rem;
-  border-radius: 999px;
-  font-size: .7rem;
-  font-weight: 600;
-  color: #fff;
+  padding: .25rem .5625rem;
+  border-radius: .3125rem;
+  border: 1px solid transparent;
+  font-family: $body-font;
+  font-size: .75rem;
+  font-weight: 500;
 
-  &.bg-danger { background-color: $risk; }
-  &.bg-warning { background-color: $caution; color: $ink; }
-  &.bg-success { background-color: $safe; }
+  &.tone-badge--risk { background-color: $risk-tint; color: $risk; border-color: $risk-rule; }
+  &.tone-badge--caution { background-color: $caution-tint; color: $caution; border-color: $caution-rule; }
+  &.tone-badge--safe { background-color: $safe-tint; color: $safe; border-color: $safe-rule; }
 }
