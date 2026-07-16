@@ -67,8 +67,14 @@ seed_scan(
   risk_score: 9,
   summary: "They respect user privacy. Our scanner detected zero tracking mechanisms, and they explicitly state they do not collect or sell your personal data.",
   categories: [
-    { "name" => "data_sharing", "level" => "low", "finding" => "No personal data shared with third parties." },
-    { "name" => "tracking", "level" => "low", "finding" => "No user tracking detected." }
+    { "name" => "data_sharing", "level" => "low", "items" => [
+      { "label" => "No sharing", "level" => "low", "finding" => "No personal data shared with third parties.",
+        "article" => nil, "quote" => "They do not collect or share personal information." }
+    ] },
+    { "name" => "tracking", "level" => "low", "items" => [
+      { "label" => "No tracking", "level" => "low", "finding" => "No user tracking detected.",
+        "article" => nil, "quote" => "They do not track user searches." }
+    ] }
   ]
 )
 
@@ -80,8 +86,14 @@ seed_scan(
   risk_score: 5,
   summary: "Keep an eye on your wallet. They use automatic subscription renewals that require manual cancellation. They also share anonymized user data with external marketing partners.",
   categories: [
-    { "name" => "data_sharing", "level" => "medium", "finding" => "Anonymized demographic data shared with partners." },
-    { "name" => "cancellation", "level" => "medium", "finding" => "Auto-renews monthly; cancellation requires manual action." }
+    { "name" => "data_sharing", "level" => "medium", "items" => [
+      { "label" => "Partner sharing", "level" => "medium", "finding" => "Anonymized demographic data shared with partners.",
+        "article" => nil, "quote" => "They share demographic data with partners." }
+    ] },
+    { "name" => "cancellation", "level" => "medium", "items" => [
+      { "label" => "Auto-renewal", "level" => "medium", "finding" => "Auto-renews monthly; cancellation requires manual action.",
+        "article" => nil, "quote" => "Their membership automatically renews monthly." }
+    ] }
   ]
 )
 
@@ -93,9 +105,18 @@ seed_scan(
   risk_score: 2,
   summary: "Major privacy and legal risks! They track your location even when the app is closed, sell your history to advertisers, and strip away your right to join a class-action lawsuit.",
   categories: [
-    { "name" => "data_sharing", "level" => "high", "finding" => "Browsing history sold to advertisers." },
-    { "name" => "tracking", "level" => "high", "finding" => "Precise background location tracking." },
-    { "name" => "cancellation", "level" => "high", "finding" => "Users waive the right to join a class-action lawsuit." }
+    { "name" => "data_sharing", "level" => "high", "items" => [
+      { "label" => "Selling data", "level" => "high", "finding" => "Browsing history sold to advertisers.",
+        "article" => nil, "quote" => "They sell browsing history." }
+    ] },
+    { "name" => "tracking", "level" => "high", "items" => [
+      { "label" => "Location tracking", "level" => "high", "finding" => "Precise background location tracking.",
+        "article" => nil, "quote" => "They track precise background location." }
+    ] },
+    { "name" => "cancellation", "level" => "high", "items" => [
+      { "label" => "Rights waived", "level" => "high", "finding" => "Users waive the right to join a class-action lawsuit.",
+        "article" => nil, "quote" => "Users waive their right to sue." }
+    ] }
   ],
   gdpr_flags: ["Cross-border data transfer outside the EU"]
 )

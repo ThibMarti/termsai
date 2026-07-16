@@ -1,51 +1,134 @@
-<%
-  report = @scan.full_report
-  level_badge_class = { "low" => "bg-success", "medium" => "bg-warning", "high" => "bg-danger" }
-%>
+<% content_for :title, "#{@scan.site_name} — terms AI" %>
 
-<div class="container mt-4" style="max-width: 720px;">
-  <h1><%= @scan.site_name %></h1>
-  <p class="text-muted"><%= @scan.url %></p>
-
-  <span class="badge <%= risk_badge_class(@scan.risk_score) %>"><%= @scan.risk_score %>/10</span>
-
-  <p class="mt-3"><%= report["summary"] %></p>
-
-  <div class="row row-cols-1 row-cols-md-2 g-3 mt-2">
-    <% report["categories"].each do |category| %>
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title d-flex justify-content-between align-items-center">
-              <%= category["name"].humanize %>
-              <span class="badge <%= level_badge_class[category["level"]] %>"><%= category["level"] %></span>
-            </h5>
-            <p class="card-text"><%= category["finding"] %></p>
-          </div>
-        </div>
-      </div>
+<div class="report">
+  <header class="report-header">
+    <%= link_to "← Back to history", dashboard_path, class: "report-header__back" %>
+    <%= link_to root_path do %>
+      <%= image_tag "logo.png", alt: "terms AI", class: "report-header__logo" %>
     <% end %>
+    <div class="report-header__actions">
+      <button type="button" class="btn btn-outline-secondary btn-sm" disabled>Export</button>
+      <%= link_to "New scan", new_scan_path, class: "btn btn-primary btn-sm" %>
+    </div>
+  </header>
+
+  <div class="report-body">
+    <div class="report-title">
+      <div>
+        <span class="report-eyebrow">Trust report</span>
+        <h1><%= @scan.site_name %></h1>
+        <p class="report-meta">
+          <%= @scan.url %> · Scanned <%= @scan.created_at.strftime("%b %-d, %Y") %> · Terms of Service
+        </p>
+      </div>
+      <%= render "shared/tone_badge", tone: risk_tone(@scan.risk_score), text: risk_label(@scan.risk_score) %>
+    </div>
+
+    <div class="report-top">
+      <div class="report-score report-score--<%= risk_tone(@scan.risk_score) %>">
+        <%= render "shared/risk_score",
+              score: @scan.risk_score,
+              label: risk_label(@scan.risk_score),
+              sub: "10 = safe" %>
+      </div>
+      <div class="landing-card report-card">
+        <h3 class="report-card__title">Summary</h3>
+        <p class="report-summary"><%= @scan.full_report["summary"] %></p>
+      </div>
+    </div>
+
+    <div class="report-verdict report-verdict--<%= @verdict[:tone] %>">
+      <span class="report-verdict__icon">
+        <%= { safe: "✓", caution: "?", risk: "!" }[@verdict[:tone]] %>
+      </span>
+      <div>
+        <div class="report-verdict__label">Verdict — <%= @verdict[:label] %></div>
+        <p><%= @verdict[:sentence] %></p>
+      </div>
+    </div>
+
+    <div class="report-section-head">
+      <h2>Trust breakdown</h2>
+      <span class="report-section-head__note">Weighted by impact</span>
+    </div>
+
+    <div class="report-groups">
+      <% @groups.each do |group| %>
+        <div class="report-group report-group--<%= group[:tone] %>">
+          <div class="report-group__head">
+            <span class="report-group__name">
+              <%= group[:name] %>
+              <span class="report-group__weight"><%= group[:weight] %></span>
+            </span>
+            <%= render "shared/tone_badge", tone: group[:tone], text: group[:level] %>
+          </div>
+          <ul class="report-items">
+            <% group[:items].each do |item| %>
+              <li>
+                <details class="report-item">
+                  <summary class="report-item__summary">
+                    <span class="report-item__dot report-item__dot--<%= item[:dot] %>"></span>
+                    <span class="report-item__text">
+                      <b><%= item[:label] %></b>
+                      <span><%= item[:finding] %></span>
+                    </span>
+                  </summary>
+                  <div class="report-item__detail">
+                    <% if item[:article].present? %>
+                      <span class="report-item__article"><%= item[:article] %></span>
+                    <% end %>
+                    <% if item[:quote].present? %>
+                      <p class="report-item__quote">
+                        <mark class="report-mark report-mark--<%= item[:dot] %>">&ldquo;<%= item[:quote] %>&rdquo;</mark>
+                      </p>
+                    <% else %>
+                      <p class="report-item__quote text-muted">No specific clause quoted for this finding.</p>
+                    <% end %>
+                  </div>
+                </details>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="report-flags">
+      <div class="landing-card report-card">
+        <h3 class="report-card__title">GDPR flags</h3>
+        <% if @scan.full_report["gdpr_flags"].any? %>
+          <ul class="report-flag-list">
+            <% @scan.full_report["gdpr_flags"].each do |flag| %>
+              <li><span class="report-flag-icon report-flag-icon--risk">!</span> <%= flag %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted mb-0">No GDPR flags.</p>
+        <% end %>
+      </div>
+      <div class="landing-card report-card">
+        <h3 class="report-card__title">EU AI Act flags</h3>
+        <% if @scan.full_report["ai_act_flags"].any? %>
+          <ul class="report-flag-list">
+            <% @scan.full_report["ai_act_flags"].each do |flag| %>
+              <li><span class="report-flag-icon report-flag-icon--caution">?</span> <%= flag %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted mb-0">No AI Act flags.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="report-actions">
+      <div class="report-actions__group">
+        <button type="button" class="btn btn-outline-secondary" disabled>Accept</button>
+        <button type="button" class="btn btn-outline-secondary" disabled>Decline</button>
+        <button type="button" class="btn btn-outline-secondary" disabled>Add to watchlist</button>
+      </div>
+      <button type="button" class="btn btn-link" disabled>Export / Share</button>
+    </div>
+
+    <p class="report-disclaimer">AI-generated analysis — not legal advice.</p>
   </div>
-
-  <h2 class="mt-4">GDPR flags</h2>
-  <% if report["gdpr_flags"].any? %>
-    <ul>
-      <% report["gdpr_flags"].each do |flag| %>
-        <li><%= flag %></li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p class="text-muted">No GDPR flags.</p>
-  <% end %>
-
-  <h2>AI Act flags</h2>
-  <% if report["ai_act_flags"].any? %>
-    <ul>
-      <% report["ai_act_flags"].each do |flag| %>
-        <li><%= flag %></li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p class="text-muted">No AI Act flags.</p>
-  <% end %>
 </div>

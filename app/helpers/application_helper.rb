@@ -7,6 +7,28 @@ module ApplicationHelper
     end
   end
 
+  def risk_tone(score)
+    case score.to_i
+    when 8..10 then :safe
+    when 5..7  then :caution
+    else            :risk
+    end
+  end
+
+  def risk_label(score)
+    case score.to_i
+    when 8..10 then "Low risk"
+    when 5..7  then "Medium risk"
+    else            "High risk"
+    end
+  end
+
+  LEVEL_TONES = { "low" => :safe, "medium" => :caution, "high" => :risk }.freeze
+
+  def risk_tone_for_level(level)
+    LEVEL_TONES[level.to_s] || :safe
+  end
+
   TONE_CLASSES = { risk: "bg-danger", caution: "bg-warning", safe: "bg-success" }.freeze
 
   def tone_class(tone)
