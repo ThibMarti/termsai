@@ -1,0 +1,48 @@
+<% content_for :title, "Scan history — terms AI" %>
+
+<div class="app-shell">
+  <%= render "shared/sidebar" %>
+
+  <main class="app-main">
+    <div class="history-head">
+      <div>
+        <span class="report-eyebrow">History</span>
+        <h1 class="history-title">Scan history</h1>
+      </div>
+      <%= link_to "New scan", new_scan_path, class: "btn btn-primary" %>
+    </div>
+
+    <% if @scans.any? %>
+      <div class="history-toolbar" data-controller="scan-filter">
+        <input type="search" placeholder="Search by site…" class="history-search" data-scan-filter-target="search" data-action="input->scan-filter#apply">
+        <div class="history-toolbar__tones">
+          <button type="button" class="history-tone-toggle history-tone-toggle--risk is-active" data-tone="risk" data-scan-filter-target="toneButton" data-action="scan-filter#toggleTone">High</button>
+          <button type="button" class="history-tone-toggle history-tone-toggle--caution is-active" data-tone="caution" data-scan-filter-target="toneButton" data-action="scan-filter#toggleTone">Medium</button>
+          <button type="button" class="history-tone-toggle history-tone-toggle--safe is-active" data-tone="safe" data-scan-filter-target="toneButton" data-action="scan-filter#toggleTone">Low</button>
+        </div>
+
+        <div class="history-table">
+          <div class="history-table__head">
+            <span>Score</span><span>Document</span><span>Scanned</span><span>Trust</span>
+          </div>
+          <% @scans.each do |scan| %>
+            <%= link_to scan_path(scan),
+                  class: "history-row",
+                  data: { "scan-filter-target": "row", site: scan.site_name.downcase, tone: risk_tone(scan.risk_score) } do %>
+              <span class="history-row__score history-row__score--<%= risk_tone(scan.risk_score) %>"><%= scan.risk_score.to_i %></span>
+              <span class="history-row__doc">
+                <b><%= scan.site_name %></b>
+                <em><%= scan.url %></em>
+              </span>
+              <span class="history-row__date"><%= scan.created_at.strftime("%b %-d, %Y") %></span>
+              <%= render "shared/tone_badge", tone: risk_tone(scan.risk_score), text: risk_label(scan.risk_score) %>
+            <% end %>
+          <% end %>
+          <p class="history-empty" data-scan-filter-target="empty" hidden>No scans match your search.</p>
+        </div>
+      </div>
+    <% else %>
+      <p class="text-muted">No scan for now — <%= link_to "run your first one", new_scan_path %>.</p>
+    <% end %>
+  </main>
+</div>

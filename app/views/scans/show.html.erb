@@ -2,13 +2,13 @@
 
 <div class="report">
   <header class="report-header">
-    <%= link_to "← Back to history", dashboard_path, class: "report-header__back" %>
+    <%= link_to "← Back to history", scan_history_path, class: "report-header__back" %>
     <%= link_to root_path do %>
       <%= image_tag "logo.png", alt: "terms AI", class: "report-header__logo" %>
     <% end %>
     <div class="report-header__actions">
       <button type="button" class="btn btn-outline-secondary btn-sm" disabled>Export</button>
-      <%= link_to "New scan", dashboard_path, class: "btn btn-primary btn-sm" %>
+      <%= link_to "New scan", new_scan_path, class: "btn btn-primary btn-sm" %>
     </div>
   </header>
 

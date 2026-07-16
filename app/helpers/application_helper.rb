@@ -36,10 +36,14 @@ module ApplicationHelper
   end
 
   def signup_cta_path
-    user_signed_in? ? dashboard_path : new_user_registration_path
+    user_signed_in? ? new_scan_path : new_user_registration_path
   end
 
   def signup_cta_label(signed_out_label)
-    user_signed_in? ? "Go to dashboard" : signed_out_label
+    user_signed_in? ? "Go to your scans" : signed_out_label
+  end
+
+  def user_initials(user)
+    [user.first_name, user.last_name].compact.map { |n| n[0] }.join.upcase
   end
 end

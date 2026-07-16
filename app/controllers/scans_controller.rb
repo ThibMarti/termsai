@@ -1,6 +1,6 @@
 class ScansController < ApplicationController
   rescue_from RubyLLM::Error do
-    redirect_to dashboard_path, alert: "The analysis failed — please try again. Nothing was charged."
+    redirect_to new_scan_path, alert: "The analysis failed — please try again. Nothing was charged."
   end
 
   def create
@@ -10,7 +10,7 @@ class ScansController < ApplicationController
     @scan = Scan.new(scan_params)
     authorize @scan
 
-    return redirect_to dashboard_path, alert: "No tokens left." unless current_user.can_scan?
+    return redirect_to new_scan_path, alert: "No tokens left." unless current_user.can_scan?
 
     analyze_and_save_scan
   end
@@ -33,7 +33,7 @@ class ScansController < ApplicationController
       register_scan_for(current_user)
       redirect_to scan_path(@scan), notice: "Scan complete."
     else
-      redirect_to dashboard_path, alert: @scan.errors.full_messages.to_sentence
+      redirect_to new_scan_path, alert: @scan.errors.full_messages.to_sentence
     end
   end
 

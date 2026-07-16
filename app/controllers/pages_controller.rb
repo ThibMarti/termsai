@@ -56,10 +56,15 @@ class PagesController < ApplicationController
     @clause_examples = CLAUSE_EXAMPLES
   end
 
-  def dashboard
+  def new_scan
+    @hide_default_navbar = true
+    @scan = Scan.new
+    @recent_scans = current_user.scans.order(created_at: :desc).limit(3)
+    @tokens_count = current_user.total_scan_allowance
+  end
+
+  def scan_history
     @hide_default_navbar = true
     @scans = current_user.scans.order(created_at: :desc)
-    @tokens_count = current_user.total_scan_allowance
-    @scan = Scan.new
   end
 end
