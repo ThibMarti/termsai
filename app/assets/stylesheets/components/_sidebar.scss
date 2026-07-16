@@ -1,4 +1,14 @@
-.offers-sidebar {
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+  padding: 2.5rem;
+}
+
+.app-sidebar {
   width: 240px;
   min-height: 100vh;
   padding: 1.5rem 1rem;
@@ -9,12 +19,12 @@
   gap: 1.5rem;
 }
 
-.offers-sidebar__logo {
-  font-weight: 600;
-  color: $ink;
+.app-sidebar__logo {
+  height: 32px;
+  width: auto;
 }
 
-.offers-sidebar__nav .nav-link {
+.app-sidebar__nav .nav-link {
   color: $ink-2;
 
   &.active {
@@ -24,14 +34,14 @@
   }
 }
 
-.offers-sidebar__balance {
+.app-sidebar__balance {
   padding: .75rem 1rem;
   background: $canvas;
   border: 1px solid $rule;
   border-radius: .5rem;
 }
 
-.offers-sidebar__balance-label {
+.app-sidebar__balance-label {
   display: block;
   font-size: .75rem;
   text-transform: uppercase;
@@ -39,32 +49,37 @@
   color: $ink-3;
 }
 
-.offers-sidebar__balance-value {
+.app-sidebar__balance-value {
   display: block;
   font-size: 1.5rem;
   font-weight: 600;
   color: $ink;
+  margin-bottom: .5rem;
 }
 
-.offers-sidebar__user {
+.app-sidebar__buy-more {
+  width: 100%;
+}
+
+.app-sidebar__user {
   margin-top: auto;
   display: flex;
   align-items: center;
   gap: .5rem;
 }
 
-.offers-sidebar__user-info {
+.app-sidebar__user-info {
   display: flex;
   flex-direction: column;
 }
 
-.offers-sidebar__user-name {
+.app-sidebar__user-name {
   font-size: .875rem;
   font-weight: 500;
   color: $ink;
 }
 
-.offers-sidebar__logout {
+.app-sidebar__logout {
   font-size: .75rem;
   color: $ink-3;
 }
