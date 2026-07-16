@@ -6,7 +6,7 @@
   <main class="app-main">
     <h1>Dashboard</h1>
     <p class="text-muted">
-      <%= @tokens_count %> free token(s) · <%= @credits_amount %> credit(s) · <%= @scans.count %> scan(s)
+      <%= @tokens_count %> free token(s) · <%= @scans.count %> scan(s)
     </p>
 
     <% if current_user.can_scan? %>
