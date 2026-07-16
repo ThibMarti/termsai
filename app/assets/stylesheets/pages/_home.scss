@@ -246,13 +246,13 @@
   white-space: nowrap;
 }
 
-.landing-clause--risk .landing-clause__annotation { background: rgba($risk, .12); color: darken($risk, 10%); }
-.landing-clause--caution .landing-clause__annotation { background: rgba($caution, .18); color: darken($caution, 15%); }
+.landing-clause--risk .landing-clause__annotation { background: $risk-tint; color: $risk; }
+.landing-clause--caution .landing-clause__annotation { background: $caution-tint; color: $caution; }
 
 .landing-clause__mark { padding: 0 2px; border-radius: 3px; }
-.landing-clause__mark--risk { background: rgba($risk, .15); color: darken($risk, 12%); }
-.landing-clause__mark--caution { background: rgba($caution, .2); color: darken($caution, 18%); }
-.landing-clause__mark--safe { background: rgba($safe, .18); color: darken($safe, 18%); }
+.landing-clause__mark--risk { background: $risk-mark; color: $ink; }
+.landing-clause__mark--caution { background: $caution-mark; color: $ink; }
+.landing-clause__mark--safe { background: $safe-tint; color: $ink; }
 
 // Pricing
 .landing-pricing {

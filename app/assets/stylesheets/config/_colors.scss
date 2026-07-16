@@ -1,11 +1,11 @@
 // Define variables for your color scheme
 
 // For example:
-$red: #FD1015;
-$blue: #0D6EFD;
+$red: #B4231F;
+$blue: #2563EB;
 $yellow: #FFC65A;
-$orange: #E67E22;
-$green: #1EDD88;
+$orange: #A35A08;
+$green: #1A6E3C;
 $gray: #0E0000;
 $light-gray: #F4F4F4;
 
@@ -15,13 +15,24 @@ $risk: $red;
 $caution: $orange;
 $safe: $green;
 
-// Marketing/landing page neutrals + brand accent
-$ink: #14181F;
-$ink-2: #565D6B;
-$ink-3: #8A8F99;
-$canvas: #FFFFFF;
-$paper: #F7F7F8;
-$rule: #E6E6EA;
+// Marketing/landing page neutrals + brand accent — exact values from the
+// terms AI Design System (tokens/colors.css, light theme)
+$ink: #101720;
+$ink-2: #3E4956;
+$ink-3: #6B7684;
+$canvas: #F4F6F8;
+$paper: #FFFFFF;
+$rule: #E2E6EB;
 $brand: $blue;
-$brand-hover: darken($blue, 8%);
-$brand-tint: rgba($blue, 0.08);
+$brand-hover: #1D4ED8;
+$brand-tint: #EFF5FF;
+
+// Risk-scale tints/rules — used for clause highlighting, never decoratively
+$risk-tint: #FDF1F0;
+$risk-rule: #F3CFCC;
+$risk-mark: #FBE3E0;
+$caution-tint: #FDF6EC;
+$caution-rule: #F0DCBF;
+$caution-mark: #FAEBD3;
+$safe-tint: #F0F8F2;
+$safe-rule: #CBE5D5;
