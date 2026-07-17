@@ -1,3 +1,120 @@
+// Home ("dashboard") — landing-page-style shell: a slim sticky topbar hosting
+// the hamburger (the page's only nav — no persistent sidebar) + an off-canvas
+// drawer, driven by the shared Stimulus sidebar_controller.js.
+.dashboard-nav-scope { display: contents; }
+
+.dashboard-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba($canvas, .88);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid $rule;
+}
+
+.dashboard-topbar__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  min-height: 76px;
+  padding: 10px 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dashboard-nav__toggle {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: $border-radius-sm;
+  border: 1px solid $rule;
+  background: $paper;
+  color: $ink;
+  font-size: 1.125rem;
+}
+
+.dashboard-mobile-nav__backdrop {
+  display: none;
+
+  &.is-open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba($ink, .35);
+    z-index: 90;
+  }
+}
+
+.dashboard-mobile-nav {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 80vw;
+  max-width: 20rem;
+  padding: 20px 16px;
+  background: $paper;
+  border-right: 1px solid $rule;
+  box-shadow: 0 0 24px rgba($ink, .15);
+  z-index: 95;
+  overflow-y: auto;
+
+  &.is-open { display: flex; }
+}
+
+.dashboard-mobile-nav__close {
+  align-self: flex-end;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  color: $ink-2;
+  font-size: 1.125rem;
+  margin-bottom: 8px;
+}
+
+.dashboard-mobile-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 10px;
+  border-radius: $border-radius-sm;
+  color: $ink-2;
+  font-size: 15px;
+  font-weight: 500;
+
+  &:hover {
+    background: $subtle;
+    color: $ink;
+
+    .dashboard-mobile-nav__icon { color: $ink; }
+  }
+}
+
+.dashboard-mobile-nav__icon {
+  width: 1.125rem;
+  text-align: center;
+  color: $ink-3;
+}
+
+.dashboard-mobile-nav__divider {
+  height: 1px;
+  background: $rule;
+  margin: 8px 0;
+}
+
+.dashboard-main {
+  max-width: 73.75rem; // 1180px — matches the landing page's content width
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
 .history-head {
   display: flex;
   align-items: flex-end;
@@ -123,6 +240,53 @@
   margin: 0;
 }
 
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-stat__value {
+  font-family: $mono-font;
+  font-size: 2rem;
+  color: $ink;
+  margin: 0 0 1rem;
+}
+
+.dashboard-stat__scan {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 1rem;
+
+  &:hover .dashboard-stat__scan-name { color: $brand; }
+}
+
+.dashboard-stat__scan-score {
+  font-family: $mono-font;
+  font-size: 1.5rem;
+  font-weight: 500;
+
+  &--safe { color: $safe; }
+  &--caution { color: $caution; }
+  &--risk { color: $risk; }
+}
+
+.dashboard-stat__scan-max { font-size: .75rem; opacity: .7; }
+
+.dashboard-stat__scan-name {
+  font-weight: 500;
+  font-size: .9375rem;
+  color: $ink;
+}
+
+.dashboard-cta {
+  margin: 1.5rem 0 2rem;
+}
+
 .new-scan-lead {
   font-size: .9375rem;
   color: $ink-2;
@@ -211,4 +375,178 @@
 
   b { display: block; font-weight: 500; font-size: .875rem; color: $ink; }
   em { font-style: normal; font-family: $mono-font; font-size: .6875rem; color: $ink-3; }
+}
+
+// Home news feed — 3 featured tiles (data breach / AI advancement / data
+// policy, via NewsFeedFetcher), full-width, one per category. Sits in its
+// own tinted panel to set it apart from the page background.
+.news-feed-section {
+  background: $canvas;
+  border-radius: $border-radius-lg;
+  padding: 1.75rem 1.75rem 2rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.news-feed-head {
+  margin: 0 0 1.25rem;
+}
+
+.news-feed-head__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: $headers-font;
+  font-weight: 500;
+  font-size: 1rem;
+  color: $ink;
+  text-decoration: none;
+
+  &:hover { color: $brand; }
+
+  span { display: inline-block; transition: transform .15s ease; }
+  &:hover span { transform: translateX(3px); }
+}
+
+.news-feed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+// Full-bleed image card — the picture fills the entire tile (not just a top
+// slice), with the title/meta overlaid on a gradient scrim at the bottom
+// instead of living in a separate solid-color panel below the image.
+.news-feed-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  background: $subtle;
+  border: 1px solid $rule;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow .15s ease, transform .15s ease;
+
+  &:hover {
+    box-shadow: 0 10px 28px rgba($ink, .18);
+  }
+}
+
+.news-feed-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-feed-card__placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: $subtle;
+  font-size: 2.5rem;
+  color: $ink-3;
+}
+
+.news-feed-card__overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 3rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  background: linear-gradient(to top, rgba($ink, .92) 0%, rgba($ink, .6) 60%, rgba($ink, 0) 100%);
+
+  .tone-badge { align-self: flex-start; }
+}
+
+.news-feed-card__title {
+  font-family: $headers-font;
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.35;
+  letter-spacing: -.01em;
+  color: #fff;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-feed-card__meta {
+  font-size: .75rem;
+  color: rgba(255, 255, 255, .75);
+  font-family: $mono-font;
+}
+
+.news-feed-empty {
+  margin: 0;
+}
+
+.dashboard-divider {
+  height: 1px;
+  background: $rule;
+  border: none;
+  margin: 2.5rem 0;
+}
+
+// Tricks & tips teaser on Home — mirrors .news-feed-head's link styling;
+// the full page (pages#tricks_and_tips) has its own content, coming soon.
+.tips-section {
+  margin-bottom: 2.5rem;
+}
+
+.tips-teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.tips-teaser-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow .15s ease, border-color .15s ease;
+
+  &:hover {
+    border-color: $rule-strong;
+    box-shadow: 0 4px 16px rgba($ink, .08);
+  }
+}
+
+.tips-head__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: $headers-font;
+  font-weight: 500;
+  font-size: 1rem;
+  color: $ink;
+  text-decoration: none;
+
+  &:hover { color: $brand; }
+
+  span { display: inline-block; transition: transform .15s ease; }
+  &:hover span { transform: translateX(3px); }
+}
+
+// Full News page (pages#news) — same .news-feed-grid/.news-feed-card tiles
+// as Home's teaser, grouped under a heading per category.
+.news-page-section {
+  margin-bottom: 2.5rem;
+}
+
+.news-page-section__title {
+  font-family: $headers-font;
+  font-weight: 500;
+  font-size: 1.25rem;
+  letter-spacing: -.02em;
+  color: $ink;
+  margin: 0 0 1rem;
 }

@@ -1,0 +1,31 @@
+// Shared shell for pages reached from Home that no longer carry the
+// persistent app-shell sidebar — just a "back to dashboard" link up top,
+// then the page's own content, centered.
+.detail-page {
+  min-height: 100vh;
+  background: $canvas;
+}
+
+.detail-topbar {
+  max-width: 62.5rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 0;
+}
+
+.detail-topbar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .875rem;
+  font-weight: 500;
+  color: $ink-2;
+  text-decoration: none;
+
+  &:hover { color: $ink; }
+}
+
+.detail-page__main {
+  max-width: 62.5rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 4rem;
+}

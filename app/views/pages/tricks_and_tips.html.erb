@@ -1,0 +1,90 @@
+<% content_for :title, "Tricks & tips — terms AI" %>
+
+<div class="detail-page">
+  <%= render "shared/back_to_dashboard" %>
+
+  <main class="detail-page__main">
+    <span class="report-eyebrow">Guide</span>
+    <h1 class="history-title">Tricks &amp; tips</h1>
+    <p class="tips-lead">Get more out of every scan. A few habits that make terms AI faster and its reports easier to trust.</p>
+
+    <h2 class="tips-section-title">Getting better scans</h2>
+    <div class="tips-grid">
+      <% @scan_tips.each do |tip| %>
+        <div class="landing-card report-card tips-card">
+          <span class="tips-card__num"><%= tip[:num] %></span>
+          <h3 class="tips-card__title"><%= tip[:title] %></h3>
+          <p class="tips-card__body"><%= tip[:body] %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <h2 class="tips-section-title">Reading the trust score</h2>
+    <div class="landing-card report-card tips-score-card">
+      <p>The score runs 1–10, where <b>10 is safest</b>. It's weighted by impact, so a single high-impact clause can pull the score down more than several minor ones.</p>
+      <div class="tips-score-legend">
+        <span class="tips-score-legend__item"><i class="tips-score-legend__dot tips-score-legend__dot--safe"></i>8–10 · Safe</span>
+        <span class="tips-score-legend__item"><i class="tips-score-legend__dot tips-score-legend__dot--caution"></i>5–7 · Worth checking</span>
+        <span class="tips-score-legend__item"><i class="tips-score-legend__dot tips-score-legend__dot--risk"></i>1–4 · High risk</span>
+      </div>
+    </div>
+    <div class="tips-category-grid">
+      <div class="tips-category-card">
+        <div class="tips-category-card__weight">40%</div>
+        <div class="tips-category-card__name">Privacy</div>
+      </div>
+      <div class="tips-category-card">
+        <div class="tips-category-card__weight">25%</div>
+        <div class="tips-category-card__name">User Rights</div>
+      </div>
+      <div class="tips-category-card">
+        <div class="tips-category-card__weight">25%</div>
+        <div class="tips-category-card__name">Legal Fairness</div>
+      </div>
+      <div class="tips-category-card">
+        <div class="tips-category-card__weight">10%</div>
+        <div class="tips-category-card__name">Content Ownership</div>
+      </div>
+    </div>
+
+    <h2 class="tips-section-title">Power moves</h2>
+    <div class="tips-power-list">
+      <div class="tips-power-row">
+        <span class="tips-power-row__key">↕</span>
+        <div>
+          <b>Open a category to see the source</b>
+          <span>Click any row in the trust breakdown to expand the exact clause, with the problematic passage highlighted.</span>
+        </div>
+      </div>
+      <div class="tips-power-row">
+        <span class="tips-power-row__key">★</span>
+        <div>
+          <b>Add to watchlist</b>
+          <span>Track a service you use but don't fully trust — get notified when its terms change.</span>
+        </div>
+      </div>
+      <div class="tips-power-row">
+        <span class="tips-power-row__key">↗</span>
+        <div>
+          <b>Export or share a report</b>
+          <span>Send a read-only report to a colleague or keep a PDF for your records before you accept.</span>
+        </div>
+      </div>
+      <div class="tips-power-row">
+        <span class="tips-power-row__key">⚑</span>
+        <div>
+          <b>Check the GDPR &amp; AI Act flags</b>
+          <span>These surface EU-specific issues — cross-border transfers and AI-training consent — that the score alone won't show.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-callout">
+      <span class="tips-callout__icon">i</span>
+      <div>
+        <div class="tips-callout__title">One token, one document</div>
+        <p class="tips-callout__body">Re-scanning the same URL reuses the existing report — you're only charged once per unique document.</p>
+      </div>
+    </div>
+  </main>
+</div>

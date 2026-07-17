@@ -1,0 +1,142 @@
+<% content_for :title, "Home — terms AI" %>
+
+<div class="dashboard-nav-scope" data-controller="sidebar">
+  <header class="dashboard-topbar">
+    <div class="dashboard-topbar__inner">
+      <button type="button" class="dashboard-nav__toggle" data-action="sidebar#toggle" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <%# Rendered outside .dashboard-topbar on purpose: that header has
+      backdrop-filter, which establishes a new containing block for
+      position: fixed descendants (same fix as the landing page header). %>
+  <div class="dashboard-mobile-nav__backdrop" data-sidebar-target="backdrop" data-action="click->sidebar#close"></div>
+
+  <div class="dashboard-mobile-nav" data-sidebar-target="panel">
+    <button type="button" class="dashboard-mobile-nav__close" data-action="sidebar#close" aria-label="Close navigation">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <%= link_to dashboard_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+      <i class="fa-solid fa-house dashboard-mobile-nav__icon"></i> Home
+    <% end %>
+    <%= link_to new_scan_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+      <i class="fa-solid fa-magnifying-glass dashboard-mobile-nav__icon"></i> New scan
+    <% end %>
+    <%= link_to scan_history_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+      <i class="fa-solid fa-clock-rotate-left dashboard-mobile-nav__icon"></i> Scan History
+    <% end %>
+    <%= link_to offers_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+      <i class="fa-solid fa-coins dashboard-mobile-nav__icon"></i> Tokens
+    <% end %>
+    <%= link_to profile_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+      <i class="fa-solid fa-user dashboard-mobile-nav__icon"></i> Account
+    <% end %>
+    <%= link_to news_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+      <i class="fa-solid fa-newspaper dashboard-mobile-nav__icon"></i> News
+    <% end %>
+    <%= link_to tricks_and_tips_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+      <i class="fa-solid fa-lightbulb dashboard-mobile-nav__icon"></i> Tricks &amp; tips
+    <% end %>
+
+    <div class="dashboard-mobile-nav__divider"></div>
+
+    <%= link_to destroy_user_session_path, data: { turbo_method: :delete, action: "sidebar#close" }, class: "btn dashboard-mobile-nav__link" do %>
+      <i class="fa-solid fa-arrow-right-from-bracket dashboard-mobile-nav__icon"></i> Sign out
+    <% end %>
+  </div>
+
+  <main class="dashboard-main">
+    <h1 class="history-title">Welcome back, <%= current_user.first_name %></h1>
+
+    <%= link_to "Start a new scan", new_scan_path, class: "btn btn-primary dashboard-cta" %>
+
+    <div class="dashboard-stats">
+      <div class="landing-card report-card dashboard-stat">
+        <h3 class="report-card__title">Scans</h3>
+        <p class="dashboard-stat__value"><%= @scans_count %></p>
+        <%= link_to "View history", scan_history_path, class: "btn btn-outline-secondary btn-sm" %>
+      </div>
+
+      <div class="landing-card report-card dashboard-stat">
+        <h3 class="report-card__title">Tokens</h3>
+        <p class="dashboard-stat__value"><%= @tokens_count %></p>
+        <%= link_to "Buy more", offers_path, class: "btn btn-outline-secondary btn-sm" %>
+      </div>
+
+      <div class="landing-card report-card dashboard-stat">
+        <h3 class="report-card__title">Recent scan</h3>
+        <% if @recent_scans.any? %>
+          <% scan = @recent_scans.first %>
+          <%= link_to scan_path(scan), class: "dashboard-stat__scan" do %>
+            <span class="dashboard-stat__scan-score dashboard-stat__scan-score--<%= risk_tone(scan.risk_score) %>">
+              <%= scan.risk_score.to_i %><span class="dashboard-stat__scan-max">/10</span>
+            </span>
+            <span class="dashboard-stat__scan-name"><%= scan.site_name %></span>
+          <% end %>
+        <% else %>
+          <p class="dashboard-stat__value">—</p>
+        <% end %>
+        <%= link_to "View history", scan_history_path, class: "btn btn-outline-secondary btn-sm" %>
+      </div>
+    </div>
+
+    <hr class="dashboard-divider">
+
+    <div class="news-feed-section">
+      <div class="news-feed-head">
+        <%= link_to news_path, class: "news-feed-head__link" do %>
+          Explore news <span aria-hidden="true">&rarr;</span>
+        <% end %>
+      </div>
+
+      <% if @news_articles.any? %>
+        <div class="news-feed-grid">
+          <% @news_articles.each do |article| %>
+            <%= link_to article[:url], target: "_blank", rel: "noopener", class: "news-feed-card" do %>
+              <% if article[:image_url].present? %>
+                <%= image_tag article[:image_url], alt: "", class: "news-feed-card__img" %>
+              <% else %>
+                <div class="news-feed-card__placeholder">
+                  <i class="fa-solid fa-newspaper"></i>
+                </div>
+              <% end %>
+
+              <div class="news-feed-card__overlay">
+                <%= render "shared/tone_badge",
+                      tone: news_category_tone(article[:category]),
+                      text: news_category_label(article[:category]) %>
+                <h3 class="news-feed-card__title"><%= article[:title] %></h3>
+                <span class="news-feed-card__meta"><%= article[:source] %> · <%= time_ago_in_words(article[:published_at]) %> ago</span>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted news-feed-empty">Couldn't load news right now — check back later.</p>
+      <% end %>
+    </div>
+
+    <hr class="dashboard-divider">
+
+    <div class="tips-section">
+      <div class="tips-head">
+        <%= link_to tricks_and_tips_path, class: "tips-head__link" do %>
+          Tricks &amp; tips <span aria-hidden="true">&rarr;</span>
+        <% end %>
+      </div>
+
+      <div class="tips-teaser-grid">
+        <% @tip_teasers.each do |tip| %>
+          <%= link_to tricks_and_tips_path, class: "landing-card report-card tips-teaser-card" do %>
+            <span class="tips-card__num"><%= tip[:num] %></span>
+            <h3 class="tips-card__title"><%= tip[:title] %></h3>
+            <p class="tips-card__body"><%= tip[:body] %></p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </main>
+</div>
