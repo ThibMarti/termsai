@@ -24,6 +24,16 @@ default_user = User.create!(
 puts "👤 Created user: #{default_user.email}"
 puts "🪙 Starting token balance: #{default_user.total_scan_allowance}."
 
+admin_user = User.create!(
+  email: "admin@example.com",
+  password: "password123",
+  first_name: "Admin",
+  last_name: "User",
+  admin: true
+)
+
+puts "🛡️ Created admin: #{admin_user.email}"
+
 # ==========================================
 # 2. Offers (token packs)
 # ==========================================

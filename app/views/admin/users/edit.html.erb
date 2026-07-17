@@ -1,0 +1,72 @@
+<% content_for :title, "#{@user.first_name} #{@user.last_name} — Admin — terms AI" %>
+
+<div class="app-shell">
+  <%= render "shared/admin_sidebar" %>
+
+  <main class="app-main admin-edit">
+    <%= link_to "← Back to users", admin_users_path, class: "report-header__back" %>
+
+    <div class="admin-edit__head">
+      <span class="app-sidebar__avatar app-sidebar__avatar--lg app-sidebar__avatar--muted"><%= user_initials(@user) %></span>
+      <div>
+        <h1 class="admin-edit__name"><%= @user.first_name %> <%= @user.last_name %></h1>
+        <p class="admin-edit__meta">Member since <%= @user.created_at.strftime("%b %Y") %> &middot; <%= pluralize(@user.scans.count, "scan") %></p>
+      </div>
+    </div>
+
+    <div class="landing-card report-card admin-edit__card">
+      <h3 class="report-card__title">Account details</h3>
+      <%= form_with model: @user, url: admin_user_path(@user), method: :patch, local: true, class: "admin-edit__grid" do |f| %>
+        <div>
+          <%= f.label :first_name, "First name" %>
+          <%= f.text_field :first_name, class: "form-control" %>
+        </div>
+        <div>
+          <%= f.label :last_name, "Last name" %>
+          <%= f.text_field :last_name, class: "form-control" %>
+        </div>
+        <div>
+          <%= f.label :email %>
+          <%= f.email_field :email, class: "form-control" %>
+        </div>
+        <div>
+          <%= f.label :admin, "Admin access" %>
+          <%= f.select :admin, [["No", false], ["Yes", true]], {}, class: "form-select" %>
+        </div>
+
+        <%= f.submit "Save changes", class: "btn btn-primary admin-edit__submit" %>
+      <% end %>
+    </div>
+
+    <div class="landing-card report-card admin-edit__card">
+      <h3 class="report-card__title">Tokens</h3>
+      <div class="admin-edit__tokens">
+        <div>
+          <div class="admin-edit__tokens-value"><%= @user.total_scan_allowance %></div>
+          <div class="admin-edit__tokens-label">current balance</div>
+        </div>
+        <%= form_with url: admin_user_path(@user), method: :patch, local: true, class: "admin-edit__adjust" do %>
+          <label>
+            Adjust by
+            <input type="number" name="adjustment" value="0" class="form-control">
+          </label>
+          <button type="submit" class="btn btn-outline-secondary">Apply</button>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="admin-edit__danger">
+      <div>
+        <div class="admin-edit__danger-title">Delete this user</div>
+        <div class="admin-edit__danger-note">Permanently removes the account and all scan history.</div>
+      </div>
+      <%= button_to "Delete user", admin_user_path(@user), method: :delete,
+            data: { confirm: "Delete #{@user.first_name} #{@user.last_name}? This cannot be undone." },
+            class: "btn btn-outline-danger" %>
+    </div>
+
+    <div class="admin-edit__actions">
+      <%= link_to "Cancel", admin_users_path, class: "btn btn-link" %>
+    </div>
+  </main>
+</div>
