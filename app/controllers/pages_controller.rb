@@ -24,6 +24,21 @@ class PagesController < ApplicationController
     { label: "Content Ownership", value: "Medium", tone: :caution }
   ].freeze
 
+  # Shared between the Home teaser and the full Tricks & tips page so the
+  # copy only lives in one place.
+  SCAN_TIPS = [
+    { num: "01", title: "Paste the full text",
+      body: "Include every section — truncated documents miss the clauses that matter most, " \
+            "like arbitration buried near the end." },
+    { num: "02", title: "Add the source URL",
+      body: "The site name and URL let terms AI reuse the report and compare against the same service over time." },
+    { num: "03", title: "Scan the Privacy Policy too",
+      body: "Terms and Privacy are separate documents. The riskiest data-sharing language " \
+            "usually lives in the Privacy Policy." },
+    { num: "04", title: "Re-scan after updates",
+      body: "Services change terms quietly. If you get a \"terms updated\" email, run a fresh scan to see what moved." }
+  ].freeze
+
   CLAUSE_EXAMPLES = [
     { article: "Section 14.2 — Dispute resolution", tone: :risk,
       annotation: "Class action waiver",
@@ -56,6 +71,20 @@ class PagesController < ApplicationController
     @clause_examples = CLAUSE_EXAMPLES
   end
 
+  def dashboard
+    @hide_default_navbar = true
+    @tokens_count = current_user.total_scan_allowance
+    @scans_count = current_user.scans.count
+    @recent_scans = current_user.scans.order(created_at: :desc).limit(1)
+    @news_articles = NewsFeedFetcher.new.call
+    @tip_teasers = SCAN_TIPS.first(3)
+  end
+
+  def news
+    @hide_default_navbar = true
+    @articles_by_category = NewsFeedFetcher.new.call_by_category
+  end
+
   def new_scan
     @hide_default_navbar = true
     @scan = Scan.new
@@ -66,5 +95,16 @@ class PagesController < ApplicationController
   def scan_history
     @hide_default_navbar = true
     @scans = current_user.scans.order(created_at: :desc)
+  end
+
+  def profile
+    @hide_default_navbar = true
+    @tokens_count = current_user.total_scan_allowance
+    @recent_orders = Order.where(user: current_user).includes(:offer).order(created_at: :desc).limit(5)
+  end
+
+  def tricks_and_tips
+    @hide_default_navbar = true
+    @scan_tips = SCAN_TIPS
   end
 end

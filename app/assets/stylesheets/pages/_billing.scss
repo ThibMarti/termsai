@@ -50,3 +50,19 @@
   color: $ink;
   margin: 0 0 1rem;
 }
+
+// Profile (My profile / Edit profile)
+.profile-section + .profile-section {
+  margin-top: 2rem;
+}
+
+.profile-billing__actions {
+  display: flex;
+  gap: .625rem;
+  margin: 1rem 0;
+}
+
+.profile-billing__orders {
+  margin-top: 1rem;
+  max-width: 45rem;
+}
