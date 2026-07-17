@@ -9,6 +9,9 @@
     <%= link_to "New scan", new_scan_path, class: "nav-link #{"active" if current_page?(new_scan_path)}" %>
     <%= link_to "Scan history", scan_history_path, class: "nav-link #{"active" if current_page?(scan_history_path)}" %>
     <%= link_to "Buy tokens", offers_path, class: "nav-link #{"active" if current_page?(offers_path)}" %>
+    <% if current_user.admin? %>
+      <%= link_to "Admin", admin_users_path, class: "nav-link #{"active" if params[:controller].start_with?("admin/")}" %>
+    <% end %>
   </nav>
 
   <div class="app-sidebar__balance">
