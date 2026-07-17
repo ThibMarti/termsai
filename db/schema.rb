@@ -56,15 +56,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_16_101648) do
     t.text "content"
     t.datetime "created_at", null: false
     t.jsonb "full_report", default: {}
-    t.float "risk_score"
+    t.integer "risk_score"
     t.string "site_name"
     t.datetime "updated_at", null: false
     t.string "url"
   end
 
   create_table "tokens", force: :cascade do |t|
+    t.integer "balance", default: 1, null: false
     t.datetime "created_at", null: false
-    t.integer "token_amount"
+    t.integer "token_amount", default: 0
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_tokens_on_user_id"

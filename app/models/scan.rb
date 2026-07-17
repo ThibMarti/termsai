@@ -35,4 +35,13 @@ class Scan < ApplicationRecord
   def display_categories
     (full_report["categories"] || []).sort_by { |c| CATEGORY_ORDER.index(c["name"]) || 99 }
   end
+
+  # -------------------------------------------------------------------------
+  # NEW TURBO STREAMING DATABASE ATTRIBUTE METHOD
+  # -------------------------------------------------------------------------
+  def append_content!(chunk)
+    new_content = (content || "") + chunk
+    update_columns(content: new_content)
+  end
+  # -------------------------------------------------------------------------
 end
