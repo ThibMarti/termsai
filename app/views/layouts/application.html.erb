@@ -23,20 +23,27 @@
     <%= javascript_importmap_tags %>
   </head>
 
+  <% show_app_footer = !(controller_name == "pages" && action_name == "home") %>
   <body>
     <% if user_signed_in? %>
       <div class="dashboard-nav-scope" data-controller="sidebar">
         <%= render "shared/hamburger_panel" %>
+        <div class="app-shell-flex">
+          <%= render "shared/navbar" unless @hide_default_navbar %>
+          <%= render "shared/flashes" %>
+
+          <div class="app-shell-flex__content"><%= yield %></div>
+          <%= render "shared/footer" if show_app_footer %>
+        </div>
+      </div>
+    <% else %>
+      <div class="app-shell-flex">
         <%= render "shared/navbar" unless @hide_default_navbar %>
         <%= render "shared/flashes" %>
 
-        <%= yield %>
+        <div class="app-shell-flex__content"><%= yield %></div>
+        <%= render "shared/footer" if show_app_footer %>
       </div>
-    <% else %>
-      <%= render "shared/navbar" unless @hide_default_navbar %>
-      <%= render "shared/flashes" %>
-
-      <%= yield %>
     <% end %>
   </body>
 </html>
