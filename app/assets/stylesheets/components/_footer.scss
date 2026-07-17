@@ -1,0 +1,63 @@
+// Sticky-bottom shell: keeps the footer pinned to the viewport bottom on
+// short pages, while letting it sit below long content as usual.
+.app-shell-flex {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-shell-flex__content {
+  flex: 1 0 auto;
+}
+
+// Compact site-wide footer (shown on every page except Home, which has its
+// own full-width footer with a marketing CTA).
+.app-footer {
+  border-top: 1px solid $rule;
+}
+
+.app-footer__inner {
+  max-width: 62.5rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.app-footer__logo {
+  height: 56px;
+  width: auto;
+  mix-blend-mode: multiply;
+}
+
+.app-header__logo-link {
+  display: flex;
+  align-items: center;
+}
+
+.app-header__logo {
+  height: 56px;
+  width: auto;
+  mix-blend-mode: multiply;
+}
+
+.app-footer__copyright {
+  font-family: $mono-font;
+  font-size: .75rem;
+  color: $ink-3;
+}
+
+.app-footer__nav {
+  display: flex;
+  gap: 1.25rem;
+
+  a {
+    font-size: .8125rem;
+    color: $ink-2;
+    text-decoration: none;
+
+    &:hover { color: $ink; }
+  }
+}
