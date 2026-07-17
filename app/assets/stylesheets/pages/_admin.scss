@@ -1,18 +1,5 @@
 // Admin directory (Admin::UsersController#index) and Edit User (#edit)
 
-.app-sidebar__section-label {
-  font-family: $mono-font;
-  font-size: .625rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: $ink-3;
-  padding: 0 .75rem .5rem;
-}
-
-.app-sidebar__avatar--admin {
-  background: $ink;
-}
-
 .app-sidebar__avatar--muted {
   background: $subtle;
   color: $ink-2;

@@ -1,7 +1,7 @@
 <% content_for :title, "#{@user.first_name} #{@user.last_name} — Admin — terms AI" %>
 
 <div class="app-shell">
-  <%= render "shared/admin_sidebar" %>
+  <%= render "shared/sidebar" %>
 
   <main class="app-main admin-edit">
     <%= link_to "← Back to users", admin_users_path, class: "report-header__back" %>
