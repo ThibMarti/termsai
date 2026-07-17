@@ -1,9 +1,9 @@
 <% content_for :title, "Users — Admin — terms AI" %>
 
-<div class="app-shell">
-  <%= render "shared/sidebar" %>
+<div class="detail-page">
+  <%= render "shared/back_to_dashboard" %>
 
-  <main class="app-main">
+  <main class="detail-page__main">
     <div class="history-head">
       <div>
         <span class="report-eyebrow">Directory</span>
@@ -25,7 +25,7 @@
       <% @users.each do |user| %>
         <div class="history-row admin-directory-table__row">
           <span class="admin-directory__user">
-            <span class="app-sidebar__avatar app-sidebar__avatar--muted"><%= user_initials(user) %></span>
+            <span class="avatar-circle avatar-circle--muted"><%= user_initials(user) %></span>
             <span class="history-row__doc">
               <b><%= user.first_name %> <%= user.last_name %></b>
               <em><%= user.email %></em>

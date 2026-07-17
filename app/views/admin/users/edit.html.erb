@@ -1,13 +1,11 @@
 <% content_for :title, "#{@user.first_name} #{@user.last_name} — Admin — terms AI" %>
 
-<div class="app-shell">
-  <%= render "shared/sidebar" %>
+<div class="detail-page">
+  <%= render "shared/back_to_dashboard", back_path: admin_users_path, back_label: "Back to users" %>
 
-  <main class="app-main admin-edit">
-    <%= link_to "← Back to users", admin_users_path, class: "report-header__back" %>
-
+  <main class="detail-page__main admin-edit">
     <div class="admin-edit__head">
-      <span class="app-sidebar__avatar app-sidebar__avatar--lg app-sidebar__avatar--muted"><%= user_initials(@user) %></span>
+      <span class="avatar-circle avatar-circle--lg avatar-circle--muted"><%= user_initials(@user) %></span>
       <div>
         <h1 class="admin-edit__name"><%= @user.first_name %> <%= @user.last_name %></h1>
         <p class="admin-edit__meta">Member since <%= @user.created_at.strftime("%b %Y") %> &middot; <%= pluralize(@user.scans.count, "scan") %></p>

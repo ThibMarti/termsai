@@ -2,7 +2,7 @@
 
 <div class="report">
   <header class="report-header">
-    <%= link_to "← Back to history", scan_history_path, class: "report-header__back" %>
+    <%= render "shared/hamburger_toggle" %>
     <%= link_to root_path do %>
       <%= image_tag "logo-termsai-V3.jpg", alt: "terms AI", class: "report-header__logo" %>
     <% end %>

@@ -1,0 +1,40 @@
+<div class="dashboard-mobile-nav__backdrop" data-sidebar-target="backdrop" data-action="click->sidebar#close"></div>
+
+<div class="dashboard-mobile-nav" data-sidebar-target="panel">
+  <button type="button" class="dashboard-mobile-nav__close" data-action="sidebar#close" aria-label="Close navigation">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+
+  <%= link_to dashboard_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+    <i class="fa-solid fa-house dashboard-mobile-nav__icon"></i> Home
+  <% end %>
+  <%= link_to new_scan_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+    <i class="fa-solid fa-magnifying-glass dashboard-mobile-nav__icon"></i> New scan
+  <% end %>
+  <%= link_to scan_history_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+    <i class="fa-solid fa-clock-rotate-left dashboard-mobile-nav__icon"></i> Scan History
+  <% end %>
+  <%= link_to offers_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+    <i class="fa-solid fa-coins dashboard-mobile-nav__icon"></i> Tokens
+  <% end %>
+  <%= link_to profile_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+    <i class="fa-solid fa-user dashboard-mobile-nav__icon"></i> Account
+  <% end %>
+  <%= link_to news_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+    <i class="fa-solid fa-newspaper dashboard-mobile-nav__icon"></i> News
+  <% end %>
+  <%= link_to tricks_and_tips_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+    <i class="fa-solid fa-lightbulb dashboard-mobile-nav__icon"></i> Tricks &amp; tips
+  <% end %>
+  <% if current_user.admin? %>
+    <%= link_to admin_users_path, class: "btn dashboard-mobile-nav__link", data: { action: "sidebar#close" } do %>
+      <i class="fa-solid fa-user-shield dashboard-mobile-nav__icon"></i> Admin
+    <% end %>
+  <% end %>
+
+  <div class="dashboard-mobile-nav__divider"></div>
+
+  <%= link_to destroy_user_session_path, data: { turbo_method: :delete, action: "sidebar#close" }, class: "btn dashboard-mobile-nav__link" do %>
+    <i class="fa-solid fa-arrow-right-from-bracket dashboard-mobile-nav__icon"></i> Sign out
+  <% end %>
+</div>

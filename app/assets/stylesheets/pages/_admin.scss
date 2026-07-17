@@ -1,11 +1,24 @@
 // Admin directory (Admin::UsersController#index) and Edit User (#edit)
 
-.app-sidebar__avatar--muted {
+.avatar-circle {
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 50%;
+  flex: none;
+  display: grid;
+  place-items: center;
+  font-size: .75rem;
+  font-weight: 600;
+  background: $brand;
+  color: #fff;
+}
+
+.avatar-circle--muted {
   background: $subtle;
   color: $ink-2;
 }
 
-.app-sidebar__avatar--lg {
+.avatar-circle--lg {
   width: 3.25rem;
   height: 3.25rem;
   font-size: 1.125rem;

@@ -44,6 +44,10 @@ module ApplicationHelper
     TONE_BADGE_CLASSES[tone.to_sym]
   end
 
+  def user_initials(user)
+    "#{user.first_name[0]}#{user.last_name[0]}".upcase
+  end
+
   def signup_cta_path
     user_signed_in? ? dashboard_path : new_user_registration_path
   end

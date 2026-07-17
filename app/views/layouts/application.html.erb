@@ -23,9 +23,20 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body><%= render "shared/navbar" unless @hide_default_navbar %>
-<%= render "shared/flashes" %>
+  <body>
+    <% if user_signed_in? %>
+      <div class="dashboard-nav-scope" data-controller="sidebar">
+        <%= render "shared/hamburger_panel" %>
+        <%= render "shared/navbar" unless @hide_default_navbar %>
+        <%= render "shared/flashes" %>
 
-    <%= yield %>
+        <%= yield %>
+      </div>
+    <% else %>
+      <%= render "shared/navbar" unless @hide_default_navbar %>
+      <%= render "shared/flashes" %>
+
+      <%= yield %>
+    <% end %>
   </body>
 </html>
