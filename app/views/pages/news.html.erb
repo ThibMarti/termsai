@@ -1,0 +1,43 @@
+<% content_for :title, "News — terms AI" %>
+
+<div class="detail-page">
+  <%= render "shared/back_to_dashboard" %>
+
+  <main class="detail-page__main">
+    <span class="report-eyebrow">Learn</span>
+    <h1 class="history-title">News</h1>
+
+    <% if @articles_by_category.values.all?(&:empty?) %>
+      <p class="text-muted">Couldn't load news right now — check back later.</p>
+    <% end %>
+
+    <% @articles_by_category.each do |category, articles| %>
+      <% next if articles.empty? %>
+      <div class="news-page-section">
+        <h2 class="news-page-section__title"><%= news_category_label(category) %></h2>
+
+        <div class="news-feed-grid">
+          <% articles.each do |article| %>
+            <%= link_to article[:url], target: "_blank", rel: "noopener", class: "news-feed-card" do %>
+              <% if article[:image_url].present? %>
+                <%= image_tag article[:image_url], alt: "", class: "news-feed-card__img" %>
+              <% else %>
+                <div class="news-feed-card__placeholder">
+                  <i class="fa-solid fa-newspaper"></i>
+                </div>
+              <% end %>
+
+              <div class="news-feed-card__overlay">
+                <%= render "shared/tone_badge",
+                      tone: news_category_tone(category),
+                      text: news_category_label(category) %>
+                <h3 class="news-feed-card__title"><%= article[:title] %></h3>
+                <span class="news-feed-card__meta"><%= article[:source] %> · <%= time_ago_in_words(article[:published_at]) %> ago</span>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </main>
+</div>

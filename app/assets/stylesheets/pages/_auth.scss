@@ -23,7 +23,7 @@
 }
 
 .auth-panel__brand { display: block; margin-bottom: 32px; }
-.auth-panel__logo { height: 90px; width: auto; }
+.auth-panel__logo { height: 90px; width: auto; mix-blend-mode: multiply; }
 
 .auth-panel h1 {
   font-size: 36px;
@@ -133,7 +133,7 @@
 }
 
 .auth-page__brand { display: block; margin-bottom: 28px; }
-.auth-page__logo { height: 72px; width: auto; }
+.auth-page__logo { height: 72px; width: auto; mix-blend-mode: multiply; }
 
 .auth-card {
   width: 100%;

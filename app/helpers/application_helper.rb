@@ -45,14 +45,26 @@ module ApplicationHelper
   end
 
   def signup_cta_path
-    user_signed_in? ? new_scan_path : new_user_registration_path
+    user_signed_in? ? dashboard_path : new_user_registration_path
   end
 
   def signup_cta_label(signed_out_label)
-    user_signed_in? ? "Go to your scans" : signed_out_label
+    user_signed_in? ? "Go to your dashboard" : signed_out_label
   end
 
-  def user_initials(user)
-    [user.first_name, user.last_name].compact.map { |n| n[0] }.join.upcase
+  NEWS_CATEGORY_LABELS = {
+    data_breach: "Data breach",
+    ai_advancement: "AI advancement",
+    data_policy: "Data policy"
+  }.freeze
+
+  def news_category_label(category)
+    NEWS_CATEGORY_LABELS[category.to_sym] || category.to_s.humanize
+  end
+
+  NEWS_CATEGORY_TONES = { data_breach: :risk, ai_advancement: :info, data_policy: :caution }.freeze
+
+  def news_category_tone(category)
+    NEWS_CATEGORY_TONES[category.to_sym] || :info
   end
 end
