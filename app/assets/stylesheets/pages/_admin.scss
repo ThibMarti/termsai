@@ -1,0 +1,171 @@
+// Admin directory (Admin::UsersController#index) and Edit User (#edit)
+
+.avatar-circle {
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 50%;
+  flex: none;
+  display: grid;
+  place-items: center;
+  font-size: .75rem;
+  font-weight: 600;
+  background: $brand;
+  color: #fff;
+}
+
+.avatar-circle--muted {
+  background: $subtle;
+  color: $ink-2;
+}
+
+.avatar-circle--lg {
+  width: 3.25rem;
+  height: 3.25rem;
+  font-size: 1.125rem;
+}
+
+.admin-directory__count {
+  font-family: $mono-font;
+  font-size: .75rem;
+  color: $ink-3;
+}
+
+.admin-search {
+  margin-bottom: 1.25rem;
+}
+
+.admin-directory-table__row {
+  grid-template-columns: 1.8fr 5.625rem 5.625rem 3.75rem;
+}
+
+.admin-directory__user {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  min-width: 0;
+}
+
+.admin-directory__admin {
+  font-size: .8125rem;
+  font-weight: 500;
+  color: $ink-3;
+
+  &--yes { color: $brand; }
+}
+
+.admin-directory__tokens {
+  font-family: $mono-font;
+  font-size: .875rem;
+  color: $ink;
+}
+
+.admin-directory__edit {
+  justify-self: end;
+  font-size: .8125rem;
+}
+
+.admin-edit {
+  max-width: 45rem;
+}
+
+.admin-edit__head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.25rem 0 2rem;
+}
+
+.admin-edit__name {
+  font-family: $headers-font;
+  font-weight: 500;
+  font-size: 1.625rem;
+  letter-spacing: -.02em;
+  color: $ink;
+  margin: 0;
+}
+
+.admin-edit__meta {
+  font-family: $mono-font;
+  font-size: .75rem;
+  color: $ink-3;
+  margin: .25rem 0 0;
+}
+
+.admin-edit__card {
+  margin-bottom: 1.25rem;
+}
+
+.admin-edit__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  label { display: block; font-size: .8125rem; color: $ink-2; margin-bottom: .375rem; }
+}
+
+.admin-edit__submit {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: .5rem;
+}
+
+.admin-edit__tokens {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.admin-edit__tokens-value {
+  font-family: $mono-font;
+  font-size: 2rem;
+  font-weight: 500;
+  color: $ink;
+}
+
+.admin-edit__tokens-label {
+  font-size: .75rem;
+  color: $ink-3;
+}
+
+.admin-edit__adjust {
+  display: flex;
+  align-items: flex-end;
+  gap: .5rem;
+
+  label { display: flex; flex-direction: column; gap: .375rem; font-size: .8125rem; color: $ink-2; }
+  input { width: 6.25rem; }
+}
+
+.admin-edit__danger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid $risk-rule;
+  background: $risk-tint;
+  border-radius: $border-radius;
+  margin-bottom: 2rem;
+}
+
+.admin-edit__danger-title {
+  font-size: .875rem;
+  font-weight: 500;
+  color: $risk;
+}
+
+.admin-edit__danger-note {
+  font-size: .8125rem;
+  color: $ink-2;
+  margin-top: .125rem;
+}
+
+.btn-outline-danger {
+  color: $risk;
+  border-color: $risk-rule;
+  background: $paper;
+
+  &:hover { background: $risk-tint; color: $risk; border-color: $risk-rule; }
+}

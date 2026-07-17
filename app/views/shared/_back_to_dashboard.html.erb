@@ -1,6 +1,4 @@
 <%# locals: (back_path: nil, back_label: "Back to dashboard") %>
 <div class="detail-topbar">
-  <%= link_to back_path || dashboard_path, class: "detail-topbar__back" do %>
-    <i class="fa-solid fa-arrow-left"></i> <%= back_label %>
-  <% end %>
+  <%= render "shared/hamburger_toggle" %>
 </div>

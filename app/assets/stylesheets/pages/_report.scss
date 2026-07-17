@@ -20,14 +20,6 @@
   border-bottom: 1px solid $rule;
 }
 
-.report-header__back {
-  font-size: 13px;
-  color: $ink-2;
-  text-decoration: none;
-
-  &:hover { color: $ink; }
-}
-
 .report-header__logo { height: 34px; width: auto; mix-blend-mode: multiply; }
 
 .report-header__actions {

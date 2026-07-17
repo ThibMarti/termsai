@@ -1,0 +1,43 @@
+<% content_for :title, "Users — Admin — terms AI" %>
+
+<div class="detail-page">
+  <%= render "shared/back_to_dashboard" %>
+
+  <main class="detail-page__main">
+    <div class="history-head">
+      <div>
+        <span class="report-eyebrow">Directory</span>
+        <h1 class="history-title">Users</h1>
+      </div>
+      <span class="admin-directory__count">
+        <%= pluralize(User.count, "user") %> &middot; <%= pluralize(User.where(admin: true).count, "admin") %>
+      </span>
+    </div>
+
+    <%= form_with url: admin_users_path, method: :get, class: "admin-search" do %>
+      <input type="search" name="q" value="<%= params[:q] %>" placeholder="Search by name or email…" class="history-search">
+    <% end %>
+
+    <div class="history-table admin-directory-table">
+      <div class="history-table__head admin-directory-table__row">
+        <span>User</span><span>Admin</span><span>Tokens</span><span></span>
+      </div>
+      <% @users.each do |user| %>
+        <div class="history-row admin-directory-table__row">
+          <span class="admin-directory__user">
+            <span class="avatar-circle avatar-circle--muted"><%= user_initials(user) %></span>
+            <span class="history-row__doc">
+              <b><%= user.first_name %> <%= user.last_name %></b>
+              <em><%= user.email %></em>
+            </span>
+          </span>
+          <span class="admin-directory__admin <%= "admin-directory__admin--yes" if user.admin? %>">
+            <%= user.admin? ? "Yes" : "No" %>
+          </span>
+          <span class="admin-directory__tokens"><%= user.total_scan_allowance %></span>
+          <%= link_to "Edit", edit_admin_user_path(user), class: "admin-directory__edit" %>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>
