@@ -79,14 +79,26 @@ class ScanAnalyzer
     @content = content.to_s.first(MAX_CONTENT_CHARS)
   end
 
-  def call
+  def call(&)
     return fake_report if ENV["OPENAI_API_KEY"].blank?
 
     chat = RubyLLM.chat(model: MODEL)
                   .with_temperature(0.2)
                   .with_schema(SCHEMA)
                   .with_instructions(INSTRUCTIONS)
-    chat.ask("Analyze these Terms & Conditions:\n\n#{@content}").content
+
+    # =========================================================================
+    # TURBO STREAMING REFACTOR
+    # =========================================================================
+    # If a block is passed (e.g. from an ActionJob/Turbo system), stream chunks
+    # token-by-token directly out to the layout wrapper. Otherwise, run a
+    # traditional synchronous ask request.
+    if block_given?
+      chat.stream("Analyze these Terms & Conditions:\n\n#{@content}", &)
+    else
+      chat.ask("Analyze these Terms & Conditions:\n\n#{@content}").content
+    end
+    # =========================================================================
   end
 
   private
