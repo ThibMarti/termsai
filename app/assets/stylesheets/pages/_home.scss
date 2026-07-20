@@ -91,6 +91,8 @@
   grid-template-columns: 1.05fr .95fr;
   gap: 64px;
   align-items: center;
+
+  > * { min-width: 0; }
 }
 
 .landing-hero__copy h1 {
@@ -115,10 +117,12 @@
   margin: 14px 0 0;
 }
 
-.landing-hero__card { display: flex; justify-content: center; }
+.landing-hero__card { display: flex; justify-content: center; min-width: 0; }
 
 .landing-hero__report {
   width: 360px;
+  max-width: 100%;
+  min-width: 0;
   box-shadow: 0 1px 2px rgba($ink, .04), 0 8px 24px rgba($ink, .06);
 }
 
@@ -359,7 +363,7 @@
   gap: 20px;
 }
 
-.landing-footer__logo { height: 26px; width: auto; mix-blend-mode: multiply; }
+.landing-footer__logo { height: 56px; width: auto; mix-blend-mode: multiply; }
 
 .landing-footer__nav {
   display: flex;

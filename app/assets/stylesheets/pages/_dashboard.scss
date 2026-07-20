@@ -13,7 +13,7 @@
 }
 
 .dashboard-topbar__inner {
-  max-width: 1180px;
+  max-width: 62.5rem; // 1000px — matches the .detail-page__main content width used by every other app page
   margin: 0 auto;
   min-height: 76px;
   padding: 10px 40px;
@@ -110,7 +110,7 @@
 }
 
 .dashboard-main {
-  max-width: 73.75rem; // 1180px — matches the landing page's content width
+  max-width: 62.5rem; // 1000px — matches .detail-page__main used by every other app page
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4rem;
 }
@@ -549,4 +549,33 @@
   letter-spacing: -.02em;
   color: $ink;
   margin: 0 0 1rem;
+}
+
+@media (max-width: 900px) {
+  .dashboard-stats,
+  .news-feed-grid,
+  .tips-teaser-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .history-table__head { display: none; }
+
+  // Admin's directory table reuses .history-row for its base styling but
+  // defines its own column set (.admin-directory-table__row) — excluded
+  // here so it doesn't inherit the scan-history grid areas below.
+  .history-row:not(.admin-directory-table__row) {
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "score doc"
+      "date  badge";
+    gap: .375rem .75rem;
+    padding: .875rem 1rem;
+  }
+
+  .history-row__score { grid-area: score; }
+  .history-row__doc { grid-area: doc; }
+  .history-row__date { grid-area: date; }
+  .history-row:not(.admin-directory-table__row) .tone-badge { grid-area: badge; justify-self: start; }
 }
