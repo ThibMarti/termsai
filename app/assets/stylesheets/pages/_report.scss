@@ -12,14 +12,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
-  padding: 0 32px;
+  min-height: 76px;
+  padding: 10px 32px;
   background: rgba($canvas, .88);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid $rule;
 }
 
-.report-header__logo { height: 34px; width: auto; mix-blend-mode: multiply; }
+.report-header__logo { height: 56px; width: auto; mix-blend-mode: multiply; }
 
 .report-header__actions {
   display: flex;
@@ -28,7 +28,7 @@
 }
 
 .report-body {
-  max-width: 900px;
+  max-width: 1000px; // matches .detail-page__main used by every other app page
   margin: 0 auto;
   padding: 48px 40px 120px;
 }

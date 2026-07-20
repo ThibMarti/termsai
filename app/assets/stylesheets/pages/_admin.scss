@@ -161,5 +161,50 @@
   margin-top: .125rem;
 }
 
-// .btn-outline-danger styling now lives in components/_buttons.scss
-// (shared button system) rather than duplicated here.
+.btn-outline-danger {
+  color: $risk;
+  border-color: $risk-rule;
+  background: $paper;
+
+  &:hover { background: $risk-tint; color: $risk; border-color: $risk-rule; }
+}
+
+@media (max-width: 640px) {
+  .admin-directory-table__row {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "user   user"
+      "admin  tokens"
+      "edit   edit";
+    gap: .375rem .75rem;
+  }
+
+  .admin-directory__user { grid-area: user; }
+
+  .admin-directory__admin {
+    grid-area: admin;
+
+    &::before {
+      content: "Admin ";
+      font-family: $mono-font;
+      font-size: .6875rem;
+      color: $ink-3;
+    }
+  }
+
+  .admin-directory__tokens {
+    grid-area: tokens;
+    justify-self: end;
+
+    &::before {
+      content: "Tokens ";
+      font-family: $mono-font;
+      font-size: .6875rem;
+      color: $ink-3;
+    }
+  }
+
+  .admin-directory__edit { grid-area: edit; justify-self: start; margin-top: .25rem; }
+
+  .admin-edit__grid { grid-template-columns: 1fr; }
+}

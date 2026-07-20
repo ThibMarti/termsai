@@ -179,3 +179,8 @@
   color: $ink;
   margin: 0;
 }
+
+@media (max-width: 640px) {
+  .tips-grid { grid-template-columns: 1fr; }
+  .tips-category-grid { grid-template-columns: repeat(2, 1fr); }
+}
