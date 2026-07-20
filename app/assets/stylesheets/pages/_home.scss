@@ -212,7 +212,7 @@
   }
 }
 
-.landing-step__number { font-family: $mono-font; font-size: 22px; color: $brand; }
+.landing-step__number { font-size: 22px; font-weight: 500; color: $brand; }
 
 // Risk showcase
 .landing-risk {
@@ -301,7 +301,7 @@
   h3 { font-size: 19px; font-weight: 500; margin: 0; }
 }
 
-.landing-pricing__price { font-family: $mono-font; font-size: 28px; }
+.landing-pricing__price { font-size: 28px; font-weight: 500; }
 .landing-pricing__note { font-size: 13px; color: $ink-3; margin: 0 0 20px; }
 
 .landing-pricing__list {

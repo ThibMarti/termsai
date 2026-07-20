@@ -79,6 +79,8 @@ by team decision).
 - AI calls live in `app/services/` (e.g. `ScanAnalyzer`); the service writes
   the JSON contract above into `scan.full_report`.
 - English UI copy, English code (models, variables, comments).
+- Typography: Inter only (weights 400/500/600). IBM Plex Mono reserved for
+  technical labels at 13px or below. Never add a font family.
 
 ## Team
 
