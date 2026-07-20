@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>terms AI</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="panel">
+    <div class="panel__top">
+      <span class="panel__site" id="site">this page</span>
+      <img class="panel__logo" src="../icons/icon32.png" alt="terms AI">
+    </div>
+
+    <div class="panel__idle" id="idle-state">
+      <p class="panel__lead">Scan the Terms &amp; Conditions or Privacy Policy on this page.</p>
+      <button class="btn btn--primary" id="analyze-btn">Analyze this page</button>
+      <p class="panel__privacy">Sent securely to terms AI for analysis</p>
+      <p class="panel__note">Uses 1 token · <a href="#" id="report-link" target="_blank">view your scans</a></p>
+    </div>
+
+    <!--
+      TODO(team, Phase 3): loading / done / out-of-tokens / not-connected states.
+      See the ExtensionPanel component in the "terms AI Design System" Claude
+      Design project for the target layout, and the Chrome extension task
+      plan artifact for the data shape returned by POST /api/v1/scans.
+    -->
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

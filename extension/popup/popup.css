@@ -1,0 +1,88 @@
+/* Design tokens — mirrors tokens/colors.css, tokens/typography.css in the
+   "terms AI Design System" Claude Design project (light theme only for now). */
+:root {
+  --paper: #FFFFFF;
+  --canvas: #F4F6F8;
+  --rule: #E2E6EB;
+  --ink: #101720;
+  --ink-2: #3E4956;
+  --ink-3: #6B7684;
+  --brand: #2563EB;
+  --brand-hover: #1D4ED8;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  width: 320px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, "Inter", "Segoe UI", sans-serif;
+  font-size: 14px;
+}
+
+.panel { padding: 20px; }
+
+.panel__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.panel__site {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel__logo { height: 24px; width: auto; }
+
+.panel__lead {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin: 0 0 16px;
+}
+
+.panel__privacy {
+  font-size: 11px;
+  color: var(--ink-3);
+  text-align: center;
+  margin: 10px 0 0;
+}
+
+.panel__note {
+  font-size: 11px;
+  color: var(--ink-3);
+  text-align: center;
+  margin: 4px 0 0;
+}
+
+.panel__note a { color: var(--ink-3); }
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn--primary {
+  background: var(--brand);
+  color: #fff;
+}
+
+.btn--primary:hover { background: var(--brand-hover); }
