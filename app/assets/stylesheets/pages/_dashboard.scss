@@ -82,6 +82,7 @@
 .dashboard-mobile-nav__link {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 10px;
   padding: 12px 10px;
   border-radius: $border-radius-sm;
@@ -315,7 +316,7 @@
 
 .recent-scans-head {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   margin: 2.25rem 0 1rem;
   max-width: 45rem;
@@ -328,8 +329,6 @@
     color: $ink;
     margin: 0;
   }
-
-  a { font-size: .8125rem; }
 }
 
 .recent-scans {

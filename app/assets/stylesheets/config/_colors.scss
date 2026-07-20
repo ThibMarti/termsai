@@ -38,5 +38,17 @@ $risk-mark: #FBE3E0;
 $caution-tint: #FDF6EC;
 $caution-rule: #F0DCBF;
 $caution-mark: #FAEBD3;
+
+// Primary button gradient — sky blue -> electric blue -> violet
+$btn-grad-start: #38BDF8;
+$btn-grad-mid: #2563EB;
+$btn-grad-end: #8B5CF6;
+
+// "Buy tokens" warm CTA variant — soft cream/peach, never used decoratively
+// elsewhere, reserved for token-purchase nudges
+$cta-bg: #FFF8F0;
+$cta-bg-hover: #FDEEDC;
+$cta-text: #7A4620;
+$cta-border: #F0C48C;
 $safe-tint: #F0F8F2;
 $safe-rule: #CBE5D5;
