@@ -17,8 +17,8 @@
 }
 
 .orders-row__amount {
-  font-family: $mono-font;
   font-size: .875rem;
+  font-weight: 500;
   color: $ink-2;
 }
 
@@ -45,8 +45,8 @@
 }
 
 .token-balance__value {
-  font-family: $mono-font;
   font-size: 2rem;
+  font-weight: 500;
   color: $ink;
   margin: 0 0 1rem;
 }

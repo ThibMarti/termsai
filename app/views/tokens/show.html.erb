@@ -10,7 +10,9 @@
     <div class="landing-card report-card token-balance">
       <h3 class="report-card__title">Balance</h3>
       <p class="token-balance__value"><%= @total_tokens %> token<%= "s" unless @total_tokens == 1 %></p>
-      <%= link_to "Buy more", offers_path, class: "btn btn-primary btn-sm" %>
+      <%= link_to offers_path, class: "btn btn-cta btn-sm" do %>
+        <i class="fa-solid fa-coins"></i> Buy more
+      <% end %>
     </div>
   </main>
 </div>

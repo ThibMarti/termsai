@@ -22,13 +22,17 @@
 
           <div class="new-scan-card__footer">
             <span class="new-scan-card__balance">You have <b><%= @tokens_count %> token<%= "s" unless @tokens_count == 1 %></b> left.</span>
-            <%= f.button :submit, "Scan document (1 token)", class: "btn btn-primary" %>
+            <%= button_tag type: "submit", class: "btn btn-primary" do %>
+              <i class="fa-solid fa-magnifying-glass"></i> Scan document (1 token)
+            <% end %>
           </div>
         <% end %>
       <% else %>
-        <div class="alert alert-warning d-flex justify-content-between align-items-center mb-0">
-          <span>You're out of tokens.</span>
-          <%= link_to "Buy tokens", offers_path, class: "btn btn-primary" %>
+        <div class="new-scan-card__footer">
+          <span class="new-scan-card__balance">You're out of tokens.</span>
+          <%= link_to offers_path, class: "btn btn-cta" do %>
+            <i class="fa-solid fa-coins"></i> Buy tokens
+          <% end %>
         </div>
       <% end %>
     </div>
@@ -36,7 +40,7 @@
     <% if @recent_scans.any? %>
       <div class="recent-scans-head">
         <h2>Recent scans</h2>
-        <%= link_to "View all", scan_history_path %>
+        <%= link_to "View all", scan_history_path, class: "btn btn-outline-secondary btn-sm" %>
       </div>
       <div class="recent-scans">
         <% @recent_scans.each do |scan| %>

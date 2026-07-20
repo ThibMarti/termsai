@@ -1,0 +1,278 @@
+// Reusable button system for terms AI.
+//
+// Design tokens live as native CSS custom properties on `.btn` itself (not
+// just Sass variables) so every variant/size reads from the same source and
+// `.btn-sm` / `.btn-lg` can override just the tokens they care about instead
+// of redeclaring whole rule blocks. Colors/gradients still come from the
+// Sass palette in config/_colors.scss — this file is where they're wired
+// into the actual component.
+//
+// Imported after Bootstrap (see application.scss), so these rules win the
+// cascade over Bootstrap's own .btn-primary/.btn-secondary/etc without
+// needing !important anywhere.
+
+.btn {
+  --btn-radius: 10px;
+  --btn-height: 40px;
+  --btn-padding-x: 16px;
+  --btn-font-weight: 600;
+  --btn-font-size: .9375rem;
+  --btn-gap: .5rem;
+  --btn-transition: transform .15s ease, box-shadow .15s ease, filter .15s ease,
+                     background-color .15s ease, border-color .15s ease, color .15s ease;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+  height: var(--btn-height);
+  padding: 0 var(--btn-padding-x);
+  border-radius: var(--btn-radius);
+  font-weight: var(--btn-font-weight);
+  font-size: var(--btn-font-size);
+  line-height: 1;
+  white-space: nowrap;
+  transition: var(--btn-transition);
+
+  i.fa-solid,
+  i.fa-regular {
+    font-size: .875em;
+    line-height: 1;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($btn-grad-mid, .35);
+  }
+
+  &:disabled,
+  &.disabled {
+    cursor: not-allowed;
+  }
+}
+
+// Icon-only square button (e.g. an icon button with just an aria-label).
+// Icon+label spacing on a normal .btn is already handled by the `gap` above.
+.btn-icon {
+  width: var(--btn-height);
+  padding: 0;
+  flex-shrink: 0;
+}
+
+// Sizes — redefine tokens only, .btn's own rules do the rest.
+.btn-sm {
+  --btn-height: 32px;
+  --btn-padding-x: 12px;
+  --btn-font-size: .8125rem;
+  --btn-radius: 8px;
+}
+
+.btn-lg {
+  --btn-height: 48px;
+  --btn-padding-x: 20px;
+  --btn-font-size: 1rem;
+}
+
+// Primary — the premium gradient CTA.
+.btn-primary {
+  background: linear-gradient(135deg, $btn-grad-start 0%, $btn-grad-mid 48%, $btn-grad-end 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba($btn-grad-mid, .18), 0 2px 4px rgba($ink, .08);
+  // Gradients read low-contrast against white right at the lightest stop;
+  // a soft text-shadow keeps the label legible without altering the
+  // specified colors. Flagged as a residual WCAG caveat in the summary.
+  text-shadow: 0 1px 2px rgba(15, 23, 42, .18);
+
+  &:hover,
+  &:focus:not(:focus-visible) {
+    color: #fff;
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+    box-shadow: 0 8px 20px rgba($btn-grad-mid, .28), 0 3px 6px rgba($ink, .12);
+  }
+
+  &:active {
+    color: #fff;
+    transform: translateY(0);
+    filter: brightness(.98);
+    box-shadow: 0 2px 6px rgba($btn-grad-mid, .18), 0 1px 2px rgba($ink, .08);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($btn-grad-end, .4), 0 4px 12px rgba($btn-grad-mid, .18);
+  }
+
+  &:disabled,
+  &.disabled {
+    background: $rule-strong;
+    border-color: $rule-strong;
+    color: $ink-3;
+    text-shadow: none;
+    box-shadow: none;
+    transform: none;
+    filter: none;
+  }
+}
+
+// Secondary — white card look, used both as .btn-secondary and the
+// .btn-outline-secondary class already used throughout the app.
+.btn-secondary,
+.btn-outline-secondary {
+  background: $paper;
+  color: $ink;
+  border: 1px solid $rule-strong;
+  box-shadow: 0 1px 2px rgba($ink, .05);
+
+  &:hover {
+    background: $brand-tint;
+    color: $ink;
+    border-color: $brand-rule;
+  }
+
+  &:active {
+    background: $subtle;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($btn-grad-mid, .25);
+  }
+
+  &:disabled,
+  &.disabled {
+    background: $canvas;
+    color: $ink-3;
+    border-color: $rule;
+    box-shadow: none;
+  }
+}
+
+// Danger — solid, for real destructive actions (e.g. delete user).
+.btn-danger {
+  background: $red;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .15);
+  box-shadow: 0 4px 12px rgba($red, .18), 0 2px 4px rgba($ink, .08);
+
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+    box-shadow: 0 8px 20px rgba($red, .28), 0 3px 6px rgba($ink, .12);
+  }
+
+  &:active {
+    transform: translateY(0);
+    filter: brightness(.98);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($red, .35);
+  }
+
+  &:disabled,
+  &.disabled {
+    background: $rule-strong;
+    border-color: $rule-strong;
+    color: $ink-3;
+    box-shadow: none;
+    transform: none;
+    filter: none;
+  }
+}
+
+// Softer bordered danger — matches the existing .btn-outline-danger usage
+// (e.g. "Delete user") without the full solid-red weight everywhere.
+.btn-outline-danger {
+  background: $paper;
+  color: $red;
+  border: 1px solid $risk-rule;
+  box-shadow: 0 1px 2px rgba($red, .06);
+
+  &:hover {
+    background: $risk-tint;
+    border-color: $red;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($red, .25);
+  }
+
+  &:disabled,
+  &.disabled {
+    background: $canvas;
+    color: $ink-3;
+    border-color: $rule;
+    box-shadow: none;
+  }
+}
+
+// Warning — soft caution amber, solid but never as loud as danger.
+.btn-warning {
+  background: $orange;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .15);
+  box-shadow: 0 4px 12px rgba($orange, .18), 0 2px 4px rgba($ink, .08);
+
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+    box-shadow: 0 8px 20px rgba($orange, .26), 0 3px 6px rgba($ink, .12);
+  }
+
+  &:active {
+    transform: translateY(0);
+    filter: brightness(.98);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($orange, .35);
+  }
+
+  &:disabled,
+  &.disabled {
+    background: $rule-strong;
+    border-color: $rule-strong;
+    color: $ink-3;
+    box-shadow: none;
+    transform: none;
+    filter: none;
+  }
+}
+
+// CTA — the warm "buy tokens" nudge variant. Deliberately distinct from
+// primary so it reads as an upsell prompt, not the main action on its page.
+.btn-cta {
+  background: $cta-bg;
+  color: $cta-text;
+  border: 1px solid $cta-border;
+  box-shadow: 0 1px 2px rgba($cta-text, .08);
+
+  &:hover {
+    background: $cta-bg-hover;
+    border-color: $orange;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba($cta-text, .14);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba($cta-text, .08);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($orange, .3);
+  }
+
+  &:disabled,
+  &.disabled {
+    background: $canvas;
+    color: $ink-3;
+    border-color: $rule;
+    box-shadow: none;
+  }
+}
