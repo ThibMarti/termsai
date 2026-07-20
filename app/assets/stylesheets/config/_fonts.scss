@@ -1,9 +1,8 @@
 // Import Google fonts — matches the terms AI design system (tokens/fonts.css)
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
-// Define fonts for body and headers
 $body-font: "Inter", "Helvetica", "sans-serif";
-$headers-font: "Inter Tight", "Inter", "sans-serif";
+$headers-font: $body-font;
 $mono-font: "IBM Plex Mono", "SFMono-Regular", "Menlo", "Consolas", monospace;
 
 // To use a font file (.woff) uncomment following lines

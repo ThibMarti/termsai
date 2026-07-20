@@ -54,8 +54,8 @@
 }
 
 .admin-directory__tokens {
-  font-family: $mono-font;
   font-size: .875rem;
+  font-weight: 500;
   color: $ink;
 }
 
@@ -118,7 +118,6 @@
 }
 
 .admin-edit__tokens-value {
-  font-family: $mono-font;
   font-size: 2rem;
   font-weight: 500;
   color: $ink;

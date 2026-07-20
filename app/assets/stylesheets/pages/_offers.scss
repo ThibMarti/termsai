@@ -33,7 +33,6 @@
 }
 
 .offers-pack-card__tokens {
-  font-family: $mono-font;
   font-size: 2.125rem;
   font-weight: 500;
   letter-spacing: -.02em;
@@ -48,8 +47,8 @@
 }
 
 .offers-pack-card__price {
-  font-family: $mono-font;
   font-size: 1.25rem;
+  font-weight: 500;
   color: $ink;
   margin-bottom: .125rem;
 }

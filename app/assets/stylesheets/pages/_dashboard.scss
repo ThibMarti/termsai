@@ -212,7 +212,6 @@
 }
 
 .history-row__score {
-  font-family: $mono-font;
   font-size: 1.125rem;
   font-weight: 500;
 
@@ -249,8 +248,8 @@
 }
 
 .dashboard-stat__value {
-  font-family: $mono-font;
   font-size: 2rem;
+  font-weight: 500;
   color: $ink;
   margin: 0 0 1rem;
 }
@@ -267,7 +266,6 @@
 }
 
 .dashboard-stat__scan-score {
-  font-family: $mono-font;
   font-size: 1.5rem;
   font-weight: 500;
 
@@ -353,7 +351,6 @@
 }
 
 .recent-scan-row__score {
-  font-family: $mono-font;
   font-size: 1.25rem;
   font-weight: 500;
   min-width: 3.25rem;

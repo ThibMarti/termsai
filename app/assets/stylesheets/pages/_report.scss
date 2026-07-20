@@ -239,8 +239,8 @@
 
   &::after {
     content: "+";
-    font-family: $mono-font;
     font-size: 15px;
+    font-weight: 500;
     line-height: 1;
     color: $ink-3;
     flex: none;
