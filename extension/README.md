@@ -3,11 +3,17 @@
 Manifest V3 extension. Plain HTML/CSS/JS, no build step — same philosophy
 as the Rails app (Hotwire, importmap).
 
-Status: **Phase 2 scaffold only.** The popup shows the idle state (site
-name + "Analyze this page" button) but isn't wired up to the backend yet.
-Phase 1 (backend API + auth token) is being built separately — once it
-ships, Phase 3/4 wire up the real analyze flow + in-page highlighting. See
-the Chrome extension task plan for the full breakdown.
+Status: **Phase 2 (popup shell), Phase 4 (content script), and Phase 5
+(badge + hardening + store listing prep) done.** The popup shows the idle
+state (site name + "Analyze this page" button); the content script can
+extract page text (with empty-page and oversized-page handling) and
+highlight clauses on message, and the toolbar icon can show a risk-tone
+badge — all tested against a bundled dev fixture (see `dev/README.md`)
+since there's no real API to call yet. Phase 1 (backend API + auth token)
+is being built separately — once it ships, Phase 3 wires the popup's
+loading/done states to a real `POST /api/v1/scans` call and to the content
+script's messages. See the Chrome extension task plan for the full
+breakdown.
 
 ## Load it locally
 
@@ -24,12 +30,42 @@ itself reloaded).
 
 ```
 extension/
-  manifest.json       Manifest V3 config
-  background.js        Service worker (message routing — not wired up yet)
-  content/content.js   Injected into every page (text extraction + highlighting — not wired up yet)
-  popup/                Toolbar popup UI (idle state only for now)
-  icons/                16/32/48/128px, generated from public/icon.png
+  manifest.json           Manifest V3 config
+  background.js            Service worker — badge state (chrome.action) for now
+  content/content.js       Text extraction + clause highlighting (chrome.runtime.onMessage)
+  content/highlight.css    Tone-colored <mark> styles for highlighted clauses
+  popup/                    Toolbar popup UI (idle state only for now)
+  icons/                    16/32/48/128px, generated from public/icon.png
+  dev/                      Fixture page + instructions for testing content.js/background.js in isolation
+  store-listing.md          Draft Chrome Web Store copy — not submitted anywhere yet
 ```
+
+## Messages the content script understands
+
+Sent via `chrome.tabs.sendMessage(tabId, message)` from the popup/background:
+
+- `{ type: "terms-ai:extract-text" }` → `{ text, empty, truncated }`
+  (`empty` if the page had under ~40 chars of visible text; `truncated` if
+  it was capped at 20,000 chars)
+- `{ type: "terms-ai:highlight-clauses", clauses: [{ quote, tone }] }` → `{ highlighted: true }`
+- `{ type: "terms-ai:clear-highlights" }` → `{ cleared: true }`
+- `{ type: "terms-ai:scroll-to-clause", index }` → `{ scrolled: true }`
+
+## Messages the background service worker understands
+
+Sent via `chrome.runtime.sendMessage(message)` — include the target
+`tabId` explicitly (the popup already has it from `chrome.tabs.query`;
+`sender.tab` isn't set for messages sent from the popup):
+
+- `{ type: "terms-ai:set-badge", tabId, tone, score }` → `{ set: true }`
+  (colors the toolbar icon's badge; `tone` is `risk` / `caution` / `safe`)
+- `{ type: "terms-ai:clear-badge", tabId }` → `{ cleared: true }`
+
+The badge also auto-clears when the tab navigates to a new page.
+
+`tone` is one of `risk` / `caution` / `safe` (same vocabulary as the rest of
+the app). See `dev/README.md` to try all of the above against the bundled
+fixture.
 
 ## Design reference
 
