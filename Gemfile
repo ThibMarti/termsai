@@ -49,6 +49,8 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "pundit"
 gem "stripe"
+# Let the Chrome extension (a chrome-extension:// origin) call /api/* [https://github.com/cyu/rack-cors]
+gem "rack-cors"
 
 group :development, :test do
   gem "dotenv-rails"

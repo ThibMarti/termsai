@@ -57,5 +57,20 @@
         </div>
       <% end %>
     </div>
+
+    <div class="landing-card report-card profile-section">
+      <h3 class="report-card__title">Chrome extension</h3>
+      <p class="report-card__subtitle">Paste this token into the terms AI Chrome extension so it can scan pages on your behalf.</p>
+      <dl class="order-summary__list">
+        <div>
+          <dt>Extension token</dt>
+          <dd><code><%= current_user.extension_token %></code></dd>
+        </div>
+      </dl>
+      <div class="profile-billing__actions">
+        <%= button_to "Regenerate token", regenerate_extension_token_path, method: :post, class: "btn btn-outline-secondary btn-sm",
+              form: { data: { turbo_confirm: "Regenerating invalidates the old token — you'll need to paste the new one into the extension." } } %>
+      </div>
+    </div>
   </main>
 </div>

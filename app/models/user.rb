@@ -22,6 +22,17 @@ class User < ApplicationRecord
     token.destroy if token.token_amount.zero?
   end
 
+  # Bearer credential for the Chrome extension — separate from Devise's
+  # session auth, since the extension has no session cookie to reuse.
+  def regenerate_extension_token!
+    update!(extension_token: SecureRandom.hex(20))
+  end
+
+  def extension_token
+    regenerate_extension_token! if self[:extension_token].blank?
+    self[:extension_token]
+  end
+
   private
 
   def grant_free_token

@@ -41,3 +41,6 @@
 .agents/
 .claude/
 skills-lock.json
+
+# Packaged Chrome extension builds — rebuild from extension/ as needed
+/dist/

@@ -103,6 +103,11 @@ class PagesController < ApplicationController
     @recent_orders = Order.where(user: current_user).includes(:offer).order(created_at: :desc).limit(5)
   end
 
+  def regenerate_extension_token
+    current_user.regenerate_extension_token!
+    redirect_to profile_path, notice: "Extension token regenerated — update it in the Chrome extension."
+  end
+
   def tricks_and_tips
     @hide_default_navbar = true
     @scan_tips = SCAN_TIPS
