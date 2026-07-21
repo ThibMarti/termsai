@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_16_101648) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_21_080140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -58,6 +58,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_16_101648) do
     t.jsonb "full_report", default: {}
     t.integer "risk_score"
     t.string "site_name"
+    t.string "status", default: "processing"
     t.datetime "updated_at", null: false
     t.string "url"
   end

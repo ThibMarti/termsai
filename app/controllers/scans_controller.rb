@@ -1,88 +1,37 @@
 class ScansController < ApplicationController
-  rescue_from RubyLLM::Error do
-    redirect_to new_scan_path, alert: "The analysis failed — please try again. Nothing was charged."
-  end
-
   def create
     existing_scan = Scan.find_by(url: scan_params[:url])
     return reuse_existing_scan(existing_scan) if existing_scan
 
     @scan = Scan.new(scan_params)
+    @scan.status = "processing" if @scan.respond_to?(:status=)
     authorize @scan
 
     return redirect_to new_scan_path, alert: "No tokens left." unless current_user.can_scan?
 
-    analyze_and_save_scan
+    if @scan.save
+      register_scan_for(current_user)
+      ScanAnalysisJob.perform_later(@scan)
+      redirect_to scan_path(@scan)
+    else
+      redirect_to new_scan_path, alert: @scan.errors.full_messages.to_sentence
+    end
   end
 
   def show
     @scan = current_user.scans.find(params[:id])
     authorize @scan
     @hide_default_navbar = true
-    @verdict = build_verdict(@scan)
-    @groups = build_groups(@scan)
+    @verdict = @scan.verdict
+    @groups = @scan.groups
   end
 
   private
 
-  def analyze_and_save_scan
-    report = ScanAnalyzer.new(@scan.content).call
-    @scan.assign_attributes(full_report: report, risk_score: report["risk_score"])
-
-    if @scan.save
-      register_scan_for(current_user)
-      redirect_to scan_path(@scan), notice: "Scan complete."
-    else
-      redirect_to new_scan_path, alert: @scan.errors.full_messages.to_sentence
-    end
-  end
-
-  # This site was already scanned (by anyone) — reuse the existing report
-  # instead of burning the user's token on a duplicate AI call.
   def reuse_existing_scan(scan)
     authorize scan
     current_user.user_scans.find_or_create_by!(scan: scan)
     redirect_to scan_path(scan), notice: "This site was already scanned, here's the existing report."
-  end
-
-  def build_groups(scan)
-    scan.display_categories.map do |category|
-      {
-        name: Scan::CATEGORY_DISPLAY[category["name"]] || category["name"].humanize,
-        weight: Scan::CATEGORY_WEIGHT[category["name"]],
-        level: category["level"].humanize,
-        tone: helpers.risk_tone_for_level(category["level"]),
-        items: (category["items"] || []).map do |item|
-          {
-            label: item["label"],
-            finding: item["finding"],
-            dot: helpers.risk_tone_for_level(item["level"]),
-            article: item["article"],
-            quote: item["quote"]
-          }
-        end
-      }
-    end
-  end
-
-  def build_verdict(scan)
-    tone = helpers.risk_tone(scan.risk_score)
-    names_at = ->(level) { scan.display_categories.select { |c| c["level"] == level }
-                                                   .map { |c| Scan::CATEGORY_DISPLAY[c["name"]] }.compact }
-    high = names_at.call("high")
-    medium = names_at.call("medium")
-
-    sentence =
-      if high.any?
-        "#{high.to_sentence} #{high.one? ? "scores" : "score"} poorly. Read the flagged clauses below before accepting."
-      elsif medium.any?
-        "#{medium.to_sentence} #{medium.one? ? "needs" : "need"} a closer look. Read the flagged clauses below before accepting."
-      else
-        "No category scored poorly on this document. Still worth a quick read of the flagged clauses below."
-      end
-
-    label = { safe: "Recommended", caution: "Proceed with caution", risk: "Not recommended" }[tone]
-    { tone: tone, label: label, sentence: sentence }
   end
 
   def scan_params
