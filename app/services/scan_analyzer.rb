@@ -11,6 +11,12 @@ class ScanAnalyzer
         risk_score: { type: "integer", minimum: 1, maximum: 10 },
         categories: {
           type: "array",
+          # The prompt tells the model to always include exactly these 4
+          # categories, but nothing in the schema enforced it — the model
+          # would sometimes return just 1 or 2. minItems/maxItems make it
+          # structural rather than a suggestion the model can skip.
+          minItems: 4,
+          maxItems: 4,
           items: {
             type: "object",
             properties: {
@@ -123,6 +129,20 @@ class ScanAnalyzer
             { "label" => "AI training", "level" => "medium",
               "finding" => "Content may be used to train AI models.", "article" => nil,
               "quote" => "Your submitted content may be used to train and improve our machine-learning models." }
+          ]
+        },
+        {
+          "name" => "tracking", "level" => "low",
+          "items" => [
+            { "label" => "Tracking", "level" => "low",
+              "finding" => "Standard analytics cookies only.", "article" => nil, "quote" => nil }
+          ]
+        },
+        {
+          "name" => "cancellation", "level" => "low",
+          "items" => [
+            { "label" => "Cancellation", "level" => "low",
+              "finding" => "Straightforward cancellation process.", "article" => nil, "quote" => nil }
           ]
         }
       ],
