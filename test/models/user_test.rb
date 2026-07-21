@@ -22,4 +22,17 @@ class UserTest < ActiveSupport::TestCase
     assert_not Token.exists?(bundle.id)
     assert_not @user.can_scan?
   end
+
+  test "extension_token is generated lazily on first access" do
+    assert_nil @user.read_attribute(:extension_token)
+    token = @user.extension_token
+    assert token.present?
+    assert_equal token, @user.reload.extension_token
+  end
+
+  test "regenerate_extension_token! replaces the existing token" do
+    original = @user.extension_token
+    @user.regenerate_extension_token!
+    assert_not_equal original, @user.reload.extension_token
+  end
 end

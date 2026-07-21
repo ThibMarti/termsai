@@ -15,6 +15,13 @@ Rails.application.routes.draw do
     resources :users, only: %i[index edit update destroy]
   end
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resource :me, only: [:show], controller: "me"
+      resources :scans, only: [:create]
+    end
+  end
+
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "dashboard", to: "pages#dashboard"
@@ -23,6 +30,7 @@ Rails.application.routes.draw do
   get "new_scan", to: "pages#new_scan"
   get "scan_history", to: "pages#scan_history"
   get "profile", to: "pages#profile"
+  post "profile/regenerate_extension_token", to: "pages#regenerate_extension_token", as: :regenerate_extension_token
   resources :scans, only: %i[create show]
   get "up" => "rails/health#show", as: :rails_health_check
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
