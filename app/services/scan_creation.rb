@@ -34,11 +34,11 @@ class ScanCreation
   end
 
   def create_and_analyze(scan)
-    report = ScanAnalyzer.new(scan.content).call
-    scan.assign_attributes(full_report: report, risk_score: report["risk_score"])
+    scan.status = "processing" if scan.respond_to?(:status=)
 
     if scan.save
       register_user_scan(scan)
+      ScanAnalysisJob.perform_later(scan)
       Result.new(status: :created, scan: scan)
     else
       Result.new(status: :invalid, scan: scan, message: scan.errors.full_messages.to_sentence)
