@@ -5,13 +5,6 @@ class Scan < ApplicationRecord
   validates :url, presence: true, uniqueness: true
   validates :content, presence: true
 
-  # TODO(team): ScanAnalyzer's contract (see CLAUDE.md) still emits these 4
-  # flat category keys. The design system's Report page groups findings
-  # under 4 different, richer categories (Privacy / User Rights / Legal
-  # Fairness / Content Ownership), each with multiple sub-findings and a
-  # weight. This is a rough 1:1 relabeling of the current keys so the Report
-  # page can use the new names today — replace once the ScanAnalyzer prompt
-  # is updated to emit the real taxonomy directly.
   CATEGORY_DISPLAY = {
     "data_sharing" => "Privacy",
     "cancellation" => "User Rights",
@@ -21,10 +14,6 @@ class Scan < ApplicationRecord
 
   CATEGORY_ORDER = %w[data_sharing cancellation tracking ai_training].freeze
 
-  # TODO(team): static placeholder weights matching the design system mockup
-  # (Privacy 40% / User Rights 25% / Legal Fairness 25% / Content Ownership
-  # 10%). Not computed from anything — replace once ScanAnalyzer actually
-  # weighs categories.
   CATEGORY_WEIGHT = {
     "data_sharing" => "40% weight",
     "cancellation" => "25% weight",
@@ -36,12 +25,63 @@ class Scan < ApplicationRecord
     (full_report["categories"] || []).sort_by { |c| CATEGORY_ORDER.index(c["name"]) || 99 }
   end
 
-  # -------------------------------------------------------------------------
-  # NEW TURBO STREAMING DATABASE ATTRIBUTE METHOD
-  # -------------------------------------------------------------------------
   def append_content!(chunk)
     new_content = (content || "") + chunk
     update_columns(content: new_content)
   end
-  # -------------------------------------------------------------------------
+
+  def verdict
+    return { tone: :caution, label: "Analyzing...", sentence: "Analysis in progress." } if full_report.blank?
+
+    tone = ApplicationController.helpers.risk_tone(risk_score)
+    names_at = lambda { |level|
+      display_categories.select { |c| c["level"] == level }
+                        .map { |c| CATEGORY_DISPLAY[c["name"]] }.compact
+    }
+    high = names_at.call("high")
+    medium = names_at.call("medium")
+
+    sentence =
+      if high.any?
+        "#{high.to_sentence} #{high.one? ? 'scores' : 'score'} poorly. Read the flagged clauses below before accepting."
+      elsif medium.any?
+        "#{medium.to_sentence} #{medium.one? ? 'needs' : 'need'} a closer look. Read the flagged clauses below before accepting."
+      else
+        "No category scored poorly on this document. Still worth a quick read of the flagged clauses below."
+      end
+
+    label = { safe: "Recommended", caution: "Proceed with caution", risk: "Not recommended" }[tone]
+    { tone: tone, label: label, sentence: sentence }
+  end
+
+  def groups
+    return [] if full_report.blank?
+
+    display_categories.map do |category|
+      {
+        name: CATEGORY_DISPLAY[category["name"]] || category["name"].humanize,
+        weight: CATEGORY_WEIGHT[category["name"]],
+        level: category["level"].humanize,
+        tone: ApplicationController.helpers.risk_tone_for_level(category["level"]),
+        items: (category["items"] || []).map do |item|
+          {
+            label: item["label"],
+            finding: item["finding"],
+            dot: ApplicationController.helpers.risk_tone_for_level(item["level"]),
+            article: item["article"],
+            quote: item["quote"]
+          }
+        end
+      }
+    end
+  end
+
+  def broadcast_completion!
+    broadcast_replace_to(
+      "scan_#{id}",
+      target: "scan_content",
+      partial: "scans/frame",
+      locals: { scan: self, verdict: verdict, groups: groups }
+    )
+  end
 end

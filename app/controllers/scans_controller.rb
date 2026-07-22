@@ -20,8 +20,8 @@ class ScansController < ApplicationController
     @scan = current_user.scans.find(params[:id])
     authorize @scan
     @hide_default_navbar = true
-    @verdict = build_verdict(@scan)
-    @groups = build_groups(@scan)
+    @verdict = @scan.verdict
+    @groups = @scan.groups
   end
 
   private
@@ -48,16 +48,18 @@ class ScansController < ApplicationController
 
   def build_verdict(scan)
     tone = helpers.risk_tone(scan.risk_score)
-    names_at = ->(level) { scan.display_categories.select { |c| c["level"] == level }
-                                                   .map { |c| Scan::CATEGORY_DISPLAY[c["name"]] }.compact }
+    names_at = lambda { |level|
+      scan.display_categories.select { |c| c["level"] == level }
+                             .map { |c| Scan::CATEGORY_DISPLAY[c["name"]] }.compact
+    }
     high = names_at.call("high")
     medium = names_at.call("medium")
 
     sentence =
       if high.any?
-        "#{high.to_sentence} #{high.one? ? "scores" : "score"} poorly. Read the flagged clauses below before accepting."
+        "#{high.to_sentence} #{high.one? ? 'scores' : 'score'} poorly. Read the flagged clauses below before accepting."
       elsif medium.any?
-        "#{medium.to_sentence} #{medium.one? ? "needs" : "need"} a closer look. Read the flagged clauses below before accepting."
+        "#{medium.to_sentence} #{medium.one? ? 'needs' : 'need'} a closer look. Read the flagged clauses below before accepting."
       else
         "No category scored poorly on this document. Still worth a quick read of the flagged clauses below."
       end

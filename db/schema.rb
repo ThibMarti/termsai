@@ -58,6 +58,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_21_081021) do
     t.jsonb "full_report", default: {}
     t.float "risk_score"
     t.string "site_name"
+    t.string "status", default: "processing"
     t.datetime "updated_at", null: false
     t.string "url"
   end

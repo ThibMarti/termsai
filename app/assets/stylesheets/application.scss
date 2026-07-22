@@ -10,3 +10,8 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+// Hide Turbo Drive progress bar
+.turbo-progress-bar {
+  display: none !important;
+}
