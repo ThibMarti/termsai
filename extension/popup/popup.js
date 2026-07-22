@@ -6,6 +6,24 @@
 const APP_ORIGIN = "http://localhost:3000"; // TODO(team): swap for https://termsai.eu once we deploy this branch
 
 const LEVEL_TONES = { low: "safe", medium: "caution", high: "risk" };
+const ICONS = { risk: "!", caution: "?", safe: "✓" };
+
+// Mirrors Scan::CATEGORY_DISPLAY / CATEGORY_ORDER on the web app — the
+// popup's list should always show the same 4 categories, in the same
+// order, as the full Report page's Trust breakdown.
+const CATEGORY_DISPLAY = {
+  data_sharing: "Privacy",
+  cancellation: "User Rights",
+  tracking: "Legal Fairness",
+  ai_training: "Content Ownership"
+};
+const CATEGORY_ORDER = ["data_sharing", "cancellation", "tracking", "ai_training"];
+
+function escapeHtml(value) {
+  const div = document.createElement("div");
+  div.textContent = value ?? "";
+  return div.innerHTML;
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const states = {
@@ -28,6 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (score >= 5) return "caution";
     return "risk";
   }
+
+  // Matches ApplicationHelper#risk_label on the web app (8-10 "Low risk",
+  // 5-7 "Medium risk", else "High risk") so the extension and the web
+  // report never disagree on wording for the same score.
+  const SCORE_LABELS = { safe: "Low", caution: "Medium", risk: "High" };
 
   async function getStoredToken() {
     const { termsAiToken } = await chrome.storage.local.get("termsAiToken");
@@ -66,27 +89,57 @@ document.addEventListener("DOMContentLoaded", () => {
     show("needToken");
   }
 
+  // Layout matches the design system's ExtensionPanel component: site +
+  // tone badge, meta line, tinted score card, flagged-item list (icon +
+  // title + category), then the CTA. Deliberately omits the mockup's
+  // "Worse than X% of services" line — that's a hardcoded marketing
+  // number on the landing page (@hero_percentile in PagesController),
+  // not a real stat we compute, so showing it here for a real scan would
+  // be misleading.
   function renderResult(scan, tab) {
     const tone = riskToneForScore(scan.risk_score);
+    const label = SCORE_LABELS[tone];
+
+    document.getElementById("result-site").textContent = scan.site_name || "this page";
 
     const badge = document.getElementById("result-badge");
-    badge.textContent = `Score: ${scan.risk_score}/10`;
+    badge.textContent = label;
     badge.className = `panel__badge panel__badge--${tone}`;
 
-    document.getElementById("result-summary").textContent = scan.full_report.summary;
+    const categories = (scan.full_report.categories || [])
+      .slice()
+      .sort((a, b) => CATEGORY_ORDER.indexOf(a.name) - CATEGORY_ORDER.indexOf(b.name));
 
+    const flaggedCount = categories.filter((c) => c.level !== "low").length;
+    document.getElementById("result-meta").textContent =
+      `Analyzed just now · ${flaggedCount} flag${flaggedCount === 1 ? "" : "s"}`;
+
+    const scoreCard = document.getElementById("result-score-card");
+    scoreCard.className = `panel__score-card panel__score-card--${tone}`;
+    document.getElementById("result-score").textContent = scan.risk_score;
+    document.getElementById("result-score-label").textContent = `${label} risk`;
+
+    // Same 4 fixed categories as the Report page's Trust breakdown — a
+    // per-clause list would vary in length and drift from the full report.
     const list = document.getElementById("result-categories");
     list.innerHTML = "";
-    (scan.full_report.categories || []).forEach((category) => {
+    categories.forEach((category) => {
+      const categoryTone = LEVEL_TONES[category.level] || "caution";
       const li = document.createElement("li");
-      li.textContent = `${category.name.replace(/_/g, " ")} — ${category.level}`;
+      li.innerHTML = `
+        <span class="panel__item-icon panel__item-icon--${categoryTone}">${ICONS[categoryTone]}</span>
+        <span>
+          <span class="panel__item-title">${escapeHtml(CATEGORY_DISPLAY[category.name] || category.name)}</span>
+          <span class="panel__item-sub">${escapeHtml(category.level)}</span>
+        </span>
+      `;
       list.appendChild(li);
     });
 
     document.getElementById("result-link").href = `${APP_ORIGIN}/scans/${scan.id}`;
     show("result");
 
-    const clauses = (scan.full_report.categories || [])
+    const clauses = categories
       .flatMap((category) => category.items || [])
       .filter((item) => item.quote)
       .map((item) => ({ quote: item.quote, tone: LEVEL_TONES[item.level] || "caution" }));

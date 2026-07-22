@@ -49,10 +49,23 @@
     </div>
 
     <div class="panel__state" id="result-state" hidden>
-      <span class="panel__badge" id="result-badge"></span>
-      <p class="panel__lead" id="result-summary"></p>
+      <div class="panel__result-head">
+        <span class="panel__site" id="result-site"></span>
+        <span class="panel__badge" id="result-badge"></span>
+      </div>
+      <p class="panel__meta" id="result-meta"></p>
+
+      <div class="panel__score-card" id="result-score-card">
+        <div class="panel__score-number"><span id="result-score"></span><span class="panel__score-max">/10</span></div>
+        <div class="panel__score-label" id="result-score-label"></div>
+      </div>
+
       <ul class="panel__result-list" id="result-categories"></ul>
-      <a class="btn btn--primary" id="result-link" target="_blank">View full report</a>
+
+      <div class="panel__result-footer">
+        <a class="btn btn--primary" id="result-link" target="_blank">View full report</a>
+        <p class="panel__privacy">Sent securely to terms AI for analysis</p>
+      </div>
     </div>
 
     <div class="panel__state" id="error-state" hidden>
