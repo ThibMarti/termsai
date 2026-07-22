@@ -3,13 +3,16 @@
 Manifest V3 extension. Plain HTML/CSS/JS, no build step — same philosophy
 as the Rails app (Hotwire, importmap).
 
-Status: **All phases (1–5) done.** Phase 1 added a bearer-token backend
+Status: **All phases (1–6) done.** Phase 1 added a bearer-token backend
 (`Api::V1::ScansController`/`Api::V1::MeController`, authenticated with a
 per-user `extension_token` — see `User#extension_token` and the "Chrome
 extension" section on `/profile`). Phase 3 wires the popup through its
 full state machine — token entry, idle, scanning, empty-page, out-of-tokens,
 result (with in-page highlighting + toolbar badge via Phases 4/5), and
-error — against that real API.
+error — against that real API. Phase 6 adds an in-page banner
+(`content/detector.js` + `content/banner.js`) that proactively offers a scan
+when the current page looks like a T&C/Privacy Policy page, running the
+same scan flow via a `terms-ai:run-scan` message to the background worker.
 
 ## Load it locally
 
@@ -48,8 +51,10 @@ local dev (`http://localhost:3000`) and production (`https://termsai.eu`).
 ```
 extension/
   manifest.json           Manifest V3 config
-  background.js            Service worker — badge state (chrome.action) for now
+  background.js            Service worker — badge state (chrome.action), runs scans for the banner
   content/content.js       Text extraction + clause highlighting (chrome.runtime.onMessage)
+  content/detector.js      Heuristic: does this page look like T&C/Privacy Policy?
+  content/banner.js        In-page banner (Shadow DOM) offering a scan on detected pages
   content/highlight.css    Tone-colored <mark> styles for highlighted clauses
   popup/                    Toolbar popup UI (idle state only for now)
   icons/                    16/32/48/128px, generated from public/icon.png
@@ -77,6 +82,15 @@ Sent via `chrome.runtime.sendMessage(message)` — include the target
 - `{ type: "terms-ai:set-badge", tabId, tone, score }` → `{ set: true }`
   (colors the toolbar icon's badge; `tone` is `risk` / `caution` / `safe`)
 - `{ type: "terms-ai:clear-badge", tabId }` → `{ cleared: true }`
+- `{ type: "terms-ai:run-scan", url, title, content }` → `{ ok: true, scan }`
+  on success (`scan` is the same shape `POST /api/v1/scans` returns), or
+  `{ ok: false, code, message }` on failure (`code` is one of `no-token` /
+  `unauth` / `no-tokens` / `error` / `network`). Sent via
+  `chrome.runtime.sendMessage(message)` from the in-page banner
+  (`content/banner.js`) — unlike `terms-ai:set-badge`, no `tabId` is passed
+  explicitly, since a message sent *from* a content script already has
+  `sender.tab` populated. On success this also sets the toolbar badge, the
+  same as the popup's flow.
 
 The badge also auto-clears when the tab navigates to a new page.
 

@@ -46,3 +46,21 @@ await chrome.runtime.sendMessage({ type: "terms-ai:set-badge", tabId: tab.id, to
 
 The toolbar icon should show a red "3" badge. Reload the page (or navigate
 anywhere) and it clears itself automatically.
+
+## Testing the in-page banner
+
+`fixture.html`'s title already contains "Terms of Service", so it trips
+`detector.js`'s heuristic — after loading the extension unpacked and
+opening the fixture as above, the banner should appear in the bottom-right
+corner automatically, no manual message-sending needed.
+
+- The "×" dismisses it (not persisted — reloading the page brings it back).
+- "Scan this page" needs the real Rails server running plus a saved token:
+  open the popup once first and paste your token (main README's "Load it
+  locally" steps) — `background.js`'s `terms-ai:run-scan` handler reads the
+  same `termsAiToken` key from `chrome.storage.local` that the popup
+  writes. A successful click shows a score + summary in the banner and
+  applies the same clause highlights as the "Testing the badge" section
+  above.
+- To spot-check for false positives, open an ordinary page (e.g.
+  `https://example.com`) and confirm no banner appears.
