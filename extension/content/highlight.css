@@ -1,0 +1,14 @@
+/* Clause highlight marks — colors match tokens/colors.css (--risk-mark,
+   --caution-mark, --safe-tint) in the "terms AI Design System" project, so
+   in-page highlights read the same as the Report page's <mark> elements. */
+
+mark.terms-ai-highlight {
+  padding: 0 2px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: inherit;
+}
+
+mark.terms-ai-highlight--risk { background: #FBE3E0; }
+mark.terms-ai-highlight--caution { background: #FAEBD3; }
+mark.terms-ai-highlight--safe { background: #F0F8F2; }

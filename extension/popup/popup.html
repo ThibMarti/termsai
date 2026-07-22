@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>terms AI</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="panel">
+    <div class="panel__top">
+      <span class="panel__site" id="site">this page</span>
+      <img class="panel__logo" src="../icons/icon32.png" alt="terms AI">
+    </div>
+
+    <div class="panel__state" id="loading-state">
+      <p class="panel__lead">Checking your terms AI token…</p>
+    </div>
+
+    <div class="panel__state" id="need-token-state" hidden>
+      <p class="panel__lead">Paste your terms AI extension token to get started.</p>
+      <input class="panel__input" id="token-input" type="text" placeholder="Extension token" autocomplete="off">
+      <button class="btn btn--primary" id="save-token-btn">Save token</button>
+      <p class="panel__error" id="token-error" hidden></p>
+      <p class="panel__note"><a href="#" id="profile-link" target="_blank">Find your token on your profile page</a></p>
+    </div>
+
+    <div class="panel__idle" id="idle-state" hidden>
+      <p class="panel__lead">Scan the Terms &amp; Conditions or Privacy Policy on this page.</p>
+      <button class="btn btn--primary" id="analyze-btn">Analyze this page</button>
+      <p class="panel__privacy">Sent securely to terms AI for analysis</p>
+      <p class="panel__note">
+        Uses 1 token · <a href="#" id="report-link" target="_blank">view your scans</a>
+        · <a href="#" id="change-token-link">change token</a>
+      </p>
+    </div>
+
+    <div class="panel__state" id="scanning-state" hidden>
+      <p class="panel__lead">Reading this page and analyzing it… this can take up to 30 seconds.</p>
+    </div>
+
+    <div class="panel__state" id="empty-state" hidden>
+      <p class="panel__lead">Nothing to scan here — open a page with real Terms &amp; Conditions or Privacy Policy text.</p>
+      <button class="btn btn--primary" id="empty-back-btn">Back</button>
+    </div>
+
+    <div class="panel__state" id="no-tokens-state" hidden>
+      <p class="panel__lead">You're out of scan tokens.</p>
+      <a class="btn btn--primary" id="buy-tokens-link" target="_blank">Buy more tokens</a>
+    </div>
+
+    <div class="panel__state" id="result-state" hidden>
+      <span class="panel__badge" id="result-badge"></span>
+      <p class="panel__lead" id="result-summary"></p>
+      <ul class="panel__result-list" id="result-categories"></ul>
+      <a class="btn btn--primary" id="result-link" target="_blank">View full report</a>
+    </div>
+
+    <div class="panel__state" id="error-state" hidden>
+      <p class="panel__lead panel__error" id="error-message"></p>
+      <button class="btn btn--primary" id="retry-btn">Try again</button>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
