@@ -35,12 +35,19 @@
 .app-header__logo-link {
   display: flex;
   align-items: center;
+  gap: 10px;
+  text-decoration: none;
 }
 
 .app-header__logo {
   height: 56px;
   width: auto;
   mix-blend-mode: multiply;
+}
+
+.app-header__title {
+  height: 28px;
+  width: auto;
 }
 
 .app-footer__copyright {

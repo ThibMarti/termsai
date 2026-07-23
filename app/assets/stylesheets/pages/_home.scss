@@ -33,10 +33,22 @@
   justify-content: space-between;
 }
 
+.landing-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
 .landing-header__logo {
   height: 56px;
   width: auto;
   mix-blend-mode: multiply;
+}
+
+.landing-header__title {
+  height: 28px;
+  width: auto;
 }
 
 .landing-header__nav {
